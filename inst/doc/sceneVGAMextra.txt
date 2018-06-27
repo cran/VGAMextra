@@ -1,0 +1,142 @@
+        ****************   VGAMextra   *********************
+          Additions and extensions of the VGAM package
+
+VGAMextra supplies additional functions and methods to the package VGAM,
+addressing three main topics:
+
+  ** Time series modelling. A novel class 
+  of VGLMs to model univariate time series, called vector generalized
+  linear time series models (VGLTSMs). It is characterized by
+  incorporating past information in the VGLM/VGAM loglikelihood.
+ 
+  ** 1--parameter distribution mean modelling.
+  Returning full circle by developing new link functions for the mean
+  of 1--parameter distributions. VGAMs, VGLMs and GAMLSSs are restricted
+  to location, scale and shape. However, the VGLM/VGAM framework has
+  infrastructure to accommodate new links as a function of the parameters.
+ 
+  ** Quantile modelling of 1--parameter distributions.
+  Similarly, we have implemented link functions to model the quantiles
+  of several 1--parameter distributions, to straightforwardly address
+  quantile regression.
+
+
+Note, VGAMextra is still under development.
+The package is revised, altered, and/or upgraded on a regular basis.
+It is central to regularly improve and develop the functionalities 
+conferred. Hence, be aware that any feature, e.g., function names,
+arguments, or methods, may be modified without prior notice.
+Check the NEWS for the latest changes and additions across the
+different versions.
+
+For more on VGAM visit
+       https://CRAN.R-project.org/package=VGAM
+
+Last update: January 2018
+All functions and methods at 'VGAMextra' are
+Copyright (C) 2014 - 2018, Victor Miranda 
+The University of Auckland.
+For bugs/fixes/comments, please email me at: v.miranda@auckland.ac.nz
+
+
+
+
+     CHANGES in VGAMextra VERSION 0.0-1
+
+NEW FEATURES
+
+
+                    VERSION 0.0-1
+
+IMPORTANT FEATURES
+
+  o   Tested okay on R 3.4.3 (This package requires R 3.4.0 or higher)
+  
+  o   VGAM/VGLM time series family functions for each sub-class
+      of vector generalized linear time series models (VGLTSMs).
+      *  Order(u, d, v) VGLM-ARIMA:
+         Family functions ARXff(), MAXff(), ARMAXff(), ARIMAXff(),
+         to estimate the order-u autoregressive (AR(u)),
+         the order-v moving average (MA(v)),
+         the order(u, v)-ARMA, and the order(u, d, v)-ARIMA structure
+         with covariates.
+         Here, 'd' is the order of differencing. Normal errors
+         handled at present.
+         
+      *  Order(u, v, r, s) VGLM-ARMAX-GARCH:
+         Family function ARMAX.GARCHff(),
+         which allows an order(u, v)-ARMAX structure (with covariates)
+         on the conditional mean equation, plus an order(r, s)-GARCH
+         model on the conditional variance. Normal errors
+         handled at present.
+        
+      *  Order(u, v) VGLM-INGARCH (for time series of counts):
+         Family function VGLM.INGARCH(), to fit an INGARCH model
+         with interventions including interaction between "events",
+         Distributions handled: Poisson, negative binomial, logarithmic,
+         and Yule-Simon.
+
+
+  o    Additional VGAM/VGLM family functions (not included in VGAM)
+      *  trinormal(), to estimate the 3-dimensional Normal distribution,
+         aka Trinormal.
+      *  invweibull2mr(), invgamma2mr(), to estimate the 
+         2-parameter Inverse Weibull and 2-parameter Inverse 
+         Gamma distributions.
+      * inv.chisqff.R(), to estimate the inverse chi-square
+        distribution.
+      *  gen.betaIImr(), to estimate the 4-paramater Generalized
+         Beta distribution of the Second Kind.
+ 
+ 
+  o    All family functions, except by VGLM.INGARCHff(), handle multiple
+       responses.
+       
+       
+  o    New link functions for the mean-function of 1-parameter 
+       distributions.
+       * Continous: expMeanlink(), inv.chisqMeanlink(),
+         maxwellMeanlink(), rayleighMeanlink(), toppleMeanlink().
+       
+       * Discrete: Borel.tannerMeanlink(), geometricffMeanlink(),
+         logffMeanlink(), posPoiMeanlink(), yulesimonMeanlink(),
+         zetaffMeanlink().
+ 
+ 
+  o    New link functions for the quantile-function of 1-parameter 
+       continous distributions: benini1Qlink(), rayleighQlink(),
+       toppleQlink(), gamma1Qlink(), maxwellQlink(), expQlink(),
+       normal1sdQlink().
+
+  
+  o   Other important functions: 
+
+    * 'summaryS4VGAMextra'. S4 dispatching methods of
+      'summary' for VGLM--time series family functions.
+      Here, standard errors and extra information are 
+      now incorporated to the default output displayed 
+      by show-methods in VGAM.
+    * AR1EIM.G2(), ARpEIM.G2(), MAqEIM.G2(), and ARMA.EIM.G2();
+      to compute the exact expected information matrices of
+      Gaussian time series conforming with the AR(1), AR(p),
+      MA(q) and ARMA(p, q) processes, respectively.
+    * pre2.wz(); to compute the approximate information
+      matrix of any AR, MA or ARMA time series data.
+    * dARp(), dMAq(), dARMA(); the density of the AR(p),
+      MA(q) and ARMA(p, q) processes.
+    * dpqr.invgamma(), the Inverse Gamma Distribution.
+    * dpqr.invweibull(), the Inverse Weibull Distribution.
+    * dpqr.genbetaII(), the Generalized Beta Distribution
+      of the Second King (4-parameter).	
+
+
+BUG FIXES and CHANGES
+
+   o   Switched the default values of arguments 'scale' and 'rate'
+       (now, 'scale = 1/rate' and 'rate = 1') for dpqr.invgamma()
+       and dpqr.invweibull()
+
+
+
+
+

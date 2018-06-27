@@ -1,0 +1,182 @@
+# These functions are
+# Copyright (C) 2014-2017 V. Miranda, University of Auckland.
+# All rights reserved.
+
+
+# Version 0.0-2.
+
+
+
+
+# Version 0.0-1 
+
+###
+### Methods imported 
+###
+
+importMethodsFrom("stats")
+importMethodsFrom("stats4")
+importMethodsFrom("VGAM")
+importMethodsFrom("methods")
+importFrom("methods", "new")
+# importFronm("base", "gamma")  # NOT REQUIRED.
+importFrom("stats", "lsfit", "cov", "toeplitz", 
+           "terms", "var", "sd",
+           "dnorm", "dgamma", "dweibull",
+           "pgamma", "pbeta", "pweibull",
+           "qbeta", "qgamma", "qweibull", 
+           "rbeta", "rgamma", "rweibull", 
+           "dchisq", "pchisq", "qchisq",
+           "rchisq") 
+importFrom("VGAM", show.vanova, AR1.gammas)
+importFrom("VGAM", is.Numeric, link2list, logoff, namesof)
+importFrom("VGAM", Coef, vglm, eta2theta)
+importFrom("VGAM", interleave.VGAM)
+importFrom("VGAM", logLik.vlm)
+importFrom("VGAM", zeta, loge)
+importFrom("VGAM", pospoisson)
+importFrom("VGAM", poissonff)
+importFrom("VGAM", negbinomial)
+importFrom("VGAM", logit, cloglog, bisection.basic)
+importFrom("VGAM", as.char.expression, erf)
+importFrom("stats", ppois, pnbinom, punif)
+importFrom("stats", dist, ppoints)
+importFrom("stats", rnorm, runif, ts)
+importFrom("VGAM", arwz2wz, depvar, iam, weights)
+importFrom("VGAM", Deviance.categorical.data.vgam)
+importFrom("VGAM", fitted, fitted.values)
+#importFrom("VGAM", summaryvglmS4VGAM, showsummaryvglmS4VGAM)
+importFrom("stats", "rpois", "dpois", spline)
+importFrom("stats", rbinom, model.response)
+importFrom("utils", modifyList)
+importFrom("graphics", abline)
+importFrom("methods", "slot", "slot<-")
+importFrom("VGAM", plog, pyules)
+#exportMethods(PIT)
+#exportMethods(responseVGAMex)
+
+
+
+###
+### Link functions (Still need to organize this) ###
+###
+
+
+## -----> Quantile links
+# 2016.Dec.5
+export(gamma1Qlink, toppleQlink, rayleighQlink)
+export(maxwellQlink, benini1Qlink, expQlink)
+
+#2016.Dec.20
+export(normal1sdff, normal1sdQlink)
+
+
+## -----> Mean links.
+# 2016.Oct
+export(newtonRaphson.basic)
+export(logffMeanlink, zetaffMeanlink, yulesimonMeanlink)
+export(posPoiMeanlink, borel.tannerMeanlink)
+
+# 2017.Jan.06
+export(inv.chisqMeanlink, inv.chisq)
+export(dinv.chisq, pinv.chisq, qinv.chisq, rinv.chisq)
+export(maxwellMeanlink, rayleighMeanlink, expMeanlink)
+export(toppleMeanlink, geometricffMeanlink)
+export(inspectVGAMextra, isNA, Q.reg, ffff.help)
+
+# 2017.Feb 24
+export(gammaRMean, gammaRMeanlink)
+
+
+###
+### Temporarily: AR1()
+###
+
+# 2017-April-10
+export(AR1extra, dAR1extra, AR1EIM.G2)
+
+###
+###  Family functions not included in VGAM
+###
+export(MVNcov, MVNcov.control)        # 2018-02-14
+export(trinormal, dmultinorm, trinormal.control)  # 2018-02-13
+export(dgen.betaII, pgen.betaII, qgen.betaII, rgen.betaII)
+export(dinvgamma, pinvgamma, qinvgamma, rinvgamma)
+export(dinvweibull, pinvweibull, qinvweibull, rinvweibull)
+export(invgamma2mr, invweibull2mr)
+export(gen.betaIImr)
+export(checkTS.ffs, checkTS.VGAMextra)
+
+
+###
+### TS -- VGAMextra
+###
+
+
+# 2017/04/10
+S3method(PIT, "vglm")
+S3method(responseVGAMex, "vglm")
+export(PIT)
+export(responseVGAMex)
+export(typeTS, execute.PIT)
+export(VARff, VARff.control)
+export(XLMmat)
+export(KPSS.test)
+export(pVal.KPSS.test)
+export(ECM.EngleGran, ECM.EngleGran.control)
+export(con.est.s2l)    # Consistent estimator of s^2(l)
+export(NegBinomTSff, NegBinomTSff.control)
+export(VGLM.INGARCHff, VGLM.INGARCHff.control)
+#export(binomialTSff)
+export(poissonTSff, poissonTSff.control)
+export(logarithmicTSff, yulesimonTSff)
+export(logarithmicTSff.control)
+export(yulesimonTSff.control)
+export(rAR.GARCH, rINGARCH)
+export(ARpEIM.G2, ARXff, dARp, ARXff.control)
+export(MAqEIM.G2, MAXff, dMAq, MAXff.control)
+export(ARMA.EIM.G2, ARMAXff, dARMA, ARMAXff.control)
+export(ARMA.studentt.ff, ARMA.studentt.ff.control)
+export(quick.check.coeffs)
+#export(INGARCHff, rINGARCH, INGARCHff.control)
+export(ARMAX.GARCHff, ARMAX.GARCHff.control)
+export(ARIMAXff, ARIMAXff.control)
+export(ARIMAX.errors.ff, ARIMAX.errors.ff.control)
+#export(BINOMIAL.TSff)
+export(interleaveArray.VGAMextra, combVGAMextra, arwzTS)
+export(extract.Residuals, weightsVGAMextra, fittedVGAMextra)
+export(break.VGAMextra, cm.ARMA)
+export(checkTS.VGAMextra, WN.InitARMA, WN.lags)
+export(is.FormulaAR, Is.Numeric, cross.gammas)
+
+
+### INFORMATIVE
+export( .onAttach )
+export(vgamextraNEWS)
+
+
+
+
+###
+### 2016/02/16  Yet to be included in VGAMextra
+###
+#export(forecastS4VGAMextra)
+#export(forecast, findFirstMethodTS)
+#importFrom("methods", show)
+#- 2016/08/26
+#export(ARIMA.GARCHff)
+#export(constraints.ARIMA.GARCH, data2garch.VGAMextra, WN.lags)
+#export(ARIMAff, ARIMAff.control)
+#export(ARMAff, dARMAff, ARMAff.control, ARMAffEIM)
+#export(MAff, dMAff, MAff.control, MAffEIM)
+#export(ARff, dARff, ARff.control, ARffEIM)
+####
+#### Temporals / Auxiliary to be deleted ####
+####
+#importFrom("hypergeo", hypergeo)
+#export(logfflink.inv.deriv1)
+#export(logfflink.inv.deriv2)
+# 2016/01/27
+#export(ARMA.GARCHff, initGARCH, rARMA.GARCH, gammas)
+#export(dARMA.GARCHff, ARMA.GARCHff.control)
+
