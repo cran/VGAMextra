@@ -1,10 +1,13 @@
 ##########################################################################
-# These functions are 
-# Copyright (C) 2014-2018 V. Miranda & T. W. Yee, University of Auckland.
+# These functions are
+# Copyright (C) 2014-2020 V. Miranda & T. Yee
+# Auckland University of Technology & University of Auckland
 # All rights reserved.
+#
+# Links renamed on Jan-2019 conforming with VGAM_1.1-0
 # 20170102
 
-inv.chisq <- function(link = "loge", zero = NULL){
+inv.chisq <- function(link = "loglink", zero = NULL){
   
   link <- as.list(substitute(link))
   earg <- link2list(link)
@@ -98,7 +101,8 @@ inv.chisq <- function(link = "loge", zero = NULL){
         misc$M1 <- M1
       }), list( .link = link, .earg = earg ))),
       
-      
+      ## No 'mustart' involved at @initialize, then, @linkfun not needed.
+      ## Page 509. Yee (2015)
       #linkfun = eval(substitute(function(mu, extra = NULL) {
       #  theta2eta(mu, .link , earg = .earg )
       #}), list( .link = link, .earg = earg )),

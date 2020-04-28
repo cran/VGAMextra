@@ -1,5 +1,11 @@
+##########################################################################
 # These functions are
-# Copyright (C) 2014-2018 V. Miranda and T. W. Yee, University of Auckland
+# Copyright (C) 2014-2020 V. Miranda & T. Yee
+# Auckland University of Technology & University of Auckland
+# All rights reserved.
+#
+# Links renamed on Jan-2019 conforming with VGAM_1.1-0
+# Modified on 26/11/2018, to be included in the paper.
 
 maxwellQlink <- function(theta,
                          p = stop("Argument 'p' must be specified."),
@@ -17,9 +23,9 @@ maxwellQlink <- function(theta,
     m.string <- 
       if (short) paste("maxwellQlink(", 
                        theta, "; ", p, ")", sep = "") else
-        paste("(2 * qgamma(", p, ", 1.5) / ", 
-              as.char.expression(theta), 
-              ")^0.5",  sep = "")
+                         paste("(1/2) * log[2 * qgamma(", p, ", 1.5)/ ", 
+                               as.char.expression(theta), 
+                                "]", sep = "")
     
     if (tag)
       m.string <- paste("Maxwell quantile link: ", m.string, sep = "")
@@ -27,12 +33,8 @@ maxwellQlink <- function(theta,
     return(m.string)
   }
   
-  if (length(bvalue))
-    theta[theta <= 0] <- bvalue
-  
-  if (any(theta <= 0)) 
-    theta[theta <= 0] <- NaN
-  
+  if (!inverse)
+    theta[theta <= 0] <- if (length(bvalue)) bvalue else NaN
   #if (length(p) > 1)
   #  p <- matrix(p, nrow = nrow(theta), ncol = ncol(theta), byrow = TRUE)
   
@@ -49,17 +51,16 @@ maxwellQlink <- function(theta,
   if (inverse) {
     
     switch(deriv + 1,
-           2 * qgamma(p = p, shape = 1.5, log.p = FALSE) / theta^2,
-           -2 * theta^(1.5) / 
-             sqrt(2 * qgamma(p = p, shape = 1.5, log.p = FALSE)),
-           3 * theta^2 / qgamma(p = p, shape = 1.5, log.p = FALSE))
+           2 * qgamma(p = p, shape = 1.5, log.p = FALSE) / exp(2 * theta),
+           -2 * theta,
+           4 * theta )
     
   } else {
     
     switch(deriv + 1, 
-           sqrt(2 * qgamma(p = p, shape = 1.5)) / theta^(0.5),
-           -sqrt(2 * qgamma(p = p, shape = 1.5)) / (2 * theta^(1.5)),
-           3 * sqrt(2 * qgamma(p = p, shape = 1.5)) / (4 * theta^(2.5)))
+           (1 / 2) * log(2 * qgamma(p = p, shape = 1.5) / theta),
+           -1 / (2 * theta),
+           1 / (2 * theta^2) )
     
   }
 }

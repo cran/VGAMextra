@@ -23,8 +23,8 @@ with covariates}
             nodrift  = FALSE,
             noChecks = FALSE,
             ldrift   = "identitylink", 
-            lsd      = "loge",
-            lvar     = "loge",
+            lsd      = "loglink",
+            lvar     = "loglink",
             lARcoeff = "identitylink",
             idrift   = NULL,
             isd      = NULL,
@@ -315,12 +315,12 @@ tsdata  <-  data.frame(tsdata, TS1 = arima.sim(nn,
 
 # EXAMPLE 1. A simple AR(2), maximizing the exact log-likelihood
 # Note that parameter constraints are involved for TS1, but not 
-# considered in this fit. "rhobit" is used as link for AR coeffs.
+# considered in this fit. "rhobitlink" is used as link for AR coeffs.
 
 fit.Ex1 <- vglm(TS1 ~ 1, ARXff(order = 2, type.EIM = "exact",
                       #iARcoeff = c(0.3, 0.3, 0.3), # OPTIONAL INITIAL VALUES
                       # idrift = 1, ivar = 1.5, isd = sqrt(1.5),
-                      lARcoeff = "rhobit"), 
+                      lARcoeff = "rhobitlink"), 
               data = tsdata,  trace = TRUE, crit = "loglikelihood")
 Coef(fit.Ex1)
 summary(fit.Ex1)
@@ -338,6 +338,7 @@ Coef(fit.Ex1)[c(3, 4, 2)]    # Coefficients estimated in 'fit.AR'
 # This analysis makes sense as the TS2's drift is a function ox 'x2', 
 # i.e., 'x2' affects the 'drift' parameter only. The noise variance 
 # (var.arg = TRUE) is estimated, as intercept-only. See the 'zero' argument.
+
 
 #------------------------------------------------------------------------#
 # This model CANNOT be fitted using arima()

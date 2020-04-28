@@ -1,7 +1,8 @@
 ##########################################################################
 # These functions are
-# Copyright (C) 2014-2018 V. Miranda and T. W. Yee, University of Auckland
-# 20170101. Mean link functions for continuous distributions.
+# Copyright (C) 2014-2020 V. Miranda & T. Yee
+# Auckland University of Technology & University of Auckland
+# All rights reserved.
 
 
 expMeanlink <- function(theta, location = 0, 
@@ -145,10 +146,10 @@ toppleMeanlink <- function(theta, bvalue = NULL, inverse = FALSE,
       
       if (length(the.t))
         m.ret <- newtonRaphson.basic(f = function(x, h, eta) {
-          logit(theta = ffff.help(x)/t.max) - sign(eta) * abs( eta ) },
+          logitlink(theta = ffff.help(x)/t.max) - sign(eta) * abs( eta ) },
                                      fprime = function(x, h, eta) {
           int.d1 <- (1/t.max)*(ffff.help(x + h) - ffff.help(x - h)) / (2*h)
-            logit(theta = ffff.help(x)/t.max, deriv = 1) * int.d1 }, 
+            logitlink(theta = ffff.help(x)/t.max, deriv = 1) * int.d1 }, 
         a = rep(1e-6, length(the.t)), 
         b = rep(1 - hh, length(the.t)),
         eta = the.t, h = hh)
@@ -160,18 +161,18 @@ toppleMeanlink <- function(theta, bvalue = NULL, inverse = FALSE,
                               b.valueL = 0, extra = m.ins[[2]]))
     } else {
       switch(deriv,
-          (logit(theta = ffff.help(theta)/t.max, deriv = 1) * der.1)^(-1),
-           -(logit(ffff.help(theta)/t.max, deriv = 1) * der.1)^(-3) * 
-             logit(theta = ffff.help(theta)/t.max, deriv = 1) * der.2 + 
-              (der.1^2) * logit(theta = ffff.help(theta)/t.max, deriv = 2))
+      (logitlink(theta = ffff.help(theta)/t.max, deriv = 1) * der.1)^(-1),
+       -(logitlink(ffff.help(theta)/t.max, deriv = 1) * der.1)^(-3) * 
+          logitlink(theta = ffff.help(theta)/t.max, deriv = 1) * der.2 + 
+          (der.1^2) * logitlink(theta = ffff.help(theta)/t.max, deriv = 2))
       
     }
   } else {
     switch(deriv + 1, 
-           logit(theta = ffff.help(theta)/t.max), 
-           logit(theta = ffff.help(theta)/t.max, deriv = 1) * der.1,
-           logit(theta = ffff.help(theta)/t.max, deriv = 1) * der.2 + 
-             (der.1^2) * logit(theta = ffff.help(theta)/t.max, deriv = 2))
+           logitlink(theta = ffff.help(theta)/t.max), 
+           logitlink(theta = ffff.help(theta)/t.max, deriv = 1) * der.1,
+           logitlink(theta = ffff.help(theta)/t.max, deriv = 1) * der.2 + 
+          (der.1^2) * logitlink(theta = ffff.help(theta)/t.max, deriv = 2))
   }
 }
 

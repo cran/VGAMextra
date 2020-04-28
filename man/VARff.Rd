@@ -14,7 +14,7 @@
             VARff(VAR.order = 1,
                   zero = c("var", "cov"),
                   lmean = "identitylink",
-                  lvar  = "loge",
+                  lvar  = "loglink",
                   lcov  = "identitylink")
                     
 }

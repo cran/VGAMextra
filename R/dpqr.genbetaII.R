@@ -1,6 +1,7 @@
-###########################################################################
+##########################################################################
 # These functions are
-# Copyright (c) 2014-2018 V. Miranda and T. W. Yee, University of Auckland.
+# Copyright (C) 2014-2020 V. Miranda & T. Yee
+# Auckland University of Technology & University of Auckland
 # All rights reserved.
 
 dgen.betaII <- function(x, 

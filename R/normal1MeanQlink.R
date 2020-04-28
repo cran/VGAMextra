@@ -3,46 +3,42 @@
 # Copyright (C) 2014-2020 V. Miranda & T. Yee
 # Auckland University of Technology & University of Auckland
 # All rights reserved.
-#
-# Links renamed on Jan-2019 conforming with VGAM_1.1-0
-
 
 
 ### Quantile link for the normal1sd family function ###
-# 2016/12/08
-## No need to change the function for the paper 05/12/18
+# 2018/11/19
 
-normal1sdQlink <- function(theta,  
-                           mean = stop("Please, enter the fixed 'mean'."),
+normal1MeanQlink <- function(theta,  
+                           sd.cons = stop("Please, enter the fixed 'sd'."),
                            p = stop(" Please, enter argument 'p'."),
                            bvalue  = NULL, inverse = FALSE, deriv = 0,
                            short   = TRUE, tag = FALSE) {
-  internal.mean <- mean
+  internal.sd <- sd.cons
   
   if (!is.Numeric(deriv, length.arg = 1, 
                              integer.valued = TRUE) || deriv > 2)
     stop("Argument 'deriv'out of range.")
     
-  if (!is.Numeric(mean))
-    stop("Invalid 'mean'.")
-  dim(internal.mean) <- NULL #  Manage it as a vector.
+  if (!is.Numeric(sd.cons))
+    stop("Invalid 'sd.cons'.")
+  dim(internal.sd) <- NULL #  Manage it as a vector.
   
   
-  #if (length(mean) != 1) # Else, recycling rule over the mean
-  #  mean <- "mean"       # dimnames(fv) <- list(yn, predictors.names) 
+  if (length(sd.cons) != 1) # Else, recycling rule over the mean
+    sd.cons <- "sd.cons"       # dimnames(fv) <- list(yn, predictors.names) 
   
-  if (!is.Numeric(p, positive = TRUE) || all(p >= 1))
+  if (!is.Numeric(p, positive = TRUE) || any(p >= 1))
     stop("Invalid value for 'p'.")
     
   if (is.character(theta)){
     cha.theta <- 
-      if (short) paste("normal1sdQlink(", theta, "; ", 
-                       p, ", ", mean, ")",sep = "") else
-        paste(as.char.expression(mean), " + ", 
+      if (short) paste("normal1MeanQlink(", theta, "; ", "p = ",
+                       p, ", fixed-sd = ", sd.cons, ")",sep = "") else
+        paste(as.char.expression(sd.cons), " + ", 
               as.char.expression(theta),
               " * sqrt(2) * erf^(-1) (2 * ", p, " - 1)", sep = "")
     if (tag)
-      cha.theta <- paste("1-parameter (sd) Normal Quantile Link: ",
+      cha.theta <- paste("1-parameter Normal Quantile Link (models the mean): ",
                          cha.theta, sep = "")
     return(cha.theta)
   }
@@ -68,11 +64,11 @@ normal1sdQlink <- function(theta,
 
   if (inverse) {
     switch(deriv + 1, 
-           (theta - internal.mean) / int.const,
-           1 / int.const, 0)
+           theta - internal.sd *  int.const,
+           1 , 0)
   } else {
     switch(deriv + 1,
-           internal.mean + theta * int.const,
-           int.const, 0)
+           internal.sd + theta * int.const,
+           1, 0)
   }
 }

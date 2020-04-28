@@ -1,8 +1,10 @@
-
 ##########################################################################
-# These functions are 
-# Copyrigth (C) 2014-2018 V. Miranda and T. W. Yee. University of Auckland
-# All rights reserved. 
+# These functions are
+# Copyright (C) 2014-2020 V. Miranda & T. Yee
+# Auckland University of Technology & University of Auckland
+# All rights reserved.
+#
+# Links renamed on Jan-2019 conforming with VGAM_1.1-0
 
 
 
@@ -10,8 +12,8 @@ ARMA.studentt.ff <- function(order = c(1, 0),
                              zero = c("scale", "df"),
                              cov.Reg = FALSE,
                              llocation = "identitylink",
-                             lscale    = "loge",
-                             ldf       = "loglog",
+                             lscale    = "loglink",
+                             ldf       = "logloglink",
                              ilocation = NULL,
                              iscale = NULL, idf = NULL) {
   

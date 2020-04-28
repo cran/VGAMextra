@@ -1,7 +1,10 @@
 ##########################################################################
-# These functions are 
-# Copyrigth (C) 2014-2018 V. Miranda and T. W. Yee. University of Auckland
-# All rights reserved. 
+# These functions are
+# Copyright (C) 2014-2020 V. Miranda & T. Yee
+# Auckland University of Technology & University of Auckland
+# All rights reserved.
+#
+# Links renamed on Jan-2019 conforming with VGAM_1.1-0
 # Supports the Wald, score, and lrt tests (20180209)
 
 ## ARIMAXff control function.
@@ -24,8 +27,8 @@ ARIMAXff <-
            nodrift   = FALSE,
            noChecks  = FALSE,
            ldrift    = "identitylink",
-           lsd       = "loge",
-           lvar      = "loge",
+           lsd       = "loglink",
+           lvar      = "loglink",
            lARcoeff  = "identitylink",
            lMAcoeff  = "identitylink",
            idrift    = NULL,             # Must be a vector of length NOS

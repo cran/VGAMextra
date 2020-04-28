@@ -1,24 +1,31 @@
 ##########################################################################
-# These functions are 
-# Copyrigth (C) 2014-2018 V. Miranda and T. W. Yee. University of Auckland
+# These functions are
+# Copyright (C) 2014-2020 V. Miranda & T. Yee
+# Auckland University of Technology & University of Auckland
 # All rights reserved.
+#
+# Links renamed on Jan-2019 conforming with VGAM_1.1-0
 
-trinormal.control <- function(save.weights = TRUE,
+
+trinormalCovff.control <- function(save.weights = TRUE,
                               summary.HDEtest = FALSE,...) {
   list(save.weights = save.weights,
        summary.HDEtest = summary.HDEtest,...)
 }
 
-trinormal <- function(zero = c("var", "cov"),
-                      trinorm = TRUE,
-                      lmean = "identitylink",
-                      lvar  = "loge",
-                      loffd = "identitylink") {
+trinormalCovff <- function(zero = c("var", "cov"),
+                  lmean = "identitylink",
+                      lvar  = "loglink",
+                      lcov  = "identitylink") {
   
+  trinorm <-  TRUE ### If FALSE, then 'trinormalCovff()' mimics VGAM::binormal.
+                   ### It may be and argument later (included at early stages for
+                   ### testing purposes only).
   
   if (!is.logical(trinorm))
     stop("Wrong input for 'trinorm'.")
   
+  loffd <- lcov; rm(lcov)
   lmean <- as.list(substitute(lmean))
   emean <- link2list(lmean)
   lmean <- attr(emean, "function.name")
@@ -235,7 +242,7 @@ trinormal <- function(zero = c("var", "cov"),
       
       
       
-      vfamily = c("trinormal"),
+      vfamily = c("trinormalCovff"),
       
       
       

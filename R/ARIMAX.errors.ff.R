@@ -1,7 +1,10 @@
 ##########################################################################
-# These functions are 
-# Copyrigth (C) 2014-2018 V. Miranda and T. W. Yee. University of Auckland
-# All rights reserved. 
+# These functions are
+# Copyright (C) 2014-2020 V. Miranda & T. Yee
+# Auckland University of Technology & University of Auckland
+# All rights reserved.
+#
+# Links renamed on Jan-2019 conforming with VGAM_1.1-0
 
 
 ARIMAX.errors.ff <- function(order = c(1, 1, 1), 
@@ -11,7 +14,7 @@ ARIMAX.errors.ff <- function(order = c(1, 1, 1),
                              diffCovs  = TRUE, 
                              xLag = 0,
                              include.currentX = TRUE,
-                             lvar = "loge",
+                             lvar = "loglink",
                              lmean = "identitylink") {
   
   
@@ -19,7 +22,7 @@ ARIMAX.errors.ff <- function(order = c(1, 1, 1),
   imethod <- 1
   apply.parint <- FALSE
   var.arg <- TRUE
-  lsd <- "loge"
+  lsd <- "loglink"
   isd <- NULL
   #zero <- "var",  # optionally, "mean".
   parallel <- FALSE
@@ -429,7 +432,7 @@ ARIMAX.errors.ff <- function(order = c(1, 1, 1),
           sdev.init <- mean.init <- matrix(0, n, ncoly)
           for (jay in 1:ncoly) {
             jfit <- lm.wfit(x = x,  y = y[, jay], w = w[, jay])
-            mean.init[, jay] <- if ( .lmean == "loge")
+            mean.init[, jay] <- if ( .lmean == "loglink")
               pmax(1/1024, y[, jay]) else
           if ( .imethod == 1) median(y[, jay]) else
             if ( .imethod == 2) weighted.mean(y[, jay], w = w[, jay]) else

@@ -88,7 +88,7 @@
   for any VGLM fitted via \code{\link[VGAM:zetaff]{zetaff}} using this 
   link function, numerical problems will take place if any 
   \eqn{s} value lies between 0.0 and 1.0 at any iteration. Use 
-  optional link functions like \code{\link[VGAM:loge]{loge}}.
+  optional link functions like \code{\link[VGAM:loglink]{loglink}}.
   
   When \code{inverse = TRUE} and \code{deriv = 0},
   \eqn{s} changes into \eqn{\eta}{eta}, and therefore the domain set 
@@ -167,7 +167,7 @@
   can be written as \eqn{\mu = \lambda t}, as stated above.
   As a result, some problems may arise if there are covariates.
   Try another link function if any issue, such 
-  as \code{\link[VGAM:loglog]{loglog}}.
+  as \code{\link[VGAM:logloglink]{logloglink}}.
  
 }
 
@@ -178,7 +178,7 @@
  \code{\link[VGAMextra:newtonRaphson.basic]{newtonRaphson.basic}},
  \code{\link[VGAM:bisection.basic]{bisection.basic}},
  \code{\link[VGAM:zeta]{zeta}},
- \code{\link[VGAM:loge]{loge}},
+ \code{\link[VGAM:loglink]{loglink}},
  \code{\link[VGAM:Links]{Links}}.
  
 }

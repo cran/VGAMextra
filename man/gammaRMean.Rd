@@ -14,7 +14,7 @@
 }
 \usage{
         gammaRMean(zero = "rate", lmu = "gammaRMeanlink",
-                   lrate = "loge", lshape = NULL,
+                   lrate = "loglink", lshape = NULL,
                    irate = NULL,   ishape = NULL,
                    lss = TRUE)
                        
@@ -70,7 +70,7 @@
 
   
   To mimic the work of \code{\link[VGAM:gammaR]{gammaR}},
-  set \code{lmu = NULL} and \code{lshape = "loge"}.
+  set \code{lmu = NULL} and \code{lshape = "loglink"}.
   Particularly, \code{lss} works exactly as with
   \code{\link[VGAM:gammaR]{gammaR}}
   
@@ -169,7 +169,7 @@ Springer, New York, USA.
     gdata <- data.frame(x2 = x2, y1 = y1)
     rm(y1)
 
-  # lmu = "gammaRMeanlink" replaces lshape, whilst lrate = "loge"
+  # lmu = "gammaRMeanlink" replaces lshape, whilst lrate = "loglink"
     fit1 <- vglm(cbind(y1, y1) ~ x2,
                  gammaRMean(lmu = "gammaRMeanlink", lss = FALSE, zero = "rate"),
                  data = gdata, trace = TRUE, crit = "log")
@@ -183,8 +183,8 @@ Springer, New York, USA.
  
   
   ### Mimicking gammaR. Notice lmu = NULL.
-    fit2 <- vglm(y1 ~ x2, gammaRMean(lmu = NULL, lshape = "loge",
-                                     lrate = "loge", lss = FALSE, zero = "rate"),
+    fit2 <- vglm(y1 ~ x2, gammaRMean(lmu = NULL, lshape = "loglink",
+                                     lrate = "loglink", lss = FALSE, zero = "rate"),
                  data = gdata, trace = TRUE, crit = "log")
  
   # Compare fitted values with true values.

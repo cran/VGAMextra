@@ -1,8 +1,14 @@
+##########################################################################
+# These functions are
+# Copyright (C) 2014-2020 V. Miranda & T. Yee
+# Auckland University of Technology & University of Auckland
+# All rights reserved.
+
 AR.studentt.ff <- function(order = 1,
                            zero = c("scale", "df"),
                            llocation = "identitylink",
-                           lscale    = "loge",
-                           ldf       = "loglog",
+                           lscale    = "loglink",
+                           ldf       = "logloglink",
                            ilocation = NULL,
                            iscale = NULL, idf = NULL,
                            imethod = 1) {

@@ -172,7 +172,7 @@ Contributor: Thomas Yee, \email{t.yee@auckland.ac.nz}.
 # Generate some data
 set.seed(1)
 nn       <- ceiling(runif(1, 150, 160))
-my.rho   <- rhobit(-1.0, inverse = TRUE)  # -0.46212
+my.rho   <- rhobitlink(-1.0, inverse = TRUE)  # -0.46212
 my.mu    <- 0.0
 my.omega <- 1
 my.b     <- 0.5

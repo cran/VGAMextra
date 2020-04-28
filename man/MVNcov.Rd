@@ -13,7 +13,7 @@
 \usage{
       MVNcov(zero = c("var", "cov"),
              lmean = "identitylink",
-             lvar  = "loge",
+             lvar  = "loglink",
              lcov  = "identitylink")
  
 }

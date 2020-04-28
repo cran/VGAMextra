@@ -1,7 +1,9 @@
 ##########################################################################
-# These functions are 
-# Copyright (C) 2014-2018 V. Miranda & T. W. Yee, University of Auckland.
+# These functions are
+# Auckland University of Technology & University of Auckland
 # All rights reserved.
+#
+# Links renamed on Jan-2019 conforming with VGAM_1.1-0
 
 
 
@@ -20,7 +22,7 @@ poissonTSff.control <- function(criterion = "loglikelihood",
 
 
 poissonTSff <- function(Order = c(1, 1),
-                        link = "loge",
+                        link = "loglink",
                         lagged.fixed.obs   = NULL,
                         lagged.fixed.means = NULL,
                         interventions = list(),
@@ -41,8 +43,8 @@ poissonTSff <- function(Order = c(1, 1),
   bred <- FALSE
   imu  <- NULL
   zero <- NULL
-  link <- match.arg(link, c("identitylink", "negloge",
-                            "reciprocal", "loge"))[1]
+  link <- match.arg(link, c("identitylink", "negloglink",
+                            "reciprocallink", "loglink"))[1]
   
   if (length(f.transform.Y) && !is.function(f.transform.Y))
     stop("Wrong input for argument 'f.transform.Y'. Must be a function.",
@@ -135,7 +137,7 @@ poissonTSff <- function(Order = c(1, 1),
       #  stop("Currently, this family function only handles ",
       #       "intercept-only models.")
       
-      if (NCOL(y) > 2)
+      if (NCOL(y) > 1)
         stop("Currently, only univariate time series handled.")
       
       iniOrd <- if (length( .init.p )) .init.p else
@@ -206,7 +208,7 @@ poissonTSff <- function(Order = c(1, 1),
                            drop = FALSE]
         
         if ( .flam ) {
-          x2.mat <- if (identical( .link, "loge")) 
+          x2.mat <- if (identical( .link, "loglink")) 
                      theta2eta(x2.mat + 1, .link , .earg) else
                        theta2eta(x2.mat, .link , .earg)
           if (!identical( .link, "identitylink")) 
@@ -347,7 +349,7 @@ poissonTSff <- function(Order = c(1, 1),
      
      M <- ncoly <- ncol(y)
      
-     assign("CQO.FastAlgorithm", ( .link == "loge"), envir = VGAMenv)
+     assign("CQO.FastAlgorithm", ( .link == "loglink"), envir = VGAMenv)
      
      old.name <- "mu"
      new.name <- "lambda"
@@ -545,7 +547,7 @@ poissonTSff <- function(Order = c(1, 1),
      }
      
      
-     answer <- if ( .link == "loge" && (any(mupo < .Machine$double.eps))) {
+     answer <- if ( .link == "loglink" && (any(mupo < .Machine$double.eps))) {
        c(w) * (yBRED - mupo)
      } else {
        lambda <- mupo
@@ -563,7 +565,7 @@ poissonTSff <- function(Order = c(1, 1),
   
   
    weight = eval(substitute(expression({
-     if ( .link == "loge" && (any(mupo < .Machine$double.eps))) {
+     if ( .link == "loglink" && (any(mupo < .Machine$double.eps))) {
        tmp600 <- mupo
        tmp600[tmp600 < .Machine$double.eps] <- .Machine$double.eps
        c(w) * tmp600

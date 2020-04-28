@@ -12,8 +12,8 @@
 }
 \usage{
 
-  invweibull2mr(lscale  = "loge", 
-                lshape  = logoff(offset = -2),
+  invweibull2mr(lscale  = loglink, 
+                lshape  = logofflink(offset = -2),
                 iscale  = NULL, 
                 ishape  = NULL, 
                 imethod = 2, 
@@ -30,7 +30,7 @@
   (positive) \code{shape} parameter (called \eqn{a}{a} below) and
   (positive) \code{scale} parameter (called \eqn{b}{b} below). 
   Given that the \code{shape} parameter must be greater than \eqn{2},
-  \code{lshape = logoff(offset = -2)} by default.
+  \code{lshape = logofflink(offset = -2)} by default.
   See \code{\link[VGAM:Links]{Links}} for more choices.
   
   
@@ -105,7 +105,7 @@
   estimation (MLE) are satisfied only if \eqn{a>2}{a>2} 
   (according to Kleiber and Kotz (2003)). If this is violated then a warning 
   message is issued. To enforce \eqn{a > 2}{a > 2}, it has been set by default 
-  that \code{lshape = logoff(offset = 2)}.
+  that \code{lshape = logofflink(offset = 2)}.
   
   As a result of the math relation between the Weibull and the Inverse Weibull
   distributions, regularity conditions for inference for the latter, are the

@@ -1,6 +1,7 @@
-###########################################################################
-# These functions are 
-# Copyright (C) 2014-2018 V. Miranda & T. W. Yee, University of Auckland.
+##########################################################################
+# These functions are
+# Copyright (C) 2014-2020 V. Miranda & T. Yee
+# Auckland University of Technology & University of Auckland
 # All rights reserved.
 
 
@@ -116,9 +117,9 @@ AR1extra <-
            var.arg = TRUE,  
            nodrift = FALSE,
            ldrift = "identitylink",
-           lsd  = "loge",
-           lvar = "loge",
-           lrho = "rhobit",
+           lsd  = "loglink",
+           lvar = "loglink",
+           lrho = "rhobitlink",
            idrift  = NULL,
            isd  = NULL,
            ivar = NULL,

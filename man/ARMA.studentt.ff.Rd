@@ -19,8 +19,8 @@ with Student-t errors}
                              zero = c("scale", "df"),
                              cov.Reg = FALSE,
                              llocation = "identitylink",
-                             lscale    = "loge",
-                             ldf       = "loglog",
+                             lscale    = "loglink",
+                             ldf       = "logloglink",
                              ilocation = NULL,
                              iscale = NULL,
                              idf = NULL)

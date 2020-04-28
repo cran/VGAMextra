@@ -102,7 +102,7 @@
 \seealso{
  \code{\link[VGAM:geometric]{geometric}},
  \code{\link[VGAM:Links]{Links}}, 
- \code{\link[VGAM:logit]{logit}},
+ \code{\link[VGAM:logitlink]{logitlink}},
  \code{\link[VGAMextra:logffMeanlink]{logffMeanlink}}.
  
 }
@@ -128,19 +128,21 @@ rbind(probs = my.probs,
 my.probs <- ppoints(100)
 
 par(lwd = 2)
-plot(my.probs, logit(my.probs), xlim = c(-0.1, 1.1), ylim = c(-5, 8),
+plot(my.probs, logitlink(my.probs), xlim = c(-0.1, 1.1), ylim = c(-5, 8),
      type = "l", col = "limegreen", 
      ylab = "transformation", las = 1, main = "Some probability link functions")
 lines(my.probs, geometricffMeanlink(my.probs), col = "gray50")
 lines(my.probs, logffMeanlink(my.probs), col = "blue")
-lines(my.probs, probit(my.probs), col = "purple")
-lines(my.probs, cloglog(my.probs), col = "chocolate")
-lines(my.probs, cauchit(my.probs), col = "tan")
+lines(my.probs, probitlink(my.probs), col = "purple")
+lines(my.probs, clogloglink(my.probs), col = "chocolate")
+lines(my.probs, cauchitlink(my.probs), col = "tan")
 abline(v = c(0.5, 1), lty = "dashed")
 abline(v = 0, h = 0, lty = "dashed")
 legend(0.1, 8, 
-      c("geometricffMeanlink", "logffMeanlink","logit", "probit", "cloglog", "cauchit"), 
-      col = c("gray50", "blue", "limegreen", "purple", "chocolate", "tan"), lwd = 1, cex = 0.5)
+      c("geometricffMeanlink", "logffMeanlink","logitlink", "probitlink",
+      "clogloglink", "cauchitlink"), 
+      col = c("gray50", "blue", "limegreen", "purple", "chocolate", "tan"),
+      lwd = 1, cex = 0.5)
 par(lwd = 1) 
  }
 }

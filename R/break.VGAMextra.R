@@ -1,7 +1,16 @@
 ##########################################################################
-# These functions are 
-# Copyright (C) 2014-2018 V. Miranda & T. W. Yee, University of Auckland.
+# These functions are
+# Copyright (C) 2014-2020 V. Miranda & T. Yee
+# Auckland University of Technology & University of Auckland
 # All rights reserved.
+
+
+is.FormulaAR <- function(Model = ~ 1, 
+                         Resp  = 1) {
+  if ( length(Resp) && 
+       ( if (length(Model)) (class(Model) == 'formula') else TRUE) )
+    TRUE else FALSE
+}
 
 
 break.VGAMextra <- function( eta      = NULL,
@@ -10,10 +19,10 @@ break.VGAMextra <- function( eta      = NULL,
                              bOrder   = NULL,  
                              NOS      = NULL,
                              lInter   = "identitylink",
-                             lvar     = "loge",
-                             lsd      = "loge",
-                             lcoeff1  = "rhobit",   # For Odd positions.
-                             lcoeff2  = "rhobit",   # For Even positions.
+                             lvar     = "loglink",
+                             lsd      = "loglink",
+                             lcoeff1  = "rhobitlink",   # For Odd positions.
+                             lcoeff2  = "rhobitlink",   # For Even positions.
                              typeTS   = "AR",
                              namesLP  = FALSE,      # If TRUE returns names
                              Complete = FALSE,

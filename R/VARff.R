@@ -1,12 +1,16 @@
 ##########################################################################
-# These functions are 
-# Copyrigth (C) 2014-2018 V. Miranda and T. W. Yee. University of Auckland
+# These functions are
+# Copyright (C) 2014-2020 V. Miranda & T. Yee
+# Auckland University of Technology & University of Auckland
 # All rights reserved.
+#
+# Links renamed on Jan-2019 conforming with VGAM_1.1-0
+
 
 VARff <- function(VAR.order = 1,
                   zero = c("var", "cov"),
                   lmean = "identitylink",
-                  lvar  = "loge",
+                  lvar  = "loglink",
                   lcov  = "identitylink") {
   
   lmean <- as.list(substitute(lmean))

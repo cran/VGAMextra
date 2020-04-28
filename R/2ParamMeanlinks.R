@@ -1,6 +1,7 @@
 ##########################################################################
-# These functions are 
-# Copyright (C) 2014-2018 V. Miranda & T. W. Yee, University of Auckland.
+# These functions are
+# Copyright (C) 2014-2020 V. Miranda & T. Yee
+# Auckland University of Technology & University of Auckland
 # All rights reserved.
 
 
@@ -95,7 +96,8 @@ gammaRMeanlink <- function(theta, rate = NULL, wrt.param = NULL,
                       #  wrt = 2 -> wrt beta (rate)
                       
                       # d eta1 / dalpha (d eta2 / dalpha = 0 not returned)
-                      # else d eta1 / dbeta (d eta2/d beta use loge or so)
+                      # else d eta1 / dbeta (d eta2/d beta... depends on
+                      # the link. Default is  'loglink')
                       if (wrt.param == 1) 1 / theta else -1 / rate.mat,
                       # ditto
                       if (wrt.param == 1) -1 / theta^2 else 1 / rate.mat^2)

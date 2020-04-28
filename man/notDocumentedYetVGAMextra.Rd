@@ -16,13 +16,18 @@
 \alias{execute.PIT}
 %\alias{response.vgltsm}
 
+% Two par. links
+\alias{uninormalMod}
+\alias{uninormalQlink}
+
+
 % INFORMATIVE
 \alias{ .onAttach }
 \alias{vgamextraNEWS}
 
 %% Re. Multinormal, 2018-02-13
 %\alias{MVNcov}
-\alias{trinormal}
+%\alias{trinormal}
 %\alias{dmultinorm}
 
 %% KPSS test
@@ -48,23 +53,23 @@
 \alias{dARp}
 \alias{dMAq}
 \alias{dARMA}
-\alias{AR1extra}
+%\alias{AR1extra}
 \alias{rAR.GARCH}
-\alias{AR1EIM.G2}
-\alias{dAR1extra}
+%\alias{AR1EIM.G2}
+%\alias{dAR1extra}
 \alias{VARff.control}
 \alias{ARXff.control}
 \alias{MAXff.control}
 \alias{MVNcov.control}
 \alias{ARMAXff.control}
 \alias{ARIMAXff.control}
-\alias{trinormal.control}
 \alias{poissonTSff.control}
 \alias{NegBinomTSff.control}
 \alias{yulesimonTSff.control}
 \alias{ARMAX.GARCHff.control}
 \alias{ECM.EngleGran.control}
 \alias{VGLM.INGARCHff.control}
+\alias{trinormalCovff.control}
 \alias{logarithmicTSff.control}
 \alias{ARIMAX.errors.ff.control}
 \alias{ARMA.studentt.ff.control}

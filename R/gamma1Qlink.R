@@ -1,8 +1,14 @@
 ##########################################################################
-# These functions are 
-# Copyright (C) 2014-2018 V. Miranda & T. W. Yee, University of Auckland.
+# These functions are
+# Copyright (C) 2014-2020 V. Miranda & T. Yee
+# Auckland University of Technology & University of Auckland
 # All rights reserved.
+#
+# Links renamed on Jan-2019 conforming with VGAM_1.1-0
 
+
+## Modified 5/12/18, to be included in the paper.
+## scale = 1 included on 5/12/18
 
 
 gamma1Qlink <- function(theta,
@@ -28,6 +34,9 @@ gamma1Qlink <- function(theta,
     return(g.string)
   }
   
+  if (!inverse)
+    theta[theta <= 0] <- if (length(bvalue)) bvalue else NaN
+  
   if (length(p) > 1)
     if (is.matrix(theta)) {
       p <- matrix(p, nrow = nrow(theta), ncol = ncol(theta), byrow = TRUE) 
@@ -43,15 +52,15 @@ gamma1Qlink <- function(theta,
   
   if (deriv) {
     
-    der1.qg <- (qgamma(p = p, shape = theta + 1e-4) - 
-                  qgamma(p = p, shape = theta - 1e-4)) / (2*1e-4)
+    der1.qg <- (qgamma(p = p, shape = theta + 1e-4, scale = 1) - 
+                  qgamma(p = p, shape = theta - 1e-4, scale = 1)) / (2*1e-4)
     
-    der2.qg <- (qgamma(p = p, shape = theta + 1e-4) - 
-                  2 * qgamma(p = p, shape = theta) + 
-                  qgamma(p = p, shape = theta - 1e-4)) / (1e-4^2)
+    der2.qg <- (qgamma(p = p, shape = theta + 1e-4, scale = 1) - 
+                  2 * qgamma(p = p, shape = theta, scale = 1) + 
+                  qgamma(p = p, shape = theta - 1e-4, scale = 1)) / (1e-4^2)
     
-    d2Eta.d2t <- if (deriv == 2)  (qgamma(p = p, shape = theta) * 
-             der2.qg - der1.qg^2 ) / qgamma(p = p, shape = theta)^2 else 0
+    d2Eta.d2t <- if (deriv == 2)  (qgamma(p = p, shape = theta, scale = 1) * 
+       der2.qg - der1.qg^2 ) / qgamma(p = p, shape = theta, scale = 1)^2 else 0
   }
   
   if (inverse) {
@@ -72,19 +81,19 @@ gamma1Qlink <- function(theta,
         a <- rep(1e-1, length(etas.tm))  
         b <- rep(1e5,  length(etas.tm))
         gamma.ret <-  newtonRaphson.basic(f = function(x, p, eta) {
-          log(qgamma(p = p, shape = x)) - sign(eta) * abs(eta)  },
+          log(qgamma(p = p, shape = x, scale = 1)) - sign(eta) * abs(eta)  },
           fprime = function(x, p, eta) {
-            der1.qg <- (qgamma(p = p, shape = x + 1e-4) - 
-                          qgamma(p = p, shape = x - 1e-4)) / (2*1e-4)
-            der1.qg / qgamma(p = p, shape = x) }, 
+            der1.qg <- (qgamma(p = p, shape = x + 1e-4, scale = 1) - 
+                          qgamma(p = p, shape = x - 1e-4, scale = 1)) / (2*1e-4)
+            der1.qg / qgamma(p = p, shape = x, scale = 1) }, 
           a = a, b = b, n.Seq = 2e2, nmax = 30,
           p = p, eta = etas.tm)
       }
     }
     
     gamma.ret <- switch(deriv + 1,  gamma.ret, 
-                   qgamma(p = p, shape = theta) / der1.qg,
-                  -(qgamma(p = p, shape = theta) / der1.qg)^3 * d2Eta.d2t)
+           qgamma(p = p, shape = theta, scale = 1) / der1.qg,
+            -(qgamma(p = p, shape = theta, scale = 1) / der1.qg)^3 * d2Eta.d2t)
     
     if (!deriv) {
       to.ret[ets.na ] <- if (length(ets.na ))  NA else NULL
@@ -106,10 +115,11 @@ gamma1Qlink <- function(theta,
     
   } else {
     my.ret <- switch(deriv + 1,
-                     log(qgamma(p = p, shape = theta)),
-                     der1.qg / qgamma(p = p, shape = theta),
-                     (qgamma(p = p, shape = theta) * der2.qg - der1.qg^2) / 
-                       qgamma(p = p, shape = theta)^2)
+                     log(qgamma(p = p, shape = theta, scale = 1)),
+                     der1.qg / qgamma(p = p, shape = theta, scale = 1),
+                     (qgamma(p = p, shape = theta, scale = 1) *
+                        der2.qg - der1.qg^2) / 
+                           qgamma(p = p, shape = theta, scale = 1)^2)
     dim(my.ret) <- my.help
     return(my.ret)
   }

@@ -1,13 +1,9 @@
 # These functions are
-# Copyright (C) 2014-2017 V. Miranda, University of Auckland.
+# Copyright (C) 2014-2019 V. Miranda, University of Auckland.
 # All rights reserved.
 
 
-# Version 0.0-2.
-
-
-
-
+# Version 0.0-2 (January 2019)
 # Version 0.0-1 
 
 ###
@@ -52,6 +48,10 @@ importFrom("utils", modifyList)
 importFrom("graphics", abline)
 importFrom("methods", "slot", "slot<-")
 importFrom("VGAM", plog, pyules)
+importFrom("VGAM", loglog)
+#### January 2019. Link functions in VGAM renamed #####
+importFrom("VGAM", loglink, logofflink, logitlink, logloglink)
+importFrom("VGAM", cauchitlink, probitlink, clogloglink)
 #exportMethods(PIT)
 #exportMethods(responseVGAMex)
 
@@ -61,6 +61,9 @@ importFrom("VGAM", plog, pyules)
 ### Link functions (Still need to organize this) ###
 ###
 
+## Two Param. Links 
+## 2019 - 08 - 11 (August)
+export(uninormalQlink, uninormalMod)
 
 ## -----> Quantile links
 # 2016.Dec.5
@@ -93,13 +96,15 @@ export(gammaRMean, gammaRMeanlink)
 ###
 
 # 2017-April-10
-export(AR1extra, dAR1extra, AR1EIM.G2)
+#export(AR1extra, dAR1extra, AR1EIM.G2)
+# Removed on 16Jan2019
 
 ###
 ###  Family functions not included in VGAM
 ###
 export(MVNcov, MVNcov.control)        # 2018-02-14
-export(trinormal, dmultinorm, trinormal.control)  # 2018-02-13
+export(trinormalCovff, dmultinorm, trinormalCovff.control)  # 2018-12-10
+# 2018/12/06 Trinormal renamed
 export(dgen.betaII, pgen.betaII, qgen.betaII, rgen.betaII)
 export(dinvgamma, pinvgamma, qinvgamma, rinvgamma)
 export(dinvweibull, pinvweibull, qinvweibull, rinvweibull)
@@ -140,7 +145,8 @@ export(ARMA.studentt.ff, ARMA.studentt.ff.control)
 export(quick.check.coeffs)
 #export(INGARCHff, rINGARCH, INGARCHff.control)
 export(ARMAX.GARCHff, ARMAX.GARCHff.control)
-export(ARIMAXff, ARIMAXff.control)
+# Arimax - Uncommented out on 9/12/2019. Unclear was commented out.
+export(ARIMAXff, ARIMAXff.control)  
 export(ARIMAX.errors.ff, ARIMAX.errors.ff.control)
 #export(BINOMIAL.TSff)
 export(interleaveArray.VGAMextra, combVGAMextra, arwzTS)

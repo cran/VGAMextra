@@ -1,8 +1,13 @@
 ##########################################################################
-# These functions are 
-# Copyright (C) 2014-2018 V. Miranda & T. W. Yee, University of Auckland.
+# These functions are
+# Copyright (C) 2014-2020 V. Miranda & T. Yee
+# Auckland University of Technology & University of Auckland
 # All rights reserved.
+
+
 # Supports the Wald, score, and lrt tests (20180209)
+# Links renamed on Jan-2019 conforming with VGAM_1.1-0
+
 
 ARpEIM.G2 <- function(y, drift, sdError, ARpcoeff = NULL,
                       var.arg = TRUE, order = 1,
@@ -93,6 +98,7 @@ WN.lags <- function(y, lags, to.complete = NULL) {
   y <- cbind(c(y))
   ret.matrix <- matrix(0, nrow = nn, ncol = lags)
   fill.t <- to.complete
+  
   for (ll in 1:lags) {
     ret.matrix[-(1:ll), ll] <- y[1:(nn - ll), 1]
     # 2017/03/31 Old: ret.matrix[1:ll, ll] <- mean(y[1:(nn - ll), 1])
@@ -199,8 +205,8 @@ ARXff <-
            nodrift   = FALSE,
            noChecks  = FALSE,
            ldrift    = "identitylink", 
-           lsd       = "loge",
-           lvar      = "loge",
+           lsd       = "loglink",
+           lvar      = "loglink",
            lARcoeff  = "identitylink",
            idrift    = NULL,
            isd       = NULL,
@@ -1157,10 +1163,10 @@ ARMAX.GARCHff <-
                      "IGARCH" = "identitylink",
                      "Taylor-Schwert" = "identitylink",
                      "A-GARCH"   = "identitylink",
-                     "Log-GARCH" = "loge",
-                     "M-GARCH" = "loge",
-                     "EGARCH"  = "loge")
-      #lvar <-  if (type.TS == "GARCH") "identitylink" else "loge"
+                     "Log-GARCH" = "loglink",
+                     "M-GARCH" = "loglink",
+                     "EGARCH"  = "loglink")
+      #lvar <-  if (type.TS == "GARCH") "identitylink" else "loglink"
     
     
     if (!length(lsd))
@@ -1170,9 +1176,9 @@ ARMAX.GARCHff <-
                      "IGARCH" = "identitylink",
                      "Taylor-Schwert" = "identitylink",
                      "A-GARCH"   = "identitylink",
-                     "Log-GARCH" = "loge",
-                     "M-GARCH" = "loge",
-                     "EGARCH"  = "loge")
+                     "Log-GARCH" = "loglink",
+                     "M-GARCH" = "loglink",
+                     "EGARCH"  = "loglink")
     
     ivar <- NULL
     isd  <- NULL
@@ -1324,9 +1330,13 @@ ARMAX.GARCHff <-
         constraints[[ii]] <- cbind(c(0, 1, rep(0, .ARord + .MAord )))
       
       constra.temp <- colnames(x)[-c(1, col.x)]
+      
       for (ii in constra.temp)
-        constraints[[ii]] <- cbind(c(1, ( .Cov.on.Var ),
-                                     rep(0, .ARord + .MAord ) ))
+        constraints[[ii]] <- if ( .Cov.on.Var) 
+                     cbind(c(1, 0, rep(0, .ARord + .MAord )),
+                                   c(0, ( .Cov.on.Var ),
+                                     rep(0, .ARord + .MAord ) )) else
+                              cbind(c(1, 0, rep(0, .ARord + .MAord)))
       
       
     }), list( .zero = zero, .Order = Order, .nodrift = nodrift ,
@@ -1424,7 +1434,7 @@ ARMAX.GARCHff <-
         ## Then normalsdff() is utilized, link = "identitylink"
         if ( .ord2 ) {
           temp.data <- data.frame(y = saved.res,
-                                  WN.lags(data.frame(saved.res^2),
+                                  WN.lags(y = cbind(saved.res^2),
                                           lags = iniOrd))
           names(temp.data) <- c("y", paste("x", 2:(iniOrd + 1), sep = ""))
           
@@ -1459,7 +1469,6 @@ ARMAX.GARCHff <-
           #colnames(x2.mat) <- paste("GARCH(", 
           #                          1:( .ord2 ), ")", sep = "")
         }
-        
         
         x.matrix   <- cbind(x.matrix, x1.mat, x2.mat)
         list.names <- vector("list", NCOL(x) + ( .ord1 ) + ( .ord2 ))
@@ -1648,11 +1657,11 @@ ARMAX.GARCHff <-
         
         
         ## Estimate sigma_t, if required. Here, e_t ~ N(0, sigma_t^2)
-        ## Then normalsdff() is utilized, link = "loge", since
+        ## Then normalsdff() is utilized, link = "loglink", since
         ## log(sigma_t) is modeled.
         if ( .ord2 ) {
           temp.data <- data.frame(y = saved.res,
-                                  WN.lags(data.frame(abs(saved.res)),
+                                  WN.lags(y = cbind(abs(saved.res)),
                                           lags = iniOrd))
           names(temp.data) <- c("y", paste("x", 2:(iniOrd + 1), sep = ""))
           
@@ -1666,7 +1675,7 @@ ARMAX.GARCHff <-
           myform <- paste("y ~ 1 +", myform, sep = " ")
           ersfit <- vglm(as.formula(myform),
                          family = normal1sdff(fixed.mean = 0, zero = NULL,
-                                          link = "loge", var.arg = FALSE),
+                                          link = "loglink", var.arg = FALSE),
                          trace = FALSE, smart = FALSE,
                          data = temp.data, eps = 5e-5)
           rm(temp.data)
@@ -1688,6 +1697,7 @@ ARMAX.GARCHff <-
         for (ii in 1:(NCOL(x) + ( .ord1 ) + ( .ord2 )  ))
           list.names[[ii]] <- ii
         attr(x.matrix, "assign") <- list.names
+
       }
       
       
@@ -1707,11 +1717,11 @@ ARMAX.GARCHff <-
         
         
         ## Estimate sigma_t, if required. Here, e_t ~ N(0, sigma_t^2)
-        ## Then normalsdff() is utilized, link = "loge", since
+        ## Then normalsdff() is utilized, link = "loglink", since
         ## log(sigma_t^2) is modeled.
         if ( .ord2 ) {
           temp.data <- data.frame(y = saved.res,
-                                  WN.lags(data.frame(log(saved.res^2)),
+                                  WN.lags(y = cbind(log(saved.res^2)),
                                           lags = iniOrd))
           names(temp.data) <- c("y", paste("x", 2:(iniOrd + 1), sep = ""))
           
@@ -1725,7 +1735,7 @@ ARMAX.GARCHff <-
           myform <- paste("y ~ 1 +", myform, sep = " ")
           ersfit <- vglm(as.formula(myform),
                          family = normal1sdff(fixed.mean = 0, zero = NULL,
-                                           link = "loge", var.arg = TRUE),
+                                           link = "loglink", var.arg = TRUE),
                          trace = FALSE, smart = FALSE,
                          data = temp.data, eps = 5e-5)
           rm(temp.data)
@@ -2062,7 +2072,6 @@ ARMAX.GARCHff <-
       etastart <- etastart[, interleave.VGAM(m1.max * NOS, M1 = m1.max)]
       if ( ( .flagAR ) || ( .flagMA ) ) 
         etastart <- etastart[, -unique(c(ts.w, ts2.w)), drop = FALSE]
-      
       
       etastart
       

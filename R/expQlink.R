@@ -1,8 +1,10 @@
 ##########################################################################
-# These functions are 
-# Copyright (C) 2014-2018 V. Miranda & T. W. Yee, University of Auckland.
+# These functions are
+# Copyright (C) 2014-2020 V. Miranda & T. Yee
+# Auckland University of Technology & University of Auckland
 # All rights reserved.
-
+#
+# Links renamed on Jan-2019 conforming with VGAM_1.1-0
 
 
 expQlink <- function(theta, p = stop("Argument 'p' must be entered."),
@@ -17,10 +19,11 @@ expQlink <- function(theta, p = stop("Argument 'p' must be entered."),
   
   if (is.character(theta)) {
     
-    e.string <- if (short) paste("expQlink(", theta, ")", sep = "") else
-      paste("log(1 - ", p, ")^(-1 / ",
+    e.string <- if (short) paste("expQlink(", theta, "; ", p,
+                                 ")", sep = "") else
+      paste("logloglink[(1 - ", p, ")^(-1 / ",
             as.char.expression(theta), 
-            ")", sep = "")
+            ")]", sep = "")
     
     if (tag) 
       e.string <- paste("Exponential quantile link:", e.string)
@@ -28,8 +31,8 @@ expQlink <- function(theta, p = stop("Argument 'p' must be entered."),
     return(e.string)
   } 
   
-  if (length(bvalue))
-    theta[theta <= 0] <- bvalue
+  if (!inverse)
+    theta[theta <= 0] <- if (length(bvalue)) bvalue else NaN
   
   if (length(p) > 1)
     if (is.matrix(theta)) {
@@ -43,15 +46,15 @@ expQlink <- function(theta, p = stop("Argument 'p' must be entered."),
   if (inverse) {
     
     switch(deriv + 1,
-           -log1p(-p) / theta ,
-           theta^2 / log1p(-p),
-           theta^3 / log1p(-p)^2)
+           -log1p(-p) / exp(theta),
+           -theta,
+           theta)
     
   } else{
     
     switch(deriv + 1,
-           -log1p(-p) / theta,
-           log1p(-p) / theta^2,
-           -log1p(-p) / theta^3)
+           logloglink((1 - p)^(-1/theta)),
+           -1 / theta,
+            1 / theta^2)
   }
 }

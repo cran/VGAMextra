@@ -1,16 +1,17 @@
-#############################################################################
-# These functions are 
-# Copyrigth (C) 2014-2018 V. Miranda and T. W. Yee University of Auckland
+##########################################################################
+# These functions are
+# Copyright (C) 2014-2020 V. Miranda & T. Yee
+# Auckland University of Technology & University of Auckland
 # All rights reserved.
-# 
+
 # This function is a 'updated version' of the original script written 
 # by Thomas W. Yee, University of Auckland.
 # Modified on: 20150123, 20150913 (Renamed as 'gen.BetaIImr')
 
-gen.betaIImr    <- function(lscale    = "loge", 
-                            lshape1.a = "loge", 
-                            lshape2.p = "loge", 
-                            lshape3.q = "loge", 
+gen.betaIImr    <- function(lscale    = "loglink", 
+                            lshape1.a = "loglink", 
+                            lshape2.p = "loglink", 
+                            lshape3.q = "loglink", 
                             iscale    = NULL, 
                             ishape1.a = NULL, 
                             ishape2.p = NULL, 

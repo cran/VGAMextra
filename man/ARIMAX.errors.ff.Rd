@@ -22,7 +22,7 @@ with order--\eqn{(p, q)} ARMA errors}
                        diffCovs  = TRUE,
                        xLag = 0,
                        include.currentX = TRUE,
-                       lvar = "loge",
+                       lvar = "loglink",
                        lmean = "identitylink") 
 }
 

@@ -165,14 +165,14 @@ plot(a.param, borel.tannerMeanlink(a.param), ylim = c(-5, 7), xlim = c(-0.01, 1.
      type = "l", col = "gray10", ylab = "transformation",
      las = 1, main = "Some probability link functions")
 lines(s.shapes, logffMeanlink(a.param), col = "blue")
-lines(s.shapes, logit(a.param), col = "limegreen")
-lines(s.shapes, probit(a.param), col = "purple")
-lines(s.shapes, cloglog(a.param), col = "chocolate")
-lines(s.shapes, cauchit(a.param), col = "tan")
+lines(s.shapes, logitlink(a.param), col = "limegreen")
+lines(s.shapes, probitlink(a.param), col = "purple")
+lines(s.shapes, clogloglink(a.param), col = "chocolate")
+lines(s.shapes, cauchitlink(a.param), col = "tan")
 abline(v = c(0.5, 1), lty = "dashed")
 abline(v = 0, h = 0, lty = "dashed")
-legend(0.05, 7, c("borel.tanneMeanlink", "logffMeanlink", "logit", "probit",
-                  "cloglog", "cauchit"),
+legend(0.05, 7, c("borel.tanneMeanlink", "logffMeanlink", "logitlink", "probitlink",
+                  "clogloglink", "cauchitlink"),
        col = c("gray10", "blue", "limegreen", "purple", "chocolate", "tan"),
       lwd = 1)
 par(lwd = 1) 

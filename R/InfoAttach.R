@@ -1,11 +1,12 @@
 ##########################################################################
 # These functions are
-# Copyright (C) 2014-2018 Victor Miranda & Thomas W. Yee
-# University of Auckland. All rights reserved/
+# Copyright (C) 2014-2020 V. Miranda & T. Yee
+# Auckland University of Technology & University of Auckland
+# All rights reserved.
 
 
 .onAttach <- function(libname = NULL, pkgname = "VGAMextra") {
-  packageStartupMessage("\n     =====    VGAMextra 0.0-1    ===== \n\n",
+  packageStartupMessage("\n     =====    VGAMextra 0.0-2    ===== \n\n",
                         "Additions and extensions of the package VGAM.",
                         "\n",
                         "For more on VGAMextra, visit" , "\n",

@@ -11,13 +11,13 @@
 
 }
 \usage{
-              inv.chisq(link = "loge", zero = NULL)
+              inv.chisq(link = "loglink", zero = NULL)
 }
 \arguments{
   \item{link, zero}{
   \code{link} is the link function applied to the degrees of freedom,
   leading to the unique linear predictor in this family function.
-  By default, the link is \code{\link[VGAM:loge]{loge}}.
+  By default, the link is \code{\link[VGAM:loglink]{loglink}}.
    
   \code{zero}  allows to model the single linear predictor as
    intercept--only.  
@@ -54,7 +54,7 @@
   
   As with, \code{\link[VGAM:chisq]{chisq}}, the degrees of freedom are
   treated as a parameter to be estimated using (by default) the
-  link \code{\link[VGAM:loge]{loge}}. However, the mean can also
+  link \code{\link[VGAM:loglink]{loglink}}. However, the mean can also
   be modelled with this family function. 
   See \code{\link[VGAMextra:inv.chisqMeanlink]{inv.chisqMeanlink}} 
   for specific details about this.
@@ -89,7 +89,7 @@
   
 }
 \seealso{
-   \code{\link[VGAM:loge]{loge}},
+   \code{\link[VGAM:loglink]{loglink}},
    \code{\link[VGAM:CommonVGAMffArguments]{CommonVGAMffArguments}},
    \code{\link[VGAMextra:inv.chisqMeanlink]{inv.chisqMeanlink}},
    \code{\link[VGAM:zero]{zero}}.

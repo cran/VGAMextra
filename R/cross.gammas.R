@@ -1,6 +1,8 @@
-#########################################################################
+##########################################################################
 # These functions are
-# Copyright (C) 2014-2018 V. Miranda, & T. Yee. University of Auckland
+# Copyright (C) 2014-2020 V. Miranda & T. Yee
+# Auckland University of Technology & University of Auckland
+# All rights reserved.
 #
 ### In this function vector'y' is lagged --> yy[1:(n - ii) , 1] ###
 

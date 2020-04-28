@@ -155,7 +155,7 @@ constraints are given by
 \deqn{ \theta_5 = 6 * \theta_1, }{\theta[5] = 6 * \theta[1], }
 
 The difference lies on thelink function used: 
-\code{\link[VGAM:loge]{loge}} for the first case, and 
+\code{\link[VGAM:loglink]{loglink}} for the first case, and 
 \code{\link[VGAM:identitylink]{identitylink}} for the latter.
 
 Note that conditions above are equivalent to test the following 
@@ -203,7 +203,7 @@ Hypotheses above can be tested by properly applying
 \emph{parameter link functions}. If the test
 \deqn{Ho: \theta_k = \theta_1^k,}{Ho: \theta[k] = \theta[1]^k,}
 arises, then constraint matrices returned by \code{cm.ARMA()} are
-conformable to the use of \code{\link[VGAM:loge]{loge}}.
+conformable to the use of \code{\link[VGAM:loglink]{loglink}}.
 
 On the other hand, the following hypothesis
 \deqn{Ho: \theta_k = k * \theta_1,}{Ho: \theta[k] = k * \theta[1] ,}
@@ -256,8 +256,8 @@ will be set later.
 
 \seealso{
 
-  \code{\link[VGAM:loge]{loge}},
-  \code{\link[VGAM:rhobit]{identitylink}},
+  \code{\link[VGAM:loglink]{loglink}},
+  \code{\link[VGAM:rhobitlink]{rhobitlink}},
   \code{\link[VGAM:CommonVGAMffArguments]{CommonVGAMffArguments}}.
   %\code{\link[stats:arima]{arima}}.
 
@@ -344,12 +344,12 @@ length(coef(fit1, matrix = TRUE))
 
 
 ###2.2 Now, fit the same models with suitable constraints via 'cm.ARMA()'
-# Most importantly, "loge" is used as link function to adequately match 
+# Most importantly, "loglink" is used as link function to adequately match 
 # the relationship between coefficients and constraints. That is:
 # theta2 = theta1^2, then log(theta2) = 2 * log(theta1).
 
 fit2 <- vglm(cbind(TS1, TS2) ~ 1, 
-             ARXff(order = c(2, 2), type.EIM = "exact", lARcoeff = "loge"), 
+             ARXff(order = c(2, 2), type.EIM = "exact", lARcoeff = "loglink"), 
              constraints = cm.ARMA(Model = ~ 1, 
                                    Resp = 2,
                                    lags.cm = c(2, 2),
@@ -373,7 +373,13 @@ length(Coef(fit2))
 length(coef(fit2, matrix = TRUE))
 
  
+
+
+
+
 }
+
+
 
 %\keyword{ ~kwd1 }
 %\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

@@ -28,8 +28,8 @@ Average Model (ARIMA(p, d, q)) with covariates}
                nodrift  = FALSE,
                noChecks = FALSE,
                ldrift   = "identitylink", 
-               lsd      = "loge",
-               lvar     = "loge",
+               lsd      = "loglink",
+               lvar     = "loglink",
                lARcoeff = "identitylink",
                lMAcoeff = "identitylink", 
                idrift   = NULL,
@@ -372,7 +372,7 @@ vcov(fit.ARIMA1, untransform = TRUE)
 ### EXAMPLE 2. Here only the ARMA coefficients and drift are intercept-only.
 # The random noise variance is not constant.
 fit.ARIMA2 <-  vglm(TS2 ~ x2,  ARIMAXff(order = c(2, 1, 2), var.arg = TRUE,
-                     lARcoeff = "rhobit", lMAcoeff = "identitylink",
+                     lARcoeff = "rhobitlink", lMAcoeff = "identitylink",
                      type.EIM = c("exact", "approximate")[1], 
                      # NOTE THE ZERO ARGUMENT. 
                      zero = c("drift.mean", "ARcoeff", "MAcoeff")),

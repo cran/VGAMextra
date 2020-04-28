@@ -23,7 +23,7 @@ Two--dimensional Error--Correction Model
                                        "neither", "both")[1],
                     lag.res = 1, 
                     lmean = "identitylink",
-                    lvar  = "loge",
+                    lvar  = "loglink",
                     lcov  = "identitylink",
                     ordtsDyn = 0)
 }
@@ -148,8 +148,8 @@ for \eqn{i = 1, \ldots, K} and \eqn{j = 1, \ldots, L}.
 The linear predictor is
 \deqn{\boldsymbol{\eta} = (\mu_{\Delta y_{1, t}  },
                           \mu_{\Delta y_{2, t} },
-                          {\color{blue}\texttt{loge}}~\sigma_1^2,
-                          {\color{blue}\texttt{loge}}~\sigma_2^2,
+                          {\color{blue}\texttt{loglink}}~\sigma_1^2,
+                          {\color{blue}\texttt{loglink}}~\sigma_2^2,
                           \textrm{Cov}_{12})^T.}{
                           \eta = (\mu \Deltay[1],
                                   \mu \Deltay[2],

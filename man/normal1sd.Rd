@@ -14,7 +14,7 @@
 
 }
 \usage{
-            normal1sdff(zero = NULL, link = "loge",
+            normal1sdff(zero = NULL, link = "loglink",
                         fixed.mean = 0, p.quant = NULL,
                         var.arg = FALSE)
 }
@@ -30,7 +30,7 @@
   This is the link function applied to the standard deviation.
   If \code{var.arg} is \code{TRUE}, then \code{link} is applied
   to the variance.
-  The default is \code{\link[VGAM:loge]{loge}}. For 
+  The default is \code{\link[VGAM:loglink]{loglink}}. For 
   inference on conditional quantiles entered at \code{p.quant},
   however, it must be manually changed to
   \code{\link[VGAMextra:normal1sdQlink]{normal1sdQlink}}.
@@ -110,7 +110,7 @@
 }
 \seealso{
    \code{\link[VGAMextra:normal1sdQlink]{normal1sdQlink}},
-   \code{\link[VGAM:loge]{loge}},
+   \code{\link[VGAM:loglink]{loglink}},
    \code{\link[VGAM:uninormal]{uninormal}},
    \code{\link[VGAM:CommonVGAMffArguments]{CommonVGAMffArguments}},
    \code{\link[VGAM:zero]{zero}},

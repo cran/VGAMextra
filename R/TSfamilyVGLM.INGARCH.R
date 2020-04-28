@@ -1,15 +1,19 @@
 ##########################################################################
-# These functions are 
-# Copyright (C) 2014-2018 V. Miranda & T. W. Yee, University of Auckland.
+# These functions are
+# Copyright (C) 2014-2020 V. Miranda & T. Yee
+# Auckland University of Technology & University of Auckland
 # All rights reserved.
+
 # Supports the Wald, score, and lrt tests (20180209)
+# Links renamed on Jan-2019 conforming with VGAM_1.1-0
+
 
 
 VGLM.INGARCHff <-  function(Order = c(1, 1),
                             dist.type = c("poisson", "negbinomial",
                                         "logarithmic", "yulesimon")[1],
-                          link = c("loge", "identitylink", "negloge",
-                                   "reciprocal", "logit")[1],
+                      link = c("loglink", "identitylink", "negloglink",
+                               "reciprocallink", "logitlink")[1],
                           interventions = list(),
                           lagged.fixed.means = NULL,
                           lagged.fixed.obs   = NULL,
@@ -35,19 +39,19 @@ VGLM.INGARCHff <-  function(Order = c(1, 1),
     stop("Argument 'transform.lambda' must be logical.")
   
   if (FALSE) {
-    if ( (dist.type == "negbinomial") && !(link == "loge") )
+    if ( (dist.type == "negbinomial") && !(link == "loglink") )
       warning("Special care needed with the 'Negative Binomial' ",
-              "distribution using links \n  other than 'loge'.",
+              "distribution using links \n  other than 'loglink'.",
               " Try another suitable link if numerical issues arise. ")
     
-    if ( (dist.type == "logarithmic") && !(link == "logit") )
+    if ( (dist.type == "logarithmic") && !(link == "logitlink") )
       warning("Special care needed with the 'logarithmic' distribution",
-              "  using links \n  other than 'logit'.",
+              "  using links \n  other than 'logitlink'.",
               " Try another suitable link if numerical issues arise. ")
     
-    if ( (dist.type == "yulesimon") && !(link == "loge") )
+    if ( (dist.type == "yulesimon") && !(link == "loglink") )
       warning("Special care needed with the 'yulesimon' distribution",
-              "  using links \n  other than 'loge'.",
+              "  using links \n  other than 'loglink'.",
               " Try another suitable link if numerical issues arise. ")
   }
   

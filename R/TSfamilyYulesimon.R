@@ -1,11 +1,12 @@
 ##########################################################################
-# These functions are 
-# Copyright (C) 2014-2018 V. Miranda & T. W. Yee, University of Auckland.
+# These functions are
+# Copyright (C) 2014-2020 V. Miranda & T. Yee
+# Auckland University of Technology & University of Auckland
 # All rights reserved.
 
 
 yulesimonTSff <- function(Order = c(1, 1),
-                          link = "loge",
+                          link = "loglink",
                           lagged.fixed.obs   = NULL,
                           lagged.fixed.means = NULL,
                           interventions = list(),
@@ -180,7 +181,7 @@ yulesimonTSff <- function(Order = c(1, 1),
                                  unique(c(1:(my.ord[2]), .fixed.mean )) ,
                            drop = FALSE]          
           if ( .flam ) {
-            x2.mat <- if (identical( .link, "loge")) 
+            x2.mat <- if (identical( .link, "loglink")) 
                   theta2eta(x2.mat + 1, .link , .earg) else
                         theta2eta(x2.mat, .link , .earg)
             if (!identical( .link, "identitylink")) 

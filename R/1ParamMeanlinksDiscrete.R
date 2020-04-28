@@ -1,6 +1,8 @@
 ##########################################################################
 # These functions are
-# Copyright (C) 2014-2018 V. Miranda and T. W. Yee, University of Auckland
+# Copyright (C) 2014-2020 V. Miranda & T. Yee
+# Auckland University of Technology & University of Auckland
+# All rights reserved.
 # 20170510. Mean link functions for DISCRETE distributions.
 
 # 20161026.
@@ -93,15 +95,15 @@ geometricffMeanlink <- function(theta, bvalue = NULL,
   
   if (inverse) {
     switch(deriv + 1,
-           logit(theta = -theta, inverse = inverse),
+           logitlink(theta = -theta, inverse = inverse),
            -(theta - theta^2),
            -(1 - 2 * theta) * theta * (1 - theta),
            stop("argument 'deriv' unmatched"))
   } else {
     switch(deriv + 1,
-           -logit(theta = theta),
-           -logit(theta = theta, deriv = deriv),
-           -logit(theta = theta, deriv = deriv),
+           -logitlink(theta = theta),
+           -logitlink(theta = theta, deriv = deriv),
+           -logitlink(theta = theta, deriv = deriv),
            stop("argument 'deriv' unmatched")) 
   }
 }
@@ -119,8 +121,8 @@ logffMeanlink <- function(theta, bvalue = NULL,
   
   if (is.character(theta)) {
     string <- if (short)
-      paste("logfflink(", theta, ")", sep = "") else
-        paste("logit(",  theta, ") - cloglog(", theta, ")", sep = "")
+    paste("logfflink(", theta, ")", sep = "") else
+      paste("logitlink(",  theta, ") - clogloglink(", theta, ")", sep = "")
     if (tag)
       string <- paste("Logarithmic distribution mean link:", string)
     return(string)
@@ -148,19 +150,19 @@ logffMeanlink <- function(theta, bvalue = NULL,
   
   if (inverse) {
     
-    sPrime <- if (deriv != 0) (logit(theta, deriv = 1) - 
-                                 cloglog(theta, deriv = 1))^(-1) else NULL
+    sPrime <- if (deriv != 0) (logitlink(theta, deriv = 1) - 
+                            clogloglink(theta, deriv = 1))^(-1) else NULL
     switch(deriv + 1,
            logfflink.inv.deriv0(etas = theta, 
                                 alg.roots = alg.roots),
            sPrime,
-           (-1) * ( sPrime^3 ) * (logit(theta = theta, deriv = 2) - 
-                                    cloglog(theta = theta, deriv = 2)),
+           (-1) * ( sPrime^3 ) * (logitlink(theta = theta, deriv = 2) - 
+                                    clogloglink(theta = theta, deriv = 2)),
            stop("Argument 'deriv' unmatched"))
     
   } else {
-    return(logit(theta = theta, inverse = FALSE, deriv = deriv) - 
-             cloglog(theta = theta, inverse = FALSE, deriv = deriv))
+    return(logitlink(theta = theta, inverse = FALSE, deriv = deriv) - 
+             clogloglink(theta = theta, inverse = FALSE, deriv = deriv))
   }
 }
 
@@ -194,8 +196,8 @@ logfflink.inv.deriv0 <- function(etas, eps = 1e-8,
           log(x /( (-1) * (1 - x) * log1p(-x) )) - etas
         },
         fprime = function(x, etas) {
-          logit(theta = x, inverse = FALSE, deriv = 1) - 
-            cloglog(theta = x, inverse = FALSE, deriv = 1)
+          logitlink(theta = x, inverse = FALSE, deriv = 1) - 
+            clogloglink(theta = x, inverse = FALSE, deriv = 1)
         },
         a = rep(0 + eps, length(etas)), 
         b = rep(1 - eps, length(etas)), 

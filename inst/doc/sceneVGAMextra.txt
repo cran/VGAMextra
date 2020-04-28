@@ -32,9 +32,9 @@ different versions.
 For more on VGAM visit
        https://CRAN.R-project.org/package=VGAM
 
-Last update: January 2018
+Last update: January 2019
 All functions and methods at 'VGAMextra' are
-Copyright (C) 2014 - 2018, Victor Miranda 
+Copyright (C) 2014 - 2019, Victor Miranda 
 The University of Auckland.
 For bugs/fixes/comments, please email me at: v.miranda@auckland.ac.nz
 

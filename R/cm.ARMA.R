@@ -1,8 +1,8 @@
 ##########################################################################
-# These functions are                                                    
-# Copyright (C) 2014-2018 V. Miranda & T. W. Yee, University of Auckland.
-# All rights reserved.                                                   
-
+# These functions are
+# Copyright (C) 2014-2020 V. Miranda & T. Yee
+# Auckland University of Technology & University of Auckland
+# All rights reserved.
 
 cm.ARMA <- function(Model   = ~ 1,
                     Resp    =  1,
@@ -31,9 +31,8 @@ cm.ARMA <- function(Model   = ~ 1,
   
   if (!Is.Numeric(offset, 
                   isInteger = TRUE))
-    stop("Entries for argument 'offset' must be integers.")
 
-  if(abs(max(offset)) < 2 || abs(max(offset)) > Lag) 
+  if(abs(max(offset)) < 2 || all(rep(abs(max(offset)), length(Lag)) > Lag))
     stop("Wrong input for argument 'offset'. abs(offset) must be greater",
          "\n",
          " than 1 and less than or equal to 'lags.cm' for each response.")

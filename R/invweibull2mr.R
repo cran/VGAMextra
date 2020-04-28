@@ -1,11 +1,14 @@
-###########################################################################
+##########################################################################
 # These functions are
-# Copyright (C) 2014-2018 V. Miranda ans T. W. Yee, University of Auckland
+# Copyright (C) 2014-2020 V. Miranda & T. Yee
+# Auckland University of Technology & University of Auckland
 # All rights reserved.
 #
-# Function 'invweibull2mr'.
-invweibull2mr    <- function(lscale  = "loge", 
-                             lshape  = logoff(offset = -2),
+# Links renamed on Jan-2019 conforming with VGAM_1.1-0
+
+
+invweibull2mr    <- function(lscale  = "loglink", 
+                             lshape  = logofflink(offset = -2),
                              iscale  = NULL, 
                              ishape  = NULL, 
                              imethod = 2,

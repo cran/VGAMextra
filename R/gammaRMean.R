@@ -1,9 +1,12 @@
+##########################################################################
 # These functions are
-# Copyright (C) 2014-2018 V. Miranda and T. W. Yee, University of Auckland
+# Copyright (C) 2014-2020 V. Miranda & T. Yee
+# Auckland University of Technology & University of Auckland
+# All rights reserved.
 # 20170221
 
 gammaRMean <- function(zero = "rate", lmu = "gammaRMeanlink",
-                       lrate = "loge", lshape = NULL,
+                       lrate = "loglink", lshape = NULL,
                        irate = NULL,   ishape = NULL,
                        lss = TRUE) {
   
@@ -144,7 +147,7 @@ gammaRMean <- function(zero = "rate", lmu = "gammaRMeanlink",
               Ratee.init[, ilocal] <- Shape.init[, ilocal] / mymu[, ilocal]
           }
           
-          if ( .lshape == "loglog")
+          if ( .lshape == "logloglink")
             Shape.init[Shape.init <= 1] <- 3.1  # Hopefully value's big enough
           
           neweshape <- .eshape

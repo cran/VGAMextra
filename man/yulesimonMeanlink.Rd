@@ -129,7 +129,7 @@
   \code{\link[VGAM:yulesimon]{yulesimon}} fail to meet
   \eqn{rho > 1}. Alternatively, try 
   \code{\link[VGAMextra:posPoiMeanlink]{posPoiMeanlink}} or
-  \code{\link[VGAM:loge]{loge}} if this happens.
+  \code{\link[VGAM:loglink]{loglink}} if this happens.
   
 }
 \author{
@@ -144,7 +144,7 @@
  \code{\link[VGAM:yulesimon]{yulesimon}},
  \code{\link[VGAM:Links]{Links}}, 
  \code{\link[VGAMextra:posPoiMeanlink]{posPoiMeanlink}},
- \code{\link[VGAM:loge]{loge}}.
+ \code{\link[VGAM:loglink]{loglink}}.
  
 }
 \examples{

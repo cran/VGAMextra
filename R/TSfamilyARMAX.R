@@ -1,7 +1,10 @@
 ##########################################################################
-# These functions are 
-# Copyrigth (C) 2014-2018 V. Miranda and T. W. Yee. University of Auckland
+# These functions are
+# Copyright (C) 2014-2020 V. Miranda & T. Yee
+# Auckland University of Technology & University of Auckland
 # All rights reserved.
+#
+# Links renamed on Jan-2019 conforming with VGAM_1.1-0
 # Supports the Wald, score, and lrt tests (20180209)
 
 
@@ -80,8 +83,8 @@ ARMAXff <-
            nodrift   = FALSE,
            noChecks  = FALSE,
            ldrift    = "identitylink",
-           lsd       = "loge",
-           lvar      = "loge",
+           lsd       = "loglink",
+           lvar      = "loglink",
            lARcoeff  = "identitylink",
            lMAcoeff  = "identitylink",
            idrift    = NULL,             # Must be a vector of length NOS
@@ -326,8 +329,8 @@ ARMAXff <-
         init.AR  <- array( 0.0, dim = c( n, NOS , .ARord ))
         init.MA  <- array( 0.0, dim = c( n, NOS , .MAord ))
         
-        y.sc <- scale(y, center = TRUE, scale = FALSE)
-        extra$y.sc <- scale(y, center = TRUE, scale = FALSE)
+        y.sc <- y# scale(y, center = TRUE, scale = FALSE)
+        #extra$y.sc <- scale(y, center = TRUE, scale = FALSE)
         extra$res <- matrix(NA_real_, nrow = n, ncol = NOS)
         res2.mat  <- matrix(NA_real_, nrow = n, ncol = NOS)
         
@@ -357,6 +360,7 @@ ARMAXff <-
           }
           
           initCoe <- coef(to.fit)
+          
           extra$res <- res2.mat[, rsp] <- residuals(to.fit)
           just.hlp <-matrix(if (length( .iARcoeff )) iniar[ rsp, ] else
                        initCoe[1:( .ARord )], n, .ARord , byrow = TRUE)
@@ -644,7 +648,7 @@ ARMAXff <-
         y.est[, ii] <- drifts[, ii] + rowSums(cbind(ars[, ii, ] *
                      WN.lags(y = cbind(extra$y[, ii]), lags = .ARord ),
                   mas[, ii, ] * WN.lags(y = cbind(extra$res[, ii]),
-                              lags = .MAord ))) #+  extra$res/1e2
+                              lags = .MAord ))) +  extra$res
       
        if (residuals) {
          stop("Loglikelihood not implemented yet to",

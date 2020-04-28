@@ -5,40 +5,42 @@
 # All rights reserved.
 #
 # Links renamed on Jan-2019 conforming with VGAM_1.1-0
-# 20161212
+# 2018/11/19
 
-normal1sdff <- function(zero = NULL, link = "loglink", fixed.mean = 0,
-                        p.quant = NULL,  var.arg = FALSE){
+normal1Meanff <- function(zero = NULL, link = "loglink",
+                        p.quant = NULL, fixed.sd = 1){
   
+  var.arg <-  FALSE
+  link <- as.list(substitute(link))
+  earg <- link2list(link)
+  link <- attr(earg, "function.name")
   
-  #link <- as.list(substitute(link(p = p.quant, mean = fixed.mean)))
-  
-  if (length(p.quant) ) {
+  if (FALSE)
+  if (length(p.quant)) {
+    #p.quant <- rep(p.quant, 10)[1:3]
     if (any(p.quant <= 0) || any(p.quant >= 1)) 
       stop("Invalid quantiles. Must lie between 0 and 1.")
     
-    if (identical(link, "normal1sdQlink") ||
-                          identical(link, normal1sdQlink)) {
-      link <- as.list(substitute(link(p = p.quant, mean = fixed.mean)))
+    if (identical(link, "normal1MeanQlink") ||
+                          identical(link, normal1MeanQlink)) {
+      link <- as.list(substitute(link(p = p.quant, sd.cons = fixed.sd)))
     } else {
       stop("Invalid link for quantile regression with this ",
            "family function.")
     }
   } else {
-    if (identical(link, "normal1sdQlink") ||
-                          identical(link, normal1sdQlink)) {
-      stop("Invalid link to model the standard deviation.")
+    if (identical(link, "normal1MeanQlink") ||
+                          identical(link, normal1MeanQlink)) {
+      stop("Invalid link to model the Mean.")
     } else {
       link <- as.list(substitute(link)) 
     }
     
   }
   
+  #fixed.mean <- fixed.sd  # Just to reproduce the code from normal1sdff()
   if (!is.logical(var.arg))
     stop("Wrong input for argument 'var.arg'")
-  
-  earg <- link2list(link)
-  link <- attr(earg, "function.name")
   
   mynames.of <-  if ( var.arg) {
     namesof("var", link, earg = earg, tag = FALSE)
@@ -48,10 +50,10 @@ normal1sdff <- function(zero = NULL, link = "loglink", fixed.mean = 0,
   
   
   new("vglmff",
-      blurb = c("1-parameter Normal distribution (sigma^2) \n\n",
+      blurb = c("1-parameter Normal distribution (estimates the Mean) \n\n",
                 "Link:     ", mynames.of, "\n", 
-                "Mean:     FIXED (must be entered)\n",
-                "Variance: sigma^2"),
+                "SD:     FIXED (must be entered)\n",
+                "Mean: Mean"),
       
   
       constraints = eval(substitute(expression({
@@ -64,10 +66,10 @@ normal1sdff <- function(zero = NULL, link = "loglink", fixed.mean = 0,
       infos = eval(substitute(function(...) {
         list(M1 = 1,
              Q1 = 1,
-             fixed.mean = .fixed.mean ,
+             fixed.sd = .fixed.sd ,
              p.quant    = .p.quant ,
              zero = .zero )
-      }, list( .zero = zero , .fixed.mean = fixed.mean , 
+      }, list( .zero = zero , .fixed.sd = fixed.sd , 
                .p.quant = p.quant ))),
       
       
@@ -92,24 +94,24 @@ normal1sdff <- function(zero = NULL, link = "loglink", fixed.mean = 0,
         M  <- if (is.matrix(y)) ncol(y) else 1
         M1 <- ncol(y)
         
-        mynames1 <- param.names(if ( .var.arg ) "var" else "sd", M)
+        mynames1 <- param.names("Mean", M)
         predictors.names <- namesof(mynames1, .link , 
                                     earg = .earg , short = TRUE)
         #my.start <- matrix( sqrt(sum( (y - .fixed.mean)^2 ) / n), 
         #                    nrow = n, ncol = M1)
-        my.start <- matrix(apply(y, 2, if (.var.arg ) var else sd),
+        my.start <- matrix(apply(y, 2, mean),
                            nrow = n, ncol = M1, byrow = TRUE) 
         if (!length(etastart))
           etastart <- cbind(theta2eta(my.start, .link , earg = .earg ))
         
       }), list( .link = link, .earg = earg , .var.arg = var.arg ,
-                .fixed.mean = fixed.mean , .p.quant = p.quant ))), 
+                .fixed.sd = fixed.sd , .p.quant = p.quant ))), 
       
       
       
       linkinv = eval(substitute(function(eta, extra = NULL) {
         eta2theta(eta, .link , earg = .earg )
-      }),list( .link = link, .earg = earg , .fixed.mean = fixed.mean )),
+      }),list( .link = link, .earg = earg )),
       
       
       
@@ -128,8 +130,8 @@ normal1sdff <- function(zero = NULL, link = "loglink", fixed.mean = 0,
         misc$M1 <- M1
         misc$var.arg <- .var.arg
         misc$p.quant <- .p.quant
-        misc$fixed.mean <- .fixed.mean
-      }), list( .link = link, .earg = earg , .fixed.mean = fixed.mean , 
+        misc$fixed.sd <- .fixed.sd
+      }), list( .link = link, .earg = earg , .fixed.sd = fixed.sd , 
                 .p.quant = p.quant , .var.arg = var.arg ))),
       
       
@@ -142,28 +144,24 @@ normal1sdff <- function(zero = NULL, link = "loglink", fixed.mean = 0,
       loglikelihood = eval(substitute(
                  function(mu, y, w, residuals = FALSE, eta,
                  extra = NULL, summation = TRUE) {
-                   
-        if ( .var.arg ) {
-          my.sd <- sqrt(abs(eta2theta(eta, .link , .earg )))
-        } else {
-          my.sd <- eta2theta(eta, .link , .earg )
-        }
+      
+          my.mean <- eta2theta(eta, .link , .earg )
         
           if (residuals) {
             stop("loglikelihood residuals not implemented yet")
           } else {
-            ll.elts <- c(w) * dnorm(x = y, mean = .fixed.mean, 
-                                    sd = my.sd , log = TRUE)
+            ll.elts <- c(w) * dnorm(x = y, mean = my.mean , 
+                                    sd = .fixed.sd , log = TRUE)
             if (summation) {
               sum(ll.elts)
             } else {
               ll.elts
             }
-      }}, list( .fixed.mean = fixed.mean , .p.quant = p.quant, 
+      }}, list( .fixed.sd = fixed.sd , .p.quant = p.quant, 
                 .link = link , .earg = earg , .var.arg = var.arg ))),
       
       
-      vfamily = c("normal1sdff"),
+      vfamily = c("normal1Meanff"),
       
       simslot = eval(substitute(
         function(object, nsim) {
@@ -173,42 +171,31 @@ normal1sdff <- function(zero = NULL, link = "loglink", fixed.mean = 0,
             warning("ignoring prior weights")
           mu <- fitted(object)
 
-          rnorm(nsim * length(my.sd), mean = .fixed.mean,  sd = my.sd)
+          rnorm(nsim * length(my.mean), mean = my.mean,  sd = .fixed.sd )
         }, list( .link = link, .earg = earg , 
-                 .fixed.mean = fixed.mean ))),
+                 .fixed.sd = fixed.sd ))),
       
       
       
       deriv = eval(substitute(expression({
-        n <- nrow(y)
-         if ( .var.arg ) {
-           my.var  <- eta2theta(eta, .link , .earg )
-           dl.dvar <- (y - .fixed.mean )^2 / (2 * my.var^2) -
-                                                  1 / (2 * my.var)
-           dvar.deta <- dtheta.deta(my.var, .link , earg = .earg )
-           ans <- c(w) * dl.dvar * dvar.deta
-         } else {
-           my.sd  <- eta2theta(eta, .link , .earg )
-           dl.dsd <- (y - .fixed.mean)^2 / my.sd^3 - 1 / my.sd
-           dsd.deta <- dtheta.deta(my.sd, .link , earg = .earg )
-           ans <- c(w) * dl.dsd * dsd.deta
-         }
         
+        sd.fix <- matrix( .fixed.sd , nrow(y), ncol(y), byrow = TRUE)
+        n <- nrow(y)
+        my.mean  <- eta2theta(eta, .link , .earg )
+        dl.dmean <- (y - my.mean) /  sd.fix^2
+        dmean.deta <- dtheta.deta(my.mean, .link , earg = .earg )
+        ans <- c(w) * dl.dmean * dmean.deta 
         ans
         
-      }), list( .link = link, .earg = earg ,  .var.arg = var.arg ,
-                .fixed.mean = fixed.mean , .p.quant = p.quant ))),
+      }), list( .link = link, .earg = earg ,
+                .fixed.sd = fixed.sd , .p.quant = p.quant ))),
       
       
       weight = eval(substitute(expression({
-         if ( .var.arg ) {
-           ned2l.dvar <- 1 / (2 * my.var^2)
-           wz <- ned2l.dvar * dvar.deta^2
-         } else {
-           ned2l.dsd <- 2 /  my.sd^2
-           wz <- ned2l.dsd * dsd.deta^2
-         }
+      
+        ned2l.dmean <- 1/sd.fix^2
+        wz <- ned2l.dmean * dmean.deta^2
         
         c(w) * wz
-      }), list( .var.arg = var.arg ))))
+      }), list( .fixed.sd = fixed.sd ))))
 }

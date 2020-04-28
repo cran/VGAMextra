@@ -1,20 +1,27 @@
 ###########################################
 #                                         #
-#          Series 0.0-1                   #
+#          Series 0.0-2                   #
 #                                         #
 ###########################################
 
 
-       CHANGES in VGAMextra VERSION 0.0-1
+                CHANGES in VGAMextra 
 
 NEW FEATURES
 
+                   VERSION 0.0-2 (April/May 2020)
 
-                    VERSION 0.0-1
+  o   Tested okay for R 4.0.0 (This package requires R version 3.4.0 or higher)
+
+  o   Several functions have been adapted to handle the renamed link functions
+      from VGAM-1.1.0.
+
+
+                    VERSION 0.0-1 (July 2018)
 
 IMPORTANT FEATURES
 
-  o   Tested okay on R 3.4.3 (This package requires R 3.4.0 or higher)
+  o   Tested okay for R V-3.4.3 (This package requires R V-3.4.0 or higher)
   
   o   VGAM/VGLM time series family functions for each sub-class
       of vector generalized linear time series models (VGLTSMs).

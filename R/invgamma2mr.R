@@ -1,13 +1,18 @@
 ##########################################################################
 # These functions are
-# Copyright (C) 2014-2018 V. Miranda and T.Yee, University of Auckland.
+# Copyright (C) 2014-2020 V. Miranda & T. Yee
+# Auckland University of Technology & University of Auckland
 # All rights reserved.
+#
+# Links renamed on Jan-2019 conforming with VGAM_1.1-0
 
 # Function 'invgamma2mr'.
-# This code is based on gamma2(), from Thomas W. Yee (2006).
+# This ff was written based upon gamma2(), from Thomas W. Yee (2006).
 
-invgamma2mr <-function(lmu      = "loge", 
-                       lshape   = logoff(offset = -2), 
+
+
+invgamma2mr <-function(lmu      = "loglink", 
+                       lshape   = logofflink(offset = -2), 
                        parallel = FALSE,  
                        ishape   = NULL, 
                        imethod  = 1, 

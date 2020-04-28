@@ -1,7 +1,8 @@
 ##########################################################################
-# These functions are                                                    
-# Copyright (C) 2014-2018 V. Miranda & T. W. Yee, University of Auckland.
-# All rights reserved.  
+# These functions are
+# Copyright (C) 2014-2020 V. Miranda & T. Yee
+# Auckland University of Technology & University of Auckland
+# All rights reserved.
 
 extract.Residuals <- function(object, TSprocess,...) {
   if (!is.character(TSprocess))

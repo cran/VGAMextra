@@ -1,7 +1,9 @@
 ##########################################################################
-# These functions are 
-# Copyright (C) 2014-2018 V. Miranda & T. W. Yee, University of Auckland.
+# These functions are
+# Copyright (C) 2014-2020 V. Miranda & T. Yee
+# Auckland University of Technology & University of Auckland
 # All rights reserved.
+
 # Supports the Wald, score, and lrt tests (20180209)
 
 MAqEIM.G2 <- function(y, mean, sdError, MAqcoeff,
@@ -66,8 +68,8 @@ MAXff <-
            nomean    = FALSE,
            noChecks  = FALSE,
            lmean     = "identitylink", 
-           lsd       = "loge",
-           lvar      = "loge",
+           lsd       = "loglink",
+           lvar      = "loglink",
            lMAcoeff  = "identitylink",
            imean     = NULL,
            isd       = NULL,
@@ -378,7 +380,7 @@ MAXff <-
           ini.fit <- lsfit(x = to.fit[, -1, drop = FALSE],
                            y = to.fit[,  1, drop = FALSE],
                            intercept = FALSE)
-          
+        
           e.rsp <- cbind(y.sc[, rsp], #[-(1:6), rsp],
                          WN.lags(y = cbind(residuals(ini.fit)),
                                  lags = nOrder[rsp] ))
@@ -676,7 +678,7 @@ MAXff <-
       e.lags <- matrix(e.lags, nrow = n, ncol = max(nOrder) * NOS)
       
       mean.ts <- array(maq.Phi * e.lags, dim = c(n, max(nOrder), NOS))
-      mean.ts <- maq.drMean + apply(mean.ts, c(1, 3), sum) #+ extra$res 
+      mean.ts <- maq.drMean + apply(mean.ts, c(1, 3), sum)  + extra$res 
       names(mean.ts) <- NULL
       
       if (residuals) {

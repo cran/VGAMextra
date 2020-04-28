@@ -1,5 +1,8 @@
+##########################################################################
 # These functions are
-# Copyright (C) 2014-2018 V. Miranda and T. W. Yee, University of Auckland
+# Copyright (C) 2014-2020 V. Miranda & T. Yee
+# Auckland University of Technology & University of Auckland
+# All rights reserved.
 
 isNA <- function(x) is.na(x) & !is.nan(x)
 

@@ -1,7 +1,10 @@
 ##########################################################################
-# These functions are 
-# Copyrigth (C) 2014-2018 V. Miranda and T. W. Yee. University of Auckland
+# These functions are
+# Copyright (C) 2014-2020 V. Miranda & T. Yee
+# Auckland University of Technology & University of Auckland
 # All rights reserved.
+#
+# Links renamed on Jan-2019 conforming with VGAM_1.1-0
 
 
 ECM.EngleGran.control <- function(save.weights = TRUE,
@@ -18,7 +21,7 @@ ECM.EngleGran <- function(ecm.order = c(1, 1),
                                              "neither", "both")[1],
                           lag.res = 1,
                           lmean = "identitylink",
-                          lvar  = "loge",
+                          lvar  = "loglink",
                           lcov  = "identitylink",
                           ordtsDyn = 0) {
   

@@ -53,8 +53,8 @@
   VGLM/VGAM context), \eqn{0 < s < 1}, as the
   logarithm of \eqn{\mu = \mu(s)}. It can be easily shown that 
   \code{logffMeanlink} is the difference of two common link functions: 
-  \code{\link[VGAM:logit]{logit}} and 
-  \code{\link[VGAM:cloglog]{cloglog}}.
+  \code{\link[VGAM:logitlink]{logitlink}} and 
+  \code{\link[VGAM:clogloglink]{clogloglink}}.
   
   It is particularly usefull for event--rate data where the expected 
   number of events can be modelled as
@@ -95,7 +95,7 @@
 \value{
 
   For \code{deriv = 0}, the \code{logffMeanlink} transformation of 
-  \code{theta}, i.e., \code{logit(theta) - cloglog(theta)}, if 
+  \code{theta}, i.e., \code{logitlink(theta) - clogloglink(theta)}, if 
   \code{inverse = FALSE}. 
   
   When \code{inverse = TRUE} the vector entered at \code{theta} 
@@ -186,8 +186,8 @@
  \code{\link[VGAMextra:newtonRaphson.basic]{newtonRaphson.basic}},
  \code{\link[VGAM:bisection.basic]{bisection.basic}},
  \code{\link[VGAM:Links]{Links}}, 
- \code{\link[VGAM:cloglog]{cloglog}},
- \code{\link[VGAM:logit]{logit}}.
+ \code{\link[VGAM:clogloglink]{clogloglink}},
+ \code{\link[VGAM:logitlink]{logitlink}}.
  
 }
 \examples{
@@ -211,12 +211,13 @@ par(lwd = 2)
 plot(s.shapes, logit(s.shapes), xlim = c(-0.1, 1.1), type = "l", col = "limegreen", 
      ylab = "transformation", las = 1, main = "Some probability link functions")
 lines(s.shapes, logffMeanlink(s.shapes), col = "blue")
-lines(s.shapes, probit(s.shapes), col = "purple")
-lines(s.shapes, cloglog(s.shapes), col = "chocolate")
-lines(s.shapes, cauchit(s.shapes), col = "tan")
+lines(s.shapes, probitlink(s.shapes), col = "purple")
+lines(s.shapes, clogloglink(s.shapes), col = "chocolate")
+lines(s.shapes, cauchitlink(s.shapes), col = "tan")
 abline(v = c(0.5, 1), lty = "dashed")
 abline(v = 0, h = 0, lty = "dashed")
-legend(0.1, 4.5, c("logffMeanlink","logit", "probit", "cloglog", "cauchit"),
+legend(0.1, 4.5, c("logffMeanlink","logitlink", "probitlink", "clogloglink",
+"cauchitlink"),
        col = c("blue", "limegreen", "purple", "chocolate", "tan"), lwd = 1)
 par(lwd = 1) 
 }

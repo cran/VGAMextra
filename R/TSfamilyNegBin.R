@@ -1,8 +1,8 @@
 ##########################################################################
-# These functions are 
-# Copyright (C) 2014-2018 V. Miranda & T. W. Yee, University of Auckland.
+# These functions are
+# Copyright (C) 2014-2020 V. Miranda & T. Yee
+# Auckland University of Technology & University of Auckland
 # All rights reserved.
-
 
 
 NegBinomTSff <- function(Order = c(1, 1),
@@ -146,7 +146,7 @@ NegBinomTSff <- function(Order = c(1, 1),
       counts <- ncol(x)
       my.ord <- .Order
       
-      if (NCOL(y) > 2)
+      if (NCOL(y) > 1)
         stop("Currently, only univariate time series handled.")
       
       iniOrd <- if (length( .init.p )) .init.p else
@@ -215,7 +215,7 @@ NegBinomTSff <- function(Order = c(1, 1),
                            drop = FALSE]
 
         if ( .flam ) {
-          x2.mat <- if (identical( .link, "loge")) 
+          x2.mat <- if (identical( .link, "loglink")) 
                 theta2eta(x2.mat + 1, .link , .earg) else
                      theta2eta(x2.mat, .link , .earg)
           if (!identical( .link, "identitylink")) 
@@ -346,7 +346,7 @@ NegBinomTSff <- function(Order = c(1, 1),
       
       
       assign("CQO.FastAlgorithm",
-             ( .lmunb == "loge") && ( .lsize == "loge"),
+             ( .lmunb == "loglink") && ( .lsize == "loglink"),
              envir = VGAMenv)
       
       if (any(function.name == c("cqo", "cao")) &&
@@ -755,7 +755,7 @@ NegBinomTSff <- function(Order = c(1, 1),
                                size = kmat[, jay]) * 1.1) + 30
        
        eps.trig <- .eps.trig
-       Q.MAXS <- if ( .lsize == "loge")
+       Q.MAXS <- if ( .lsize == "loglink")
          pmax(10, ceiling(kmat[, jay] / sqrt(eps.trig))) else Inf
        Q.maxs <- pmin(Q.maxs, Q.MAXS)
        

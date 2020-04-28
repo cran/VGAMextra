@@ -9,8 +9,8 @@
 
 }
 \usage{
-  invgamma2mr(lmu      = "loge", 
-              lshape   = logoff(offset = -2), 
+  invgamma2mr(lmu      = "loglink", 
+              lshape   = logofflink(offset = -2), 
               parallel = FALSE, 
               ishape   = NULL, 
               imethod  = 1, 
@@ -103,7 +103,7 @@
   \eqn{\sigma^2 = \mu^2 / (a - 2)}{sigma^2 = mu^2 / (shape - 2)} 
   if \eqn{a > 2}{shape > 2}, else is infinite. Thus, the 
   \emph{link function} for the \emph{shape} parameter is 
-  \code{\link[VGAM:loglog]{loglog}}. Then, by default, the two 
+  \code{\link[VGAM:logloglink]{logloglink}}. Then, by default, the two 
   linear/additive predictors are \eqn{\eta_1=\log(\mu)}{eta1=log(mu)}, 
   and \eqn{\eta_2=\log(a)}{eta2=loglog(shape)}, i.e in the VGLM context, 
   \eqn{\eta = (log(\mu), loglog(a)}{eta = (log(mu), loglog(shape)).}
@@ -222,7 +222,7 @@ gdata <- data.frame(y3 = rinvgamma(n = 1000,
                                    shape = exp(2.0 + x2)))
 
 fit2 <- vglm(y3 ~ x2, 
-            family = invgamma2mr(lshape = "loge", zero = NULL), 
+            family = invgamma2mr(lshape = "loglink", zero = NULL), 
             data = gdata, trace = TRUE)
 
 coef(fit2, matrix = TRUE)

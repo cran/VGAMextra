@@ -9,10 +9,10 @@
 
 }
 \usage{
- gen.betaIImr(lscale    = "loge", 
-              lshape1.a = "loge", 
-              lshape2.p = "loge", 
-              lshape3.q = "loge", 
+ gen.betaIImr(lscale    = "loglink", 
+              lshape1.a = "loglink", 
+              lshape2.p = "loglink", 
+              lshape3.q = "loglink", 
               iscale    = NULL, 
               ishape1.a = NULL,
               ishape2.p = NULL, 
