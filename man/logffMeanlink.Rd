@@ -1,5 +1,6 @@
-\name{logffMeanlink}
-\alias{logffMeanlink}
+\name{logffMlink}
+\alias{logffMlink}
+%\alias{logffMeanlink}
 \alias{logfflink.inv.deriv0}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
@@ -10,15 +11,15 @@
 }
 \description{
  
-  Computes the \code{logffMeanlink} transformation, including its inverse
+  Computes the \code{logffMlink} transformation, including its inverse
   and the first two derivatives.
 
 }
 \usage{
 %
-    logffMeanlink(theta, bvalue = NULL, 
-                  alg.roots = c("Newton-Raphson", "bisection")[1],
-                  inverse = FALSE, deriv = 0, short = TRUE, tag = FALSE)
+    logffMlink(theta, bvalue = NULL, 
+                alg.roots = c("Newton-Raphson", "bisection")[1],
+                inverse = FALSE, deriv = 0, short = TRUE, tag = FALSE)
 %
 }
 \arguments{
@@ -52,7 +53,7 @@
   of the shape parameter \eqn{s} (i.e. \code{theta} in the 
   VGLM/VGAM context), \eqn{0 < s < 1}, as the
   logarithm of \eqn{\mu = \mu(s)}. It can be easily shown that 
-  \code{logffMeanlink} is the difference of two common link functions: 
+  \code{logffMlink} is the difference of two common link functions: 
   \code{\link[VGAM:logitlink]{logitlink}} and 
   \code{\link[VGAM:clogloglink]{clogloglink}}.
   
@@ -68,7 +69,7 @@
   The logarithm is then applied to both sides so 
   that \eqn{t} can be incorporated in the analysis as an offset. 
   
-  While \code{logffMeanlink} is not the canonical link function of 
+  While \code{logffMlink} is not the canonical link function of 
   the logarithmic distribution, it is certainly part of the
   canonical link, given by the composite
   %
@@ -76,7 +77,7 @@
                log o (g^(-1)) o log,}
   %
   where \eqn{g^{-1}}{g^(-1)} denotes the inverse of
-  \code{logffMeanlink}.
+  \code{logffMlink}.
   
   The domain set of this link function is \eqn{(0, 1)}. 
   Therefore, values of \code{theta} (that is \eqn{s}) too close to 
@@ -94,7 +95,7 @@
 }
 \value{
 
-  For \code{deriv = 0}, the \code{logffMeanlink} transformation of 
+  For \code{deriv = 0}, the \code{logffMlink} transformation of 
   \code{theta}, i.e., \code{logitlink(theta) - clogloglink(theta)}, if 
   \code{inverse = FALSE}. 
   
@@ -102,16 +103,16 @@
   becomes \eqn{\eta} and, then, this link function 
   returns a unique vector \eqn{\theta_{\eta}}{\theta[\eta]} such that 
   %
-  \deqn{ {\tt{logffMeanlink}} (\theta_{\eta}) = \eta,}{
-          logffMeanlink(\theta[\eta]) = \eta, }
+  \deqn{ {\tt{logffMlink}} (\theta_{\eta}) = \eta,}{
+          logffMlink(\theta[\eta]) = \eta, }
   %
   i.e., the inverse image of \eqn{\eta}.
-  Specifically, the inverse of \code{logffMeanlink} cannot be written in 
+  Specifically, the inverse of \code{logffMlink} cannot be written in 
   closed--form, then the latter is equivalent to search for the roots 
   of the function 
   %
-  \deqn{ {\tt{logff.func}}(\theta) = {\tt{logffMeanlink}}(\theta) - \eta }{
-              logff.func(\theta) = logffMeanlink(\theta) - \eta} 
+  \deqn{ {\tt{logff.func}}(\theta) = {\tt{logffMlink}}(\theta) - \eta }{
+              logff.func(\theta) = logffMlink(\theta) - \eta} 
   %
   as a function of \eqn{\theta}. To do this, the auxiliary 
   function \code{logff.func} is internally generated. 
@@ -119,7 +120,7 @@
   either Newton--Raphson or bisection, this link function
   approximates and returns the inverse image 
   \eqn{\theta_{\eta}}{\theta[\eta]} (of given \eqn{\eta}), which 
-  plays the role of the inverse of \code{logffMeanlink}. In particular, 
+  plays the role of the inverse of \code{logffMlink}. In particular, 
   for \eqn{\eta = 0} and \eqn{\eta =}\code{Inf}, it returns \eqn{0} 
   and \eqn{1} respectively.
 
@@ -136,19 +137,19 @@
 }
 \section{Warning}{
 
-  \code{\link[VGAMextra:logffMeanlink]{logffMeanlink}} is a monotonically
+  \code{\link[VGAMextra:logffMlink]{logffMlink}} is a monotonically
   increasing, convex, and strictly positive function in \eqn{(0, 1)} such
   that the horizontal axis is an asymptote. Therefore, when the inverse 
   image of \eqn{\eta} is required, each entry of \eqn{\eta} 
   (via argument \code{theta}) must be non-negative so that 
-  \eqn{{\tt{logff.func}(\theta; \eta) = \tt{logffMeanlink}}(\theta) - \eta}{
-        logff.func(\theta; \eta) = logffMeanlink(\theta) - \eta} 
+  \eqn{{\tt{logff.func}(\theta; \eta) = \tt{logffMlink}}(\theta) - \eta}{
+        logff.func(\theta; \eta) = logffMlink(\theta) - \eta} 
   is \emph{shifted down}. This fact allows this function to uniquely 
   intersect the horizontal axis which guarantees to iteratively find 
   the corresponding root \eqn{\theta_{\eta}}{\theta[\eta]}, i.e., the
   inverse image of \eqn{\eta}. Else, \code{NaN} will be returned.
   
-  See example 3. It is the plot of \code{logffMeanlink} in \eqn{(0, 1)}
+  See example 3. It is the plot of \code{logffMlink} in \eqn{(0, 1)}
   for \eqn{\eta = 1.5}.
   
   Besides, the vertical straight line \code{theta}\eqn{ = 1} is also
@@ -174,8 +175,8 @@
   some problems may occur. For example, the method entered 
   at \code{alg.roots} to approximate the inverse image may converge
   at a slow rate. Similarly if the sample size is small, less than 20 say.
-  Try another link function, as \code{\link[VGAM:logit]{logit}}, in such
-  cases.
+  Try another link function, as 
+  \code{\link[VGAM:logitlink]{logitlink}}, in such cases.
  
 }
 
@@ -195,10 +196,10 @@
 ## Example 1  ##
 set.seed(0906)
 Shapes <- sort(runif(10)) 
-logffMeanlink(theta = Shapes, deriv = 1)    ## d eta/d theta, as function of theta
+logffMlink(theta = Shapes, deriv = 1)    ## d eta/d theta, as function of theta
 
 logldata.inv <-
-       logffMeanlink(theta = logffMeanlink(theta = Shapes), inverse = TRUE) - Shapes
+       logffMlink(theta = logffMlink(theta = Shapes), inverse = TRUE) - Shapes
                       
 summary(logldata.inv)                   ## Should be zero
 
@@ -210,28 +211,28 @@ s.shapes <- ppoints(100)
 par(lwd = 2)
 plot(s.shapes, logit(s.shapes), xlim = c(-0.1, 1.1), type = "l", col = "limegreen", 
      ylab = "transformation", las = 1, main = "Some probability link functions")
-lines(s.shapes, logffMeanlink(s.shapes), col = "blue")
+lines(s.shapes, logffMlink(s.shapes), col = "blue")
 lines(s.shapes, probitlink(s.shapes), col = "purple")
 lines(s.shapes, clogloglink(s.shapes), col = "chocolate")
 lines(s.shapes, cauchitlink(s.shapes), col = "tan")
 abline(v = c(0.5, 1), lty = "dashed")
 abline(v = 0, h = 0, lty = "dashed")
-legend(0.1, 4.5, c("logffMeanlink","logitlink", "probitlink", "clogloglink",
+legend(0.1, 4.5, c("logffMlink","logitlink", "probitlink", "clogloglink",
 "cauchitlink"),
        col = c("blue", "limegreen", "purple", "chocolate", "tan"), lwd = 1)
 par(lwd = 1) 
 }
 %
 
-## Example 3. Plot of 'logffMeanlink()' with eta = 1.5.  ##
-m.eta1.5 <- logffMeanlink(theta = s.shapes, deriv = 0) - 1.5
+## Example 3. Plot of 'logffMlink()' with eta = 1.5.  ##
+m.eta1.5 <- logffMlink(theta = s.shapes, deriv = 0) - 1.5
 %
 \donttest{
  plot(m.eta1.5 ~ s.shapes, type = "l", col = "limegreen", 
       las = 1, lty = 2, lwd = 3, xlim = c(-0.1, 1.0), ylim = c(-2, 3),
       xlab = "shape parameter, s, in (0, 1).", 
-      ylab = "logffMeanlink(s) - 1.5",
-      main = "logff.func(s; 1.5) = logffMeanlink(s) - 1.5, in (0, 1)")
+      ylab = "logffMlink(s) - 1.5",
+      main = "logff.func(s; 1.5) = logffMlink(s) - 1.5, in (0, 1)")
  abline(h = 0, v = 0)
  abline(v = 1.0, lty = 2)
  }
@@ -239,5 +240,5 @@ m.eta1.5 <- logffMeanlink(theta = s.shapes, deriv = 0) - 1.5
 
 ## Example 4. Special values of theta, inverse = FALSE ##
 s.shapes <- c(-Inf, -2, -1, 0.0, 0.25, 0.5, 1, 10, 100, Inf, NaN, NA) 
-rbind(s.shapes, logffMeanlink(theta = s.shapes))
+rbind(s.shapes, logffMlink(theta = s.shapes))
 }

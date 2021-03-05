@@ -1,9 +1,9 @@
 # These functions are
-# Copyright (C) 2014-2019 V. Miranda, University of Auckland.
+# Copyright (C) 2014-2021 V. Miranda, University of Auckland.
 # All rights reserved.
 
 
-# Version 0.0-2 (January 2019)
+# Version 0.0-3 (January 2021)
 # Version 0.0-1 
 
 ###
@@ -63,7 +63,7 @@ importFrom("VGAM", cauchitlink, probitlink, clogloglink)
 
 ## Two Param. Links 
 ## 2019 - 08 - 11 (August)
-export(uninormalQlink, uninormalMod)
+export(uninormalQlink, uninormalff)
 
 ## -----> Quantile links
 # 2016.Dec.5
@@ -77,19 +77,21 @@ export(normal1sdff, normal1sdQlink)
 ## -----> Mean links.
 # 2016.Oct
 export(newtonRaphson.basic)
-export(logffMeanlink, zetaffMeanlink, yulesimonMeanlink)
-export(posPoiMeanlink, borel.tannerMeanlink)
+export(logffMlink, zetaffMlink, yulesimonMlink)
+export(posPoiMlink, borel.tannerMlink)
 
 # 2017.Jan.06
-export(inv.chisqMeanlink, inv.chisq)
+export(inv.chisqMlink, inv.chisqff)
 export(dinv.chisq, pinv.chisq, qinv.chisq, rinv.chisq)
-export(maxwellMeanlink, rayleighMeanlink, expMeanlink)
-export(toppleMeanlink, geometricffMeanlink)
+export(maxwellMlink, rayleighMlink, expMlink)
+export(toppleMlink, geometricffMlink)
 export(inspectVGAMextra, isNA, Q.reg, ffff.help)
 
 # 2017.Feb 24
-export(gammaRMean, gammaRMeanlink)
-
+export(gammaRff, gammaRMlink)
+# 2021 Jan 1
+#export(weibullRMeanff, weibullRMeanlink, weibullRMedianff, weibullRMedianlink)
+export(weibullRff, weibullMlink, weibullQlink)
 
 ###
 ### Temporarily: AR1()

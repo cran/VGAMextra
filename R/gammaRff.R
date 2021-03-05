@@ -1,14 +1,13 @@
 ##########################################################################
 # These functions are
-# Copyright (C) 2014-2020 V. Miranda & T. Yee
+# Copyright (C) 2014-2021 V. Miranda & T. Yee
 # Auckland University of Technology & University of Auckland
 # All rights reserved.
-# 20170221
+# 01012021
 
-gammaRMean <- function(zero = "rate", lmu = "gammaRMeanlink",
-                       lrate = "loglink", lshape = NULL,
-                       irate = NULL,   ishape = NULL,
-                       lss = TRUE) {
+gammaRff <- function(zero = "shape", lmu = "gammaRMlink",
+                     lrate = NULL, lshape = "loglink",
+                     irate = NULL,   ishape = NULL, lss = TRUE) {
   
   
   expected <- TRUE  # FALSE does not work well
@@ -16,10 +15,10 @@ gammaRMean <- function(zero = "rate", lmu = "gammaRMeanlink",
   iratee <- irate
   
   if (length(lmu)) {
-    lshape <- lmu
+    lrate <- lmu
   }
   
-  if (length(lmu) && !identical(lmu, "gammaRMeanlink"))
+  if (length(lmu) && !identical(lmu, "gammaRMlink"))
     stop("Wrong input for 'lmu'.")
   
   lratee <- as.list(substitute(lrate))
@@ -62,8 +61,8 @@ gammaRMean <- function(zero = "rate", lmu = "gammaRMeanlink",
       
       constraints = eval(substitute(expression({
         
-        # ADVISE THOMAS about the next change.
-        # Otherwise, grep() will detect 'rate' twice therefore no cols
+        # zzz Check with Thomas. Must be 'parameters.names',
+        # Otherwise, grep() will detect 'rate' twice therefore no cols.
         # predictors.names = parameters.names instead of parameters.names
         constraints <- cm.zero.VGAM(constraints, x = x, .zero , M = M,
                                     predictors.names = parameters.names,
@@ -150,25 +149,28 @@ gammaRMean <- function(zero = "rate", lmu = "gammaRMeanlink",
           if ( .lshape == "logloglink")
             Shape.init[Shape.init <= 1] <- 3.1  # Hopefully value's big enough
           
-          neweshape <- .eshape
-          if ( .lshape == "gammaRMeanlink") {
-            neweshape$rate <- Ratee.init
+          # zzz
+          neweratee <- .eratee
+          if ( .lratee == "gammaRMlink") {
+            neweratee$shape <- Shape.init
           }
           
           # Allow proper initial values
           mycheck <- which((Shape.init / Ratee.init) < 1)
           if (length(mycheck))
             Shape.init[mycheck] <- Ratee.init[mycheck] + 1e-1
-          
+          ######################################
+
           etastart <- if ( .lss )
-            cbind(theta2eta(Ratee.init, .lratee , earg = .eratee ),
-                  theta2eta(Shape.init, .lshape , earg = neweshape))[,
+            cbind(theta2eta(Ratee.init, .lratee , earg = neweratee ),
+                  theta2eta(Shape.init, .lshape , earg = .eshape ))[,
                         interleave.VGAM(M, M1 = M1)] else
-              cbind(theta2eta(Shape.init, .lshape , earg = neweshape),
-                    theta2eta(Ratee.init, .lratee , earg = .eratee ))[,
+              cbind(theta2eta(Shape.init, .lshape , earg = .eshape ),
+                    theta2eta(Ratee.init, .lratee , earg = neweratee ))[,
                         interleave.VGAM(M, M1 = M1)]
         }
-        
+
+        etastart
       }), list( .lratee = lratee, .lshape = lshape,
                 .iratee = iratee, .ishape = ishape,
                 .eratee = eratee, .eshape = eshape,
@@ -178,20 +180,22 @@ gammaRMean <- function(zero = "rate", lmu = "gammaRMeanlink",
       
       
       linkinv = eval(substitute(function(eta, extra = NULL) {
-        
-       Ratee <- eta2theta(eta[,    .ratee.TF  ], .lratee , earg = .eratee )
-        
-        if ( .lshape == "gammaRMeanlink") {
-          neweshape <- .eshape
-          neweshape$rate <- Ratee
-          Shape <- eta2theta(eta[, !( .ratee.TF )], .lshape ,
-                             earg = neweshape)
-        } else {
-          Shape <- eta2theta(eta[, !( .ratee.TF )], .lshape ,
-                             earg = .eshape )
-        }
        
-       Shape / Ratee
+        # zzz 
+       Shape <- eta2theta(eta[, !( .ratee.TF )], .lshape , earg = .eshape )
+       
+        if ( .lratee == "gammaRMlink") {
+          neweratee <- .eratee
+          neweratee$shape <- Shape
+          Ratee <- eta2theta(eta[,    .ratee.TF  ], .lratee ,
+                             earg = neweratee )
+        } else {
+          Ratee <- eta2theta(eta[,    .ratee.TF  ], .lratee ,
+                             earg = .eratee )
+        }
+       ###################
+       
+        Shape / Ratee
         
       }, list( .lratee = lratee, .lshape = lshape,
                .eratee = eratee, .eshape = eshape,
@@ -216,26 +220,19 @@ gammaRMean <- function(zero = "rate", lmu = "gammaRMeanlink",
         
         misc$earg <- vector("list", M)
         names(misc$earg) <- temp.names
-        
-        neweshape <- .eshape
-        if ( .lshape == "gammaRMeanlink") {
-          neweshape$rate <- if ( .lss )
-             eta2theta(coef(fit)[1], .lratee , earg = .eratee) else 
-               eta2theta(coef(fit)[2], .lratee , earg = .eratee)
-        }
-        
+      
         for (ii in 1:ncoly) {
-          misc$earg[[M1*ii-1]] <- if ( .lss ) .eratee else neweshape
-          misc$earg[[M1*ii  ]] <- if ( .lss ) neweshape else .eratee
+          misc$earg[[M1*ii-1]] <- if ( .lss ) neweratee else .eshape
+          misc$earg[[M1*ii  ]] <- if ( .lss ) .eshape else neweratee
         }
         
         misc$M1 <- M1
         
-        # Advise Thomas.
-        if ( .lshape == "gammaRMeanlink") {
-          fit$fitted.values <- 
-            gammaRMeanlink(theta = Shape, rate = Ratee, inverse = FALSE) 
-        }
+        # zzz -- Return proper fitted values
+        #if ( .lratee == "gammaRMlink") {
+        #  fit$fitted.values <- 
+        #    gammaRMlink(theta =Ratee, shape = Shape, inverse = FALSE) 
+        #}
         
       }), list( .lratee = lratee, .lshape = lshape,
                 .eratee = eratee, .eshape = eshape,
@@ -247,19 +244,21 @@ gammaRMean <- function(zero = "rate", lmu = "gammaRMeanlink",
       loglikelihood = eval(substitute(
         function(mu, y, w, residuals = FALSE, eta,
                  extra = NULL, summation = TRUE) {
-         
-          Ratee <- eta2theta(eta[,    .ratee.TF  ], .lratee ,
-                             earg = .eratee )
           
-          if ( .lshape == "gammaRMeanlink") {
-            neweshape <- .eshape
-            neweshape$rate <- Ratee
-            Shape <- eta2theta(eta[, !( .ratee.TF )], .lshape ,
-                               earg = neweshape)
+          # zzz 
+          Shape <- eta2theta(eta[, !( .ratee.TF )], .lshape , 
+                             earg = .eshape )
+          
+          if ( .lratee == "gammaRMlink") {
+            neweratee <- .eratee
+            neweratee$shape <- Shape
+            Ratee <- eta2theta(eta[,    .ratee.TF  ], .lratee ,
+                               earg = neweratee )
           } else {
-            Shape <- eta2theta(eta[, !( .ratee.TF )], .lshape ,
-                               earg = .eshape)
+            Ratee <- eta2theta(eta[,    .ratee.TF  ], .lratee ,
+                               earg = .eratee )
           }
+          ###################
           
           if (residuals) {
             stop("loglikelihood residuals not implemented yet")
@@ -278,7 +277,7 @@ gammaRMean <- function(zero = "rate", lmu = "gammaRMeanlink",
       
       
       
-      vfamily = c("gammaR"),
+      vfamily = c("gammaRMff"),
       
       
       
@@ -291,19 +290,21 @@ gammaRMean <- function(zero = "rate", lmu = "gammaRMeanlink",
             warning("ignoring prior weights")
           eta <- predict(object)
           
-          # All works with drop = TRUE as well.
-          Ratee <- eta2theta(eta[,    .ratee.TF , drop = FALSE ],
-                             .lratee , earg = .eratee )
           
-          if ( .lshape == "gammaRMeanlink") {
-            neweshape <- .eshape
-            neweshape$rate <- Ratee
-            Shape <- eta2theta(eta[, !( .ratee.TF ), drop = FALSE],
-                               .lshape , earg = neweshape)
+          # zzz 
+          Shape <- eta2theta(eta[, !( .ratee.TF )], .lshape ,
+                             earg = .eshape )
+          
+          if ( .lratee == "gammaRMlink") {
+            neweratee <- .eratee
+            neweratee$shape <- Shape
+            Ratee <- eta2theta(eta[,    .ratee.TF  ], .lratee ,
+                               earg = neweratee )
           } else {
-            Shape <- eta2theta(eta[, !( .ratee.TF ), drop = FALSE],
-                               .lshape , earg = .eshape )
+            Ratee <- eta2theta(eta[,    .ratee.TF  ], .lratee ,
+                               earg = .eratee )
           }
+          ###################
           
           rgamma(nsim * length(Shape), shape = Shape, rate = Ratee)
           
@@ -316,19 +317,20 @@ gammaRMean <- function(zero = "rate", lmu = "gammaRMeanlink",
       
       validparams = eval(substitute(function(eta, y, extra = NULL) {
         
-        Ratee <- eta2theta(eta[,    .ratee.TF , drop = FALSE ],
-                           .lratee , earg = .eratee )
+        # zzz 
+        Shape <- eta2theta(eta[, !( .ratee.TF )], .lshape , 
+                           earg = .eshape )
         
-        if ( .lshape == "gammaRMeanlink") {
-          neweshape <- .eshape
-          neweshape$rate <- Ratee
-          Shape <- eta2theta(eta[, !( .ratee.TF ), drop = FALSE], .lshape ,
-                             earg = neweshape)
-          #ratio.SR <- Shape / Ratee 
+        if ( .lratee == "gammaRMlink") {
+          neweratee <- .eratee
+          neweratee$shape <- Shape
+          Ratee <- eta2theta(eta[,    .ratee.TF  ], .lratee ,
+                             earg = neweratee )
         } else {
-          Shape <- eta2theta(eta[, !( .ratee.TF ), drop = FALSE],
-                             .lshape , earg = .eshape )
+          Ratee <- eta2theta(eta[,    .ratee.TF  ], .lratee ,
+                             earg = .eratee )
         }
+        ###################
         
         okay1 <- all(is.finite(Shape)) && all(0 < Shape) &&
           all(is.finite(Ratee)) && all(0 < Ratee) 
@@ -346,52 +348,59 @@ gammaRMean <- function(zero = "rate", lmu = "gammaRMeanlink",
         
         M1 <- 2
         NOS <- extra$ncoly
-        Ratee <- eta2theta(eta[,    .ratee.TF , drop = FALSE ],
-                           .lratee , earg = .eratee )
         
-        if ( .lshape == "gammaRMeanlink") {
-          neweshape <- .eshape
-          neweshape$rate <- Ratee
-          Shape <- eta2theta(eta[, !( .ratee.TF ), drop = FALSE], .lshape ,
-                                 earg = neweshape)
+        # zzz 
+        Shape <- eta2theta(eta[, !( .ratee.TF )], .lshape , 
+                           earg = .eshape )
+        
+        if ( .lratee == "gammaRMlink") {
+          neweratee <- .eratee
+          neweratee$shape <- Shape
+          Ratee <- eta2theta(eta[,    .ratee.TF  ], .lratee ,
+                             earg = neweratee )
         } else {
-          Shape <- eta2theta(eta[, !( .ratee.TF ), drop = FALSE],
-                             .lshape , earg = .eshape )
+          Ratee <- eta2theta(eta[,    .ratee.TF  ], .lratee ,
+                             earg = .eratee )
         }
+        ###################
         
-        dl.dratee <- mu - y
-        dl.dshape <- log(y * Ratee) - digamma(Shape)
-        
-        
-        if ( .lshape == "gammaRMeanlink") {
-          neweshape$wrt.param <- 1
-          neweshape$inverse   <- TRUE
-          neweshape$deriv <- 1
+        ## zzz
+        if ( .lratee == "gammaRMlink") {
           
-          dshape.deta1 <- dtheta.deta(Shape, .lshape ,
-                                   earg = neweshape)[, 1:NOS, drop = FALSE]
-          dratee.deta1 <- dtheta.deta(Shape, .lshape ,
-                                earg = neweshape)[, -(1:NOS), drop = FALSE]
-
-          neweshape$wrt.param <- 2
-          dshape.deta2 <-  dtheta.deta(Shape, .lshape ,
-                                  earg = neweshape)[, 1:NOS, drop = FALSE]
-          dratee.deta2 <- dtheta.deta(Ratee, .lratee , earg = .eratee )
+          dl.dratee <- (Shape / Ratee) - y
+          dl.dshape <- log(y * Ratee) - digamma(Shape) +  
+                                     1 - (Ratee / Shape) * y
           
-          # Remove later.
-          #dratee.deta <- dtheta.deta(Ratee, .lratee , earg = .eratee )
-          #dshape.deta <- dtheta.deta(Shape, .lshape , earg = neweshape )
+          neweratee$wrt.param <- 1
+          neweratee$inverse   <- TRUE
+          neweratee$deriv <- 1
+          
+          dratee.deta1 <- dtheta.deta(Ratee, .lratee ,
+                          earg = neweratee )[, (1:NOS), drop = FALSE]
+          
+          dshape.deta1 <- dtheta.deta(Ratee, .lratee ,
+                        earg = neweratee )[, -(1:NOS), drop = FALSE]
+          
+          neweratee$wrt.param <- 2
+          dratee.deta2 <- dtheta.deta(Ratee, .lratee ,
+                              earg = neweratee)[, 1:NOS, drop = FALSE]
+          dshape.deta2 <-  dtheta.deta(Shape, .lshape , earg = .eshape )
           
           myderiv <- if ( .lss )
-            c(w) * cbind(dl.dshape * dshape.deta2 +
-                                 dl.dratee * dratee.deta2,
-                         dl.dshape * dshape.deta1 +
-                                    dl.dratee * dratee.deta1) else
-              c(w) * cbind(dl.dshape * dshape.deta1 +
-                                 dl.dratee * dratee.deta1,
-                           dl.dshape * dshape.deta2 +
-                                 dl.dratee * dratee.deta2)
+            c(w) * cbind(dl.dratee * dratee.deta1 +
+                                 dl.dshape * dshape.deta1,
+                         dl.dratee * dratee.deta2 +
+                                dl.dshape * dshape.deta2) else
+              c(w) * cbind(dl.dratee * dratee.deta2 +
+                             dl.dshape * dshape.deta2,
+                           dl.dratee * dratee.deta1 +
+                             dl.dshape * dshape.deta1)
         } else {
+          
+          # Ordinary gammaR()
+          dl.dratee <- mu - y
+          dl.dshape <- log(y * Ratee) - digamma(Shape)
+          # loglink() both
           dratee.deta <- dtheta.deta(Ratee, .lratee , earg = .eratee )
           dshape.deta <- dtheta.deta(Shape, .lshape , earg = .eshape )
           
@@ -412,22 +421,12 @@ gammaRMean <- function(zero = "rate", lmu = "gammaRMeanlink",
       
       weight = eval(substitute(expression({
         
-        ned2l.dratee2 <- Shape / (Ratee^2)
-        ned2l.drateeshape <- -1/Ratee
-        ned2l.dshape2 <- trigamma(Shape)
-        
-        if ( .expected) {
-          ratee.adjustment <-  0
-          shape.adjustment <-  0
-        } else {
-          d2ratee.deta2 <- d2theta.deta2(Ratee, .lratee , earg = .eratee )
-          d2shape.deta2 <- d2theta.deta2(Shape, .lshape , earg = .eshape )
-          ratee.adjustment <- dl.dratee * d2ratee.deta2
-          shape.adjustment <- dl.dshape * d2shape.deta2
-        }
-        
-        
-        if ( .lshape == "gammaRMeanlink") {
+        ## zzz
+        if ( .lratee == "gammaRMlink") {
+          
+          ned2l.dratee2 <- Shape / (Ratee^2)
+          ned2l.dshape2 <- trigamma(Shape) - 1 / Shape
+          ned2l.drateeshape <- 0
           
           term1 <- ned2l.dshape2 * dshape.deta2^2 + 
                      2 * ned2l.drateeshape * dshape.deta2 * dratee.deta2 +
@@ -443,14 +442,31 @@ gammaRMean <- function(zero = "rate", lmu = "gammaRMeanlink",
                             ned2l.dratee2 * dratee.deta1 * dratee.deta2
           
           if ( .lss ) {
-            wz <- array(c(c(w) * term1, c(w) * term2, c(w) * term3),
+            wz <- array(c(c(w) * term2, c(w) * term1, c(w) * term3 ),
                         dim = c(n, M / M1, 3))
           } else {
-            wz <- array(c(c(w) * term2, c(w) * term1, c(w) * term3),
+            wz <- array(c(c(w) * term1, c(w) * term2, c(w) * term3),
                         dim = c(n, M / M1, 3))
           }
-          
+          ### end of zzz
         } else {
+          
+          ### Ordinary gammaR()
+          ned2l.dratee2 <- Shape / (Ratee^2)
+          ned2l.drateeshape <- -1/Ratee
+          ned2l.dshape2 <- trigamma(Shape)
+          
+          if ( .expected ) {
+            ratee.adjustment <-  0
+            shape.adjustment <-  0
+          } else {
+            d2ratee.deta2 <- d2theta.deta2(Ratee, .lratee , earg = .eratee )
+            d2shape.deta2 <- d2theta.deta2(Shape, .lshape , earg = .eshape )
+            ratee.adjustment <- dl.dratee * d2ratee.deta2
+            shape.adjustment <- dl.dshape * d2shape.deta2
+          }
+          
+          
           wz <- if ( .lss )
       array(c(c(w) * (ned2l.dratee2 * dratee.deta^2 - ratee.adjustment),
             c(w) * (ned2l.dshape2 * dshape.deta^2 - shape.adjustment),
@@ -463,6 +479,7 @@ gammaRMean <- function(zero = "rate", lmu = "gammaRMeanlink",
         }
         
         wz <- arwz2wz(wz, M = M, M1 = M1)
+
         wz
         
       }), list( .lratee = lratee, .lshape = lshape,

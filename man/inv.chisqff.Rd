@@ -1,5 +1,5 @@
-\name{inv.chisq}
-\alias{inv.chisq}
+\name{inv.chisqff}
+\alias{inv.chisqff}
 
 \title{
    Inverse Chi--squared Distribution.
@@ -11,7 +11,7 @@
 
 }
 \usage{
-              inv.chisq(link = "loglink", zero = NULL)
+              inv.chisqff(link = "loglink", zero = NULL)
 }
 \arguments{
   \item{link, zero}{
@@ -56,7 +56,7 @@
   treated as a parameter to be estimated using (by default) the
   link \code{\link[VGAM:loglink]{loglink}}. However, the mean can also
   be modelled with this family function. 
-  See \code{\link[VGAMextra:inv.chisqMeanlink]{inv.chisqMeanlink}} 
+  See \code{\link[VGAMextra:inv.chisqMlink]{inv.chisqMlink}} 
   for specific details about this.
   
   This family \pkg{VGAM} function handles multiple responses.
@@ -91,7 +91,7 @@
 \seealso{
    \code{\link[VGAM:loglink]{loglink}},
    \code{\link[VGAM:CommonVGAMffArguments]{CommonVGAMffArguments}},
-   \code{\link[VGAMextra:inv.chisqMeanlink]{inv.chisqMeanlink}},
+   \code{\link[VGAMextra:inv.chisqMlink]{inv.chisqMlink}},
    \code{\link[VGAM:zero]{zero}}.
    
 
@@ -103,7 +103,7 @@
    ics.d <- data.frame(y = yy)             # The data.
  
    
-   fit.inv <- vglm(cbind(y, y) ~ 1, family = inv.chisq, 
+   fit.inv <- vglm(cbind(y, y) ~ 1, inv.chisqff, 
                    data = ics.d, trace = TRUE, crit = "coef")
    Coef(fit.inv) 
    summary(fit.inv)

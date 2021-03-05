@@ -1,4 +1,5 @@
-\name{posPoiMeanlink}
+\name{posPoiMlink}
+\alias{posPoiMlink}
 \alias{posPoiMeanlink}
 \alias{pospoilink.inv.deriv0}
 %- Also NEED an '\alias' for EACH other topic documented here.
@@ -10,15 +11,15 @@
 }
 \description{
  
-  Computes the \code{posPoiMeanlink} transformation, 
+  Computes the \code{posPoiMlink} transformation, 
   its inverse and the first two derivatives.
 
 }
 \usage{
 %
-     posPoiMeanlink(theta, bvalue = NULL, 
-                    alg.roots = c("Newton-Raphson", "bisection")[1],
-                    inverse = FALSE, deriv = 0, short = TRUE, tag = FALSE)
+     posPoiMlink(theta, bvalue = NULL, 
+                 alg.roots = c("Newton-Raphson", "bisection")[1],
+                 inverse = FALSE, deriv = 0, short = TRUE, tag = FALSE)
 %
 }
 \arguments{
@@ -35,7 +36,7 @@
   }
   \item{alg.roots}{
   Character. The iterative method to find the inverse of this link
-  function. Same as \code{\link[VGAMextra:zetaffMeanlink]{zetaffMeanlink}}.
+  function. Same as \code{\link[VGAMextra:zetaffMlink]{zetaffMlink}}.
   
   }
   \item{inverse, deriv, short, tag}{
@@ -49,9 +50,9 @@
   This is a link function for the mean of the 
   positive Poisson distribution. It is defined as 
   %
-  \deqn{ \eta = \tt{posPoiMeanlink}(\lambda) = 
+  \deqn{ \eta = \tt{posPoiMlink}(\lambda) = 
            -\log (\lambda^{-1} - \lambda^{-1} e^{-\lambda}),}{
-          \eta = posPoiMeanlink(\lambda) =  
+          \eta = posPoiMlink(\lambda) =  
              - log (\lambda^(-1)- \lambda^(-1) * exp(-\lambda)),
         }
   %
@@ -73,7 +74,7 @@
   or \code{NA}. Use argument \code{bvalue} to properly replace 
   them before computing the link function.
   
-  \code{posPoiMeanlink} tends to infinity as \eqn{\lambda} 
+  \code{posPoiMlink} tends to infinity as \eqn{\lambda} 
   increases. Specially, its inverse grows at a higher rate. Therefore, 
   large values of \eqn{\lambda} will result in \code{Inf} accordingly. 
   See example 2 below.
@@ -84,23 +85,23 @@
 }
 \value{
 
-  For \code{deriv = 0}, the \code{posPoiMeanlink} transformation of 
+  For \code{deriv = 0}, the \code{posPoiMlink} transformation of 
   \code{theta}, if \code{inverse = FALSE}. When \code{inverse = TRUE},
   \code{theta} becomes \eqn{\eta} and the inverse of 
-  \code{posPoiMeanlink} is needed but cannot be written in 
+  \code{posPoiMlink} is needed but cannot be written in 
   closed--form. Instead this link function returns the approximated 
   inverse image of \eqn{\eta}, say \eqn{\theta_\eta}{\theta[\eta]}, 
   such that 
   %
-  \deqn{  \tt{posPoiMeanlink}(\theta_\eta) = \eta.}{
-              posPoiMeanlink(\theta[\eta]) =\eta.
+  \deqn{  \tt{posPoiMlink}(\theta_\eta) = \eta.}{
+              posPoiMlink(\theta[\eta]) =\eta.
   }
   %
   Here, \eqn{\theta_\eta}{\theta[\eta]} is iteratively computed
   as the unique root of the auxiliary function
   %
-  \deqn{ f(\theta; \eta) = \tt{posPoiMeanlink}(\theta) - \eta,}{
-         f(\theta; \eta) =  posPoiMeanlink(\theta) - \eta,
+  \deqn{ f(\theta; \eta) = \tt{posPoiMlink}(\theta) - \eta,}{
+         f(\theta; \eta) =  posPoiMlink(\theta) - \eta,
   }
   %
   as a function of \eqn{\theta}.
@@ -121,12 +122,12 @@
   the horizontal axis is an asymptote. Then, in order to assure the root 
   of the auxiliary
   %
-  \deqn{ f(\theta; \eta) = \tt{posPoiMeanlink}(\theta) - \eta}{
-         f(\theta; \eta) =  posPoiMeanlink(\theta) - \eta
+  \deqn{ f(\theta; \eta) = \tt{posPoiMlink}(\theta) - \eta}{
+         f(\theta; \eta) =  posPoiMlink(\theta) - \eta
   }
   %
   to be real, \eqn{\eta} must be positive. As a result, 
-  \code{posPoiMeanlink} is \emph{shited--down} and hence intersecting 
+  \code{posPoiMlink} is \emph{shited--down} and hence intersecting 
   the horizontal axis uniquely.
  
 }
@@ -158,35 +159,35 @@
 ## Example 1. Special values for theta (or eta, accordingly)  ##
 m.lambda <- c(0, 0.5, 1, 10, 20, 25, 1e2, 1e3, Inf, -Inf, NaN, NA) 
 
-# The 'posPoiMeanlink' transformation and the first two derivatives.
+# The 'posPoiMlink' transformation and the first two derivatives.
 print(rbind(m.lambda, 
-  deriv1 = posPoiMeanlink(theta = m.lambda, inverse = FALSE, deriv = 1),
-  deriv2 = posPoiMeanlink(theta = m.lambda, inverse = FALSE, deriv = 2)),
+  deriv1 = posPoiMlink(theta = m.lambda, inverse = FALSE, deriv = 1),
+  deriv2 = posPoiMlink(theta = m.lambda, inverse = FALSE, deriv = 2)),
   digits = 2)
   
-# The inverse of 'posPoiMeanlink' and the first two derivatives.
+# The inverse of 'posPoiMlink' and the first two derivatives.
 print(rbind(m.lambda, 
-  Invderiv1 = posPoiMeanlink(theta = m.lambda, inverse = TRUE, deriv = 1),
-  Invderiv2 = posPoiMeanlink(theta = m.lambda, inverse = TRUE, deriv = 2)),
+  Invderiv1 = posPoiMlink(theta = m.lambda, inverse = TRUE, deriv = 1),
+  Invderiv2 = posPoiMlink(theta = m.lambda, inverse = TRUE, deriv = 2)),
   digits = 2)
   
 
-## Example 2. The inverse of 'posPoiMeanlink' ##
+## Example 2. The inverse of 'posPoiMlink' ##
 m.lambda <- c(0, 1, 5, 10, 1e2, 1e3) 
-posPoiMeanlink(theta = posPoiMeanlink(m.lambda, inverse = TRUE))
-pospoi.inv <- posPoiMeanlink(posPoiMeanlink(m.lambda, inverse = TRUE)) - m.lambda
+posPoiMlink(theta = posPoiMlink(m.lambda, inverse = TRUE))
+pospoi.inv <- posPoiMlink(posPoiMlink(m.lambda, inverse = TRUE)) - m.lambda
                            
 summary(pospoi.inv)                      ## Should be zero.
 
 
-## Example 3. Plot of 'posPoiMeanlink' and its first two derivatives ##
+## Example 3. Plot of 'posPoiMlink' and its first two derivatives ##
 ## inverse = FALSE, deriv = 0, 1, 2. ##
 %
 \donttest{
 m.lambda <- seq(0, 35, by = 0.01)[-1]
-y.lambda <- posPoiMeanlink(theta = m.lambda, deriv = 0)
-der.1 <- posPoiMeanlink(theta = m.lambda, deriv = 1)
-der.2 <- posPoiMeanlink(theta = m.lambda, deriv = 2)
+y.lambda <- posPoiMlink(theta = m.lambda, deriv = 0)
+der.1 <- posPoiMlink(theta = m.lambda, deriv = 1)
+der.2 <- posPoiMlink(theta = m.lambda, deriv = 2)
 
 plot(y.lambda ~ m.lambda, col = "black", 
      main = "log(mu), mu = E[Y], Y ~ pospoisson(lambda).",
@@ -196,7 +197,7 @@ abline(v = 0, h = 0, col = "gray50", lty = "dashed")
 
 lines(m.lambda, der.1, col = "blue", lty = 5, lwd = 3)
 lines(m.lambda, der.2, col = "chocolate", lty = 4, lwd = 3)
-legend(5, 9, legend = c("posPoiMeanlink", "deriv = 1", "deriv = 2"),
+legend(5, 9, legend = c("posPoiMlink", "deriv = 1", "deriv = 2"),
        col = c("black", "blue", "chocolate"), lty = c(1, 5, 4), lwd = c(3, 3, 3))
  }
 }

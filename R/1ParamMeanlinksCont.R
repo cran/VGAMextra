@@ -4,10 +4,10 @@
 # Auckland University of Technology & University of Auckland
 # All rights reserved.
 
-
-expMeanlink <- function(theta, location = 0, 
-                        bvalue = NULL, inverse = FALSE,
-                        deriv = 0, short = TRUE, tag = FALSE) {
+# All links renamed in Feb2021 Mean to 'M'
+expMlink <- function(theta, location = 0, 
+                     bvalue = NULL, inverse = FALSE,
+                     deriv = 0, short = TRUE, tag = FALSE) {
   
   if (!is.Numeric(deriv, length.arg = 1,
                   integer.valued = TRUE) || deriv > 2)
@@ -16,7 +16,7 @@ expMeanlink <- function(theta, location = 0,
   Aloc <- location; rm(location)
   
   if (is.character(theta)) {
-    e.ret <- if (short) paste("expMeanlink(", 
+    e.ret <- if (short) paste("expMlink(", 
                               Aloc, " + ", as.char.expression(theta), 
                               ")", sep = "" ) else
       paste("log(", Aloc, " + ", as.char.expression(theta), ")", sep = "")
@@ -51,8 +51,8 @@ expMeanlink <- function(theta, location = 0,
 
 
 
-inv.chisqMeanlink <- function(theta, bvalue = NULL, inverse = FALSE, 
-                              deriv = 0, short = TRUE, tag = FALSE) {
+inv.chisqMlink <- function(theta, bvalue = NULL, inverse = FALSE, 
+                            deriv = 0, short = TRUE, tag = FALSE) {
   
   
   if (!is.numeric(deriv) || deriv > 2)
@@ -96,8 +96,8 @@ inv.chisqMeanlink <- function(theta, bvalue = NULL, inverse = FALSE,
 ffff.help <- function(x) 1 - 4^x * gamma(1 + x)^2/gamma(2 + 2* x)
 
 
-toppleMeanlink <- function(theta, bvalue = NULL, inverse = FALSE,
-                           deriv = 0, short = TRUE, tag = FALSE) {
+toppleMlink <- function(theta, bvalue = NULL, inverse = FALSE,
+                        deriv = 0, short = TRUE, tag = FALSE) {
   
   if (!is.Numeric(deriv, length.arg = 1,
                   integer.valued = TRUE) || deriv > 2)
@@ -181,8 +181,8 @@ toppleMeanlink <- function(theta, bvalue = NULL, inverse = FALSE,
 
 
 
-rayleighMeanlink <- function(theta, bvalue = NULL, inverse = FALSE,
-                             deriv = 0, short = TRUE, tag = FALSE) {
+rayleighMlink <- function(theta, bvalue = NULL, inverse = FALSE,
+                          deriv = 0, short = TRUE, tag = FALSE) {
   
   if (!is.Numeric(deriv, length.arg = 1,
                   integer.valued = TRUE) || deriv > 2)
@@ -223,8 +223,8 @@ rayleighMeanlink <- function(theta, bvalue = NULL, inverse = FALSE,
 
 
 
-maxwellMeanlink <- function(theta, bvalue = NULL, inverse = FALSE,
-                            deriv = 0, short = TRUE, tag = FALSE) {
+maxwellMlink <- function(theta, bvalue = NULL, inverse = FALSE,
+                         deriv = 0, short = TRUE, tag = FALSE) {
   
   if (!is.Numeric(deriv, length.arg = 1,
                   integer.valued = TRUE) || deriv > 2)

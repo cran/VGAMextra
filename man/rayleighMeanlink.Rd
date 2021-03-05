@@ -1,6 +1,8 @@
-\name{rayleighMeanlink}
-\alias{rayleighMeanlink}
-\alias{maxwellMeanlink}
+\name{rayleighMlink}
+\alias{rayleighMlink}
+%\alias{rayleighMeanlink}
+\alias{maxwellMlink}
+
 
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
@@ -13,16 +15,16 @@
 }
 \description{
    %
-   The \code{rayleighMeanlink} and the \code{maxwellMeanlink} 
+   The \code{rayleighMlink} and the \code{maxwellMlink} 
    transformations, their inverse and the first two derivatives.
    %
 }
 \usage{
-   rayleighMeanlink(theta, bvalue = NULL, inverse = FALSE,
-                    deriv = 0, short = TRUE, tag = FALSE) 
+   rayleighMlink(theta, bvalue = NULL, inverse = FALSE,
+                 deriv = 0, short = TRUE, tag = FALSE) 
                     
-   maxwellMeanlink(theta, bvalue = NULL, inverse = FALSE,
-                   deriv = 0, short = TRUE, tag = FALSE) 
+   maxwellMlink(theta, bvalue = NULL, inverse = FALSE,
+                deriv = 0, short = TRUE, tag = FALSE) 
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -40,7 +42,7 @@
 }
 \details{
   
-  \code{rayleighMeanlink} and \code{maxwellMeanlink} are link functions
+  \code{rayleighMlink} and \code{maxwellMlink} are link functions
   to model  the mean of the Rayleigh distirbution,
   (\code{\link[VGAM:rayleigh]{rayleigh}}),
   and the mean of the Maxwell distribution,
@@ -50,13 +52,13 @@
   Both links are somehow defined as the 
   \eqn{ \log {\tt{theta}} }{ log(theta)} 
   plus an \emph{offset}. Specifcally,
-  \deqn{ {\tt{rayleighMeanlink}}(b) = \log ( b * \gamma(0.5) / sqrt{2} ),}{
-              rayleighMeanlink(b) = log ( b * \gamma(0.5) / sqrt(2) ),
+  \deqn{ {\tt{rayleighMlink}}(b) = \log ( b * \gamma(0.5) / sqrt{2} ),}{
+              rayleighMlink(b) = log ( b * \gamma(0.5) / sqrt(2) ),
   }
   where \eqn{b > 0} is a scale parameter as in
   \code{\link[VGAM:rayleigh]{rayleigh}}; and
-  \deqn{ {\tt{maxwellhMeanlink}}(b) = \log ( a^{-1/2} * sqrt{8 / \pi}  ).}{
-              maxwellMeanlink(b) = log ( a^(-1/2) * sqrt(pi/8) ).
+  \deqn{ {\tt{maxwellhMlink}}(b) = \log ( a^{-1/2} * sqrt{8 / \pi}  ).}{
+              maxwellMlink(b) = log ( a^(-1/2) * sqrt(pi/8) ).
   }
   
   Here, \eqn{a} is positive as in \code{\link[VGAM:maxwell]{maxwell}}.
@@ -76,11 +78,11 @@
    the inverse transformations 
    
    I)  \code{exp(theta) * sqrt}(2) / \code{gamma(0.5)} 
-   for \code{rayleighMeanlink}, and
+   for \code{rayleighMlink}, and
    
    
    II)  \eqn{8}\code{ * exp(-2 * theta) } / \code{gamma(0.5)}\eqn{^2} for 
-   \code{maxwellMeanlink},
+   \code{maxwellMlink},
    
    are returned.
    
@@ -121,20 +123,20 @@
 \examples{
  ##  The link and its inverse ##
     theta <- 0.1 + 1:10
-    eta   <- maxwellMeanlink(maxwellMeanlink(theta = theta), inverse  =TRUE)
+    eta   <- maxwellMlink(maxwellMlink(theta = theta), inverse  =TRUE)
     summary(eta - theta)     # Zero
     
-    eta   <- rayleighMeanlink(rayleighMeanlink(theta = theta), inverse  =TRUE)
+    eta   <- rayleighMlink(rayleighMlink(theta = theta), inverse  =TRUE)
     summary(eta - theta)     # Zero
 
 
  ## Modelling the mean of the Maxwell distribution  ##
     set.seed(17010401)
     
-    rate <- maxwellMeanlink(theta = 2, inverse = TRUE)   # ~ 0.046
+    rate <- maxwellMlink(theta = 2, inverse = TRUE)   # ~ 0.046
     mdata <- data.frame(y = rmaxwell(1000, rate = rate ))
     
-    fit <- vglm(y ~ 1, maxwell(link = "maxwellMeanlink"), 
+    fit <- vglm(y ~ 1, maxwell(link = "maxwellMlink"), 
                 data = mdata, trace = TRUE, crit = "coef")
     
     coef(fit, matrix = TRUE)

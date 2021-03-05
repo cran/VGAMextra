@@ -37,7 +37,7 @@ normal1sdQlink <- function(theta,
   if (is.character(theta)){
     cha.theta <- 
       if (short) paste("normal1sdQlink(", theta, "; ", 
-                       p, ", ", mean, ")",sep = "") else
+                       p, ",  mean)",sep = "") else
         paste(as.char.expression(mean), " + ", 
               as.char.expression(theta),
               " * sqrt(2) * erf^(-1) (2 * ", p, " - 1)", sep = "")

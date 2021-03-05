@@ -1,5 +1,6 @@
-\name{expMeanlink}
+\name{expMlink}
 \alias{expMeanlink}
+\alias{expMlink}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
  
@@ -9,13 +10,13 @@
 }
 \description{
    %
-   Computes the \code{expMeanlink} transformation, its inverse and
+   Computes the \code{expMlink} transformation, its inverse and
    the first two derivatives.
    %
 }
 \usage{
-         expMeanlink(theta, location = 0, bvalue = NULL, inverse = FALSE,
-                     deriv = 0, short = TRUE, tag = FALSE) 
+         expMlink(theta, location = 0, bvalue = NULL, inverse = FALSE,
+                  deriv = 0, short = TRUE, tag = FALSE) 
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -54,7 +55,7 @@
 }
 \value{
   
-   For \code{deriv = 0}, the \code{expMeanlink} transformation of
+   For \code{deriv = 0}, the \code{expMlink} transformation of
    \code{theta} when \code{inverse = FALSE}.
    If \code{inverse = TRUE}, then the inverse \code{exp(theta - A)^(-1)}.
    
@@ -97,28 +98,28 @@
     edata <- transform(edata, eta = 0.2 - 0.7 * x2 + 1.9 * x3)
     
             #----- The mean is a function of 'x2' and 'x3' ------#
-    edata <- transform(edata, rate = expMeanlink(eta, inverse = TRUE))
+    edata <- transform(edata, rate = expMlink(eta, inverse = TRUE))
     
     edata <- transform(edata, y = rexp(nn, rate = rate))
     with(edata, stem(y))
     with(edata, hist(y))
 
-    exp.fit <- vglm(y ~ x2 + x3, exponential(link = "expMeanlink"), 
+    exp.fit <- vglm(y ~ x2 + x3, exponential(link = "expMlink"), 
                     data = edata, zero = NULL, trace = TRUE, crit = "log")
    coef(exp.fit, matrix = TRUE)
    summary(exp.fit)
  
- ## E2. expMeanlink() and its inverse ##
+ ## E2. expMlink() and its inverse ##
     theta <- 0.1 + 1:5
     location <- 1.5
-    my.diff <- theta - expMeanlink(expMeanlink(theta = theta, 
+    my.diff <- theta - expMlink(expMlink(theta = theta, 
                   location = location), location = location, inverse  =TRUE)
     summary(my.diff)     # Zero
 
 
   ## E3. Special values in a matrix ##
     theta <- matrix(c(Inf, -Inf, NA, NaN, 1 , 2), ncol = 3, nrow = 2)
-    expMeanlink(theta = theta, location = location)
+    expMlink(theta = theta, location = location)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

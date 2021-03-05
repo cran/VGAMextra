@@ -55,9 +55,9 @@ The central family functions in this respect are
 
 Regarding modelling the mean/quantile-functions, \pkg{VGAMextra}
 affords links for several 1-parameter distributions,
-e.g., \code{\link[VGAMextra:expMeanlink]{expMeanlink}},
+e.g., \code{\link[VGAMextra:expMlink]{expMlink}},
 \code{\link[VGAMextra:benini1Qlink]{benini1Qlink}}, or
-\code{\link[VGAMextra:inv.chisqMeanlink]{inv.chisqMeanlink}}.
+\code{\link[VGAMextra:inv.chisqMlink]{inv.chisqMlink}}.
 Collectively, the quantile-links represent an alternative
 to quantile regression by directly modelling the quantile
 function for distributions
@@ -110,21 +110,38 @@ Vector Generalized Linear and Additive Models:
 With an Implementation in R.
 New York, USA: \emph{Springer}.
 
-Miranda, V. and Yee, T.W. (2018)
-Vector generalized linear time series models.
-(\emph{Manuscript in preparation}).
+Miranda, V. and Yee, T. W.
+\emph{Vector generalized linear time series models.}
+In preparation.
 
 
-Miranda, V. and Yee, T.W. (2018)
-On mean modelling of 1-parameter distributions using vector
-generalized linear models.
-(\emph{Manuscript in preparation}).
+Miranda, V. and Yee, T. W.
+\emph{On mean modelling of 1-parameter distributions using vector
+generalized linear models}. In preparation
 
 
-Miranda, V. and Yee, T.W. (2018)
-Vector generalized linear and additive models towards 
-quantile modelling: An alternative to quantile regression.
-(\emph{Manuscript in preparation}).
+
+Miranda, V. and Yee, T. W.
+\emph{Two--Parameter Link Functions with Applications to
+Negative Binomail, Weibull, and Quantile 
+Regression}. To be submitted to the 
+Scandinavian Journal of Statistics.
+
+
+Miranda, V. and Yee, T.W.
+\emph{New Link Functions for Distribution-Specific Quantile
+Regression Based on Vector Generalized Linear and Additive
+Models}.  
+Journal of Probability and Statistics,
+Volume 2019, Article ID 3493628.
+
+
+
+
+%Miranda, V. and Yee, T.W. (2018)
+%Vector generalized linear and additive models towards 
+%quantile modelling: An alternative to quantile regression.
+%(\emph{Manuscript in preparation}).
 
 
 Yee, T. W. (2008)

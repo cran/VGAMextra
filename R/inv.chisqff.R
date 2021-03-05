@@ -7,14 +7,14 @@
 # Links renamed on Jan-2019 conforming with VGAM_1.1-0
 # 20170102
 
-inv.chisq <- function(link = "loglink", zero = NULL){
+inv.chisqff <- function(link = "loglink", zero = NULL){
   
   link <- as.list(substitute(link))
   earg <- link2list(link)
   link <- attr(earg, "function.name")
 
-  validpar <- (identical(link, "inv.chisqMeanlink") || 
-                               identical(link, inv.chisqMeanlink))
+  validpar <- (identical(link, "inv.chisqMlink") || 
+                               identical(link, inv.chisqMlink))
   
   
   new("vglmff",

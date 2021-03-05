@@ -5,19 +5,20 @@
 # All rights reserved.
 # 20170510. Mean link functions for DISCRETE distributions.
 
-# 20161026.
-borel.tannerMeanlink <- function(theta, Qsize = 1, bvalue = NULL, 
-                                 inverse = FALSE, deriv = 0, short = TRUE,
-                                 tag = FALSE) {
+# 20161026. 
+# all mean links renamed in Feb 2021. Mean -> M
+borel.tannerMlink <- function(theta, Qsize = 1, bvalue = NULL, 
+                              inverse = FALSE, deriv = 0, short = TRUE,
+                              tag = FALSE) {
   
   if (is.character(theta)) {
     string <- if (short)
-      paste("borel.tannerlink(", theta, ")", sep = "") else
+      paste("borel.tannerMlink(", theta, ")", sep = "") else
         paste("-log(Q^(-1) - ", 
               as.char.expression(theta),
               " * Q^(-1))", sep = "")
     if (tag)
-      string <- paste("Borel-Tanner distribution mean link:", string)
+      string <- paste("Borel-Tanner mean link:", string)
     return(string)
   }
   
@@ -65,16 +66,16 @@ borel.tannerMeanlink <- function(theta, Qsize = 1, bvalue = NULL,
 
 
 # 20161228
-geometricffMeanlink <- function(theta, bvalue = NULL,
-                                inverse = FALSE, deriv = 0, 
-                                short = TRUE, tag = FALSE) {
+geometricffMlink <- function(theta, bvalue = NULL,
+                             inverse = FALSE, deriv = 0, 
+                             short = TRUE, tag = FALSE) {
   
   if (is.character(theta)) {
     string <- if (short)
       paste("geometricfflink(",  theta, ")", sep = "") else
         paste("-logit(", as.char.expression(theta),")", sep = "")
     if (tag)
-      string <- paste("geometric distribution mean link:",
+      string <- paste("geometric mean link:",
                       string, sep = "")
     return(string)
   }
@@ -114,17 +115,17 @@ geometricffMeanlink <- function(theta, bvalue = NULL,
 
 
 # 20160909.
-logffMeanlink <- function(theta, bvalue = NULL, 
-                          alg.roots = c("Newton-Raphson", "bisection")[1],
-                          inverse = FALSE, deriv = 0, 
-                          short = TRUE, tag = FALSE) {
+logffMlink <- function(theta, bvalue = NULL, 
+                       alg.roots = c("Newton-Raphson", "bisection")[1],
+                       inverse = FALSE, deriv = 0, 
+                       short = TRUE, tag = FALSE) {
   
   if (is.character(theta)) {
     string <- if (short)
-    paste("logfflink(", theta, ")", sep = "") else
+    paste("logffMlink(", theta, ")", sep = "") else
       paste("logitlink(",  theta, ") - clogloglink(", theta, ")", sep = "")
     if (tag)
-      string <- paste("Logarithmic distribution mean link:", string)
+      string <- paste("Logarithmic mean link:", string)
     return(string)
   }
   
@@ -234,19 +235,19 @@ logfflink.inv.deriv0 <- function(etas, eps = 1e-8,
 
 
 # 20161026.
-posPoiMeanlink <- function(theta, bvalue = NULL,
-                           alg.roots = c("Newton-Raphson", "bisection")[1],
-                           inverse = FALSE, deriv = 0, 
-                           short = TRUE, tag = FALSE) {
+posPoiMlink <- function(theta, bvalue = NULL,
+                        alg.roots = c("Newton-Raphson", "bisection")[1],
+                        inverse = FALSE, deriv = 0, 
+                        short = TRUE, tag = FALSE) {
   
   if (is.character(theta)) {
     string <- if (short)
-      paste("pospoissonlink(", theta, ")", sep = "") else
+      paste("posPoissonMlink(", theta, ")", sep = "") else
         paste("-log(", as.char.expression(theta),"^(-1)", 
               " - ", as.char.expression(theta),"^(-1) * exp(-",
               as.char.expression(theta),") )", sep = "")
     if (tag)
-      string <- paste("Positive Poisson distribution mean link:", string)
+      string <- paste("Positive Poisson mean link:", string)
     return(string)
   }
   
@@ -352,13 +353,13 @@ pospoilink.inv.deriv0 <- function(etas, eps = 1e-8,
 
 
 # 20161002
-yulesimonMeanlink <- function(theta, bvalue = NULL,
-                              inverse = FALSE, deriv = 0, 
-                              short = TRUE, tag = FALSE) {
+yulesimonMlink <- function(theta, bvalue = NULL,
+                           inverse = FALSE, deriv = 0, 
+                           short = TRUE, tag = FALSE) {
   
   if (is.character(theta)) {
     string <- if (short)
-      paste("yulesimonlink(",  theta, ")", sep = "") else
+      paste("yulesimonMlink(",  theta, ")", sep = "") else
         paste("-log(1 - ", as.char.expression(theta),"^(-1))", sep = "")
     if (tag)
       string <- paste("Yule-Simon distribution mean link:", string)
@@ -411,14 +412,14 @@ yulesimonMeanlink <- function(theta, bvalue = NULL,
 
 
 # 20160923.
-zetaffMeanlink <- function(theta, bvalue = NULL, 
-                           alg.roots = c("Newton-Raphson", "bisection")[1],
-                           inverse = FALSE, deriv = 0, 
-                           short = TRUE, tag = FALSE) {
+zetaffMlink <- function(theta, bvalue = NULL,
+                        alg.roots = c("Newton-Raphson", "bisection")[1],
+                        inverse = FALSE, deriv = 0, 
+                        short = TRUE, tag = FALSE) {
   
   if (is.character(theta)) {
     string <- if (short)
-      paste("zetafflink(", theta, ")", sep = "") else
+      paste("zetaffMlink(", theta, ")", sep = "") else
         paste("log(zeta(", theta,") / zeta(", 
               as.char.expression(theta), " + 1))", sep = "")
     if (tag)

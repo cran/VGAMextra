@@ -1,4 +1,5 @@
-\name{toppleMeanlink}
+\name{toppleMlink}
+\alias{toppleMlink}
 \alias{toppleMeanlink}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
@@ -9,13 +10,13 @@
 }
 \description{
    %
-   Computes the \code{toppleMeanlink} transformation, its inverse and
+   Computes the \code{toppleMlink} transformation, its inverse and
    the first two derivatives.
    %
 }
 \usage{
-      toppleMeanlink(theta, bvalue = NULL, inverse = FALSE,
-                      deriv = 0, short = TRUE, tag = FALSE) 
+      toppleMlink(theta, bvalue = NULL, inverse = FALSE,
+                  deriv = 0, short = TRUE, tag = FALSE) 
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -31,7 +32,7 @@
 }
 \details{
   
-  The \code{toppleMeanlink} transformation arises as a link function to
+  The \code{toppleMlink} transformation arises as a link function to
   model the mean of the Topp--Leone distribution,
   \code{\link[VGAM:topple]{topple}}. It is defined as
   
@@ -56,7 +57,7 @@
 }
 \value{
   
-   For \code{deriv = 0}, the \code{toppleMeanlink} transformation of
+   For \code{deriv = 0}, the \code{toppleMlink} transformation of
    \code{theta} when \code{inverse = FALSE}.
    If \code{inverse = TRUE}, then \code{theta} becomes \eqn{\eta}, and
    the inverse transformation is required. However, it 
@@ -99,9 +100,9 @@
      
 }
 \examples{
- ## E1. The toppleMeanlink() and its inverse ##
+ ## E1. The toppleMlink() and its inverse ##
     theta <- ppoints(10)
-    eta   <- toppleMeanlink(toppleMeanlink(theta = theta), inverse  =TRUE)
+    eta   <- toppleMlink(toppleMlink(theta = theta), inverse  =TRUE)
     summary(eta - theta)     # Zero
 
 
@@ -113,16 +114,16 @@ par(lwd = 2)
 plot(my.probs, logitlink(my.probs), xlim = c(-0.1, 1.1), ylim = c(-5, 8),
      type = "l", col = "limegreen", 
      ylab = "transformation", las = 1, main = "Some probability link functions")
-lines(my.probs, geometricffMeanlink(my.probs), col = "gray50")
-lines(my.probs, logffMeanlink(my.probs), col = "blue")
+lines(my.probs, geometricffMlink(my.probs), col = "gray50")
+lines(my.probs, logffMlink(my.probs), col = "blue")
 lines(my.probs, probitlink(my.probs), col = "purple")
 lines(my.probs, clogloglink(my.probs), col = "chocolate")
 lines(my.probs, cauchitlink(my.probs), col = "tan")
-lines(my.probs, toppleMeanlink(my.probs), col = "black")
+lines(my.probs, toppleMlink(my.probs), col = "black")
 abline(v = c(0.5, 1), lty = "dashed")
 abline(v = 0, h = 0, lty = "dashed")
 legend(0.1, 8, 
-      c( "toppleMeanlink", "geometricffMeanlink", "logffMeanlink",
+      c( "toppleMlink", "geometricffMlink", "logffMlink",
       "logitlink", "probitlink", 
       "clogloglink", "cauchitlink"), 
       col = c("black", "gray50", "blue", "limegreen", "purple", "chocolate", "tan"),

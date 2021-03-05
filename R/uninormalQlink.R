@@ -1,43 +1,33 @@
 #############################################################################
-# These functions are Copyright (C) 2014--2020
+# These functions are Copyright (C) 2014--2021
 # V. Miranda-Soberanis, Auckland University of Technology
 # T. Yee, University of Auckland
 
-uninormalQlink <- function(tau.arg = stop("Argument 'tau.arg' must be entered."),
-                           theta, sd = NULL,
-                           inverse = FALSE, wrt.param = NULL, deriv = 0, 
-                           bvalue = NULL, short = TRUE, tag = FALSE) {
+uninormalQlink <- function(theta,
+                           percentile = stop("Enter percentiles."),
+                           sd = NULL, wrt.param = NULL,
+                           bvalue = NULL, inverse = FALSE, 
+                           deriv = 0, short = TRUE, tag = FALSE) {
+
+  perc <- percentile ; rm(percentile)
+  if (length(perc) & (!is.Numeric(perc, positive = TRUE) || 
+                   any(perc >= 100) ))
+    stop("Invalid input for argument 'percentile'.")
   
-  p <- tau.arg; rm(tau.arg)
-  if (length(p) & (!is.Numeric(p, positive = TRUE) || any(p >= 1) ))
-    stop("Invalid input for argument 'p'.")
-  
-  if (!is.Numeric(deriv, length.arg = 1, integer.valued = TRUE) || deriv > 2)
+  if (!is.Numeric(deriv, length.arg = 1, integer.valued = TRUE) || 
+      deriv > 2)
     stop("Argument 'deriv' unmatched.")
   
   if (length(wrt.param) && (!(wrt.param %in% 1:2) ||
                             !is.Numeric(wrt.param, length.arg = 1)) )
     stop("argument 'wrt.param' should be 1 or 2")
   
-  
-  if (length(theta) && length(sd)) {
-    sd.mat <- cbind(sd)
-    theta.mat  <- cbind(theta)
-    
-    if (any(sd.mat < 0))
-      stop("Negative values for the 'sd' argument not allowed.")
-    
-    if (nrow(sd.mat) != nrow(theta.mat))
-      stop("Number of rows of 'theta' and 'sd' do not match.")
-  }
-  
-  
   if (is.character(theta)) {
     n.string <- if (short) {
-      paste("uninormalQlink(", theta, ", sigma; ", p, ")", sep = "") 
+      paste("uninormalQlink(", theta, ", sigma; ", perc, ")", sep = "") 
       }  else {
         paste(as.char.expression(theta), 
-              " + sd * sqrt(2) * inv-erf( 2 * ",p, "- 1 )", sep = "")
+              " + sd * sqrt(2) * inv-erf( 2 * ",perc, "- 1 )", sep = "")
       }
     if (tag)
       n.string <- paste("Normal quantile link:", n.string)
@@ -45,14 +35,51 @@ uninormalQlink <- function(tau.arg = stop("Argument 'tau.arg' must be entered.")
     return(n.string)
   }
   
-  if (length(p) > 1)
-    if (is.matrix(theta)) {
-      p <- matrix(p, nrow = nrow(theta), ncol = ncol(theta), byrow = TRUE)
-    } else {
-      p <- p[1]
-      warning("Unmatched dimensions. Taking the first entry of 'p'
-              since 'theta' is not a matrix ")
+
+  sd.mat <- cbind(sd)
+  theta  <- cbind(theta)
+
+  if (any(sd.mat < 0))
+    stop("Negative values for the 'sd' argument not allowed.")
+  
+  perc <- matrix(perc/1e2, nrow = nrow(theta), 
+                     ncol = length(perc), byrow = TRUE)
+  
+  if (ncol(sd.mat) != ncol(theta)) {
+    warning("Unequal number of cols for 'theta' and 'shape'.")
+    sd.mat <- matrix(sd.mat, nrow = nrow(theta), ncol(theta), byrow = TRUE)
+  }  
+    
+  if (nrow(sd.mat) != nrow(theta)) {
+    vec2com <- c(nrow(sd.mat), nrow(theta))
+    mymax <- which(vec2com == max(vec2com))[1]
+    if (mymax == 2) {
+      sd.mat <- matrix(sd.mat, nrow = max(vec2com), ncol = ncol(sd.mat))
+    } else{
+      theta <- matrix(theta, nrow = max(vec2com), ncol = ncol(theta))
     }
+    warning("Unequal number of rows for arguments 'theta' and 'sd'.")
+  }
+  
+    ## 20210121
+    if ( ncol(theta) != ncol(perc) )
+      theta <- matrix(theta, nrow = nrow(theta),
+                      ncol = ncol(perc), byrow = FALSE)
+    
+    if ( ncol(sd.mat) != ncol(perc) )
+      sd.mat <- matrix(sd.mat, nrow = nrow(sd.mat),
+                       ncol = ncol(perc), byrow = FALSE)
+    
+    if ( length(wrt.param) && (!(wrt.param %in% 1:2)  ||
+                               !is.Numeric(wrt.param, length.arg = 1)) )
+      stop("Bad input for argument wrt.param.")
+    
+  
+  #  } else {
+  #    perc <- p[1]
+  #    warning("Unmatched dimensions. Taking the first entry of 'perc'
+       #       since 'theta' is not a matrix ")
+  #  }
   
   
   ## For this link, theta is 'mu' ideally spanning R.
@@ -60,10 +87,10 @@ uninormalQlink <- function(tau.arg = stop("Argument 'tau.arg' must be entered.")
   #  theta[theta <= 0] <- if (length(bvalue)) bvalue else NaN
   
   if (inverse) {
-    
+
     theta.ret <- switch(deriv  + 1,
-                        theta - sd * sqrt(2) * erf(2 * p - 1, inverse = TRUE),
-                        
+              theta - sd.mat * sqrt(2) * erf(2 * perc - 1, inverse = TRUE),
+                    
                         # wrt = 1 -> wrt eta1 ELSE  wrt = 2 -> wrt eta2
                         if (wrt.param == 1) {
                           
@@ -79,8 +106,10 @@ uninormalQlink <- function(tau.arg = stop("Argument 'tau.arg' must be entered.")
                           # Strictly: d sd/deta2 not needed...computed by
                           # the current link function
                           # d sd / deta2 not required. Computed by deta.dtheta
-                        cbind(matrix(0, nrow = nrow(sd.mat), 
-                                     ncol = ncol(sd.mat)), NULL)
+                          #cbind(matrix(0, nrow = nrow(sd.mat), 
+                          #             ncol = ncol(sd.mat)), NULL)
+                          cbind( matrix(0, nrow(theta), ncol(theta)), 
+                                 matrix(0, nrow(theta), ncol(theta)) )
                           
                           #Should be
                           #cbind(matrix(0, nrow = nrow(sd.mat), 
@@ -116,7 +145,8 @@ uninormalQlink <- function(tau.arg = stop("Argument 'tau.arg' must be entered.")
                     byrow = TRUE)
     
     eta.ret <- switch(deriv + 1,
-                      theta + sd * sqrt(2) * erf(2 * p - 1, inverse = TRUE),
+                      theta + sd * sqrt(2) * erf(2 * perc - 1, 
+                                                 inverse = TRUE),
                       #  wrt = 1 -> wrt mu (= theta)
                       #  wrt = 2 -> wrt sd
                       if (wrt.param == 1) mymat[, 1, drop = FALSE] else

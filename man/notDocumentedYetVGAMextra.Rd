@@ -17,8 +17,9 @@
 %\alias{response.vgltsm}
 
 % Two par. links
-\alias{uninormalMod}
-\alias{uninormalQlink}
+%\alias{uninormalff}
+%\alias{uninormalMod}
+%\alias{uninormalQlink}
 
 
 % INFORMATIVE

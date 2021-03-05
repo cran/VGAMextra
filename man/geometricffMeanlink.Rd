@@ -1,4 +1,5 @@
-\name{geometricffMeanlink}
+\name{geometricffMlink}
+\alias{geometricffMlink}
 \alias{geometricffMeanlink}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
@@ -9,13 +10,13 @@
 }
 \description{
  
-  Computes the \code{geometricffMeanlink} transformation, including its inverse
+  Computes the \code{geometricffMlink} transformation, including its inverse
   and the first two derivatives.
 
 }
 \usage{
-    geometricffMeanlink(theta, bvalue = NULL, inverse = FALSE, 
-                        deriv = 0, short = TRUE, tag = FALSE)
+    geometricffMlink(theta, bvalue = NULL, inverse = FALSE, 
+                     deriv = 0, short = TRUE, tag = FALSE)
 }
 \arguments{
   \item{theta}{
@@ -63,7 +64,7 @@
 }
 \value{
 
-  For \code{deriv = 0}, the \code{geometricffMeanlink} transformation of
+  For \code{deriv = 0}, the \code{geometricffMlink} transformation of
   \code{theta} when \code{inverse = FALSE}. When 
   \code{inverse = TRUE} then \code{theta} becomes \eqn{\eta}, and
   \code{exp(-theta) / (exp(-theta) - 1)} is returned.
@@ -103,7 +104,7 @@
  \code{\link[VGAM:geometric]{geometric}},
  \code{\link[VGAM:Links]{Links}}, 
  \code{\link[VGAM:logitlink]{logitlink}},
- \code{\link[VGAMextra:logffMeanlink]{logffMeanlink}}.
+ \code{\link[VGAMextra:logffMlink]{logffMlink}}.
  
 }
 \examples{
@@ -111,15 +112,15 @@
 ### Example 1  ###
 my.probs <- ppoints(100)
 geol.inv <-
-    geometricffMeanlink(theta = geometricffMeanlink(theta = my.probs), # the inverse
+    geometricffMlink(theta = geometricffMlink(theta = my.probs), # the inverse
                                 inverse = TRUE) - my.probs
 summary(geol.inv)     ## zero
 
 ###  Example 2. Special values of 'prob'  ###
 my.probs <- c(-Inf, -2, -1, 0, 0.25, 0.75, 1.0, 5, Inf, NaN, NA) 
 rbind(probs = my.probs, 
-      geoffMlink = geometricffMeanlink(theta = my.probs),
-      inv.geoffl = geometricffMeanlink(theta = my.probs, inverse = TRUE))
+      geoffMlink = geometricffMlink(theta = my.probs),
+      inv.geoffl = geometricffMlink(theta = my.probs, inverse = TRUE))
 
 
 ###  Example 3 Some probability link functions  ###
@@ -131,15 +132,15 @@ par(lwd = 2)
 plot(my.probs, logitlink(my.probs), xlim = c(-0.1, 1.1), ylim = c(-5, 8),
      type = "l", col = "limegreen", 
      ylab = "transformation", las = 1, main = "Some probability link functions")
-lines(my.probs, geometricffMeanlink(my.probs), col = "gray50")
-lines(my.probs, logffMeanlink(my.probs), col = "blue")
+lines(my.probs, geometricffMlink(my.probs), col = "gray50")
+lines(my.probs, logffMlink(my.probs), col = "blue")
 lines(my.probs, probitlink(my.probs), col = "purple")
 lines(my.probs, clogloglink(my.probs), col = "chocolate")
 lines(my.probs, cauchitlink(my.probs), col = "tan")
 abline(v = c(0.5, 1), lty = "dashed")
 abline(v = 0, h = 0, lty = "dashed")
 legend(0.1, 8, 
-      c("geometricffMeanlink", "logffMeanlink","logitlink", "probitlink",
+      c("geometricffMlink", "logffMlink","logitlink", "probitlink",
       "clogloglink", "cauchitlink"), 
       col = c("gray50", "blue", "limegreen", "purple", "chocolate", "tan"),
       lwd = 1, cex = 0.5)

@@ -1,40 +1,42 @@
-\name{gammaRMeanlink}
+\name{gammaRMlink}
+\alias{gammaRMlink}
 \alias{gammaRMeanlink}
 
 \title{
  
    Link functions for the mean of 2--parameter 
-   continuous distributions: The Gamma distribution.
+   continuous distributions: The gamma distribution.
     
 }
 \description{
    %
-   Computes the \code{gammaRMeanlink} transformation, its inverse and
+   Computes the \code{gammaRMlink} transformation, its inverse and
    the first two derivatives.
    %
 }
 \usage{
-        gammaRMeanlink(theta, rate = NULL, wrt.param = NULL,
-                       bvalue = NULL, inverse = FALSE,
-                       deriv = 0, short = TRUE, tag = FALSE)
+        gammaRMlink(theta, shape = NULL, wrt.param = NULL,
+                    bvalue = NULL, inverse = FALSE,
+                    deriv = 0, short = TRUE, tag = FALSE)
                        
 }
 \arguments{
     \item{theta}{
-     Numeric or character. This is \eqn{\theta}{theta} although may 
+     Numeric or character. This is \eqn{\theta}{theta}
+     ('rate' parameter) but iy may 
      be \eqn{\eta}{\eta} depending on the other parameters.
      See below for further details.
     
     }
-    \item{rate}{
-    A rate parameter. Same as
-    \code{\link[VGAMextra:gammaRMeanlink]{gammaRMeanlink}}
+    \item{shape}{
+    The shape parameter. Same as
+    \code{\link[VGAMextra:gammaRff]{gammaRff}}.
     
     }
     \item{wrt.param}{
     Positive integer, either \eqn{1} or \eqn{2}. The partial derivatives
     are computed with respect to one of the two linear predictors 
-    involved in this link. Further details listed below.
+    involved with this link. Further details listed below.
     
     }
     \item{bvalue, inverse, deriv, short, tag}{
@@ -44,42 +46,45 @@
 }
 \details{
   
-  This link function allows to model the mean of the 2--parameter
+  The link to model the mean of the 2--parameter
   gamma distribution.
   
-  The \code{gammaRMeanlink} transformation, \emph{for given} \eqn{\beta},
+  The \code{gammaRMlink} transformation, \emph{for given}
+  \eqn{\alpha} ('shape' parameter),
   is defined as
   %
   \deqn{ \eta = \eta(\alpha; \beta) = \log \frac{\alpha}{\beta},}{
          \eta = \eta(\alpha; \beta) = log (\alpha/\beta),
          }
   %
-  where \eqn{\alpha > 0} is a \emph{shape} parameter, and \eqn{\beta > 0}
-  is a \emph{rate} parameter, as in
-  \code{\link[VGAMextra:gammaRMeanlink]{gammaRMeanlink}}.
-  Here, the gamma distribution is \emph{shape--rate} parametrized, with
-  mean \eqn{\mu = \alpha / \beta}.
+  where \eqn{\beta > 0} is a \emph{rate} parameter. 
+  %as in
+  %\code{\link[VGAMextra:gammaRMeanff]{gammaRMeanff}},
+  %a wrapper of 
+  %\code{\link[VGAM:gammaR]{gammaR}}, adapted to handle this link.
+  %The density 
+%  is \emph{shape--rate} parametrized, with
+%  mean \eqn{\mu = \alpha / \beta}.
+  This link is expressly a function of \eqn{\beta}, i.e.
+  \eqn{\theta}, therefore \eqn{\alpha} (\emph{shape})
+  must be entered at every call.
   
-  Note, this link is expressly a function of \eqn{\alpha}, i.e.
-  \eqn{\theta}, therefore \eqn{\beta} must be passed down to the
-  function at every call.
-  
-  Numerical values of \eqn{\alpha} out of range may 
+  Numerical values of \eqn{\alpha} or \eqn{\beta} out of range may 
   result in \code{Inf}, \code{-Inf}, \code{NA} or \code{NaN}.
 
   
 }
 \value{
   
-   For \code{deriv = 0}, the \code{gammaRMeanlink} transformation of
-   \code{theta}, i.e. \eqn{\alpha}, when \code{inverse = FALSE}.
+   For \code{deriv = 0}, the \code{gammaRMlink} transformation of
+   \code{theta}, i.e. \eqn{\beta}, when \code{inverse = FALSE}.
    If \code{inverse = TRUE}, then \eqn{\theta} becomes \eqn{\eta},
    and the inverse,
-   \code{exp(theta)} * \eqn{\beta}, \emph{for given} \eqn{\beta}, is
+   \eqn{\alpha} * \code{exp(-theta)}, \emph{for given} \eqn{\alpha}, is
    returned.
    
    For \code{deriv = 1}, \code{theta} becomes 
-   \eqn{\theta = (\alpha, \beta)=}\eqn{(\theta1, \theta2)},
+   \eqn{\theta = (\beta, \alpha)=}\eqn{(\theta1, \theta2)}, and
    \eqn{\eta = (\eta1, \eta2)},
    and then, the argument \code{wrt.param} must be
    considered:
@@ -96,15 +101,15 @@
    \eqn{d} \code{theta2} / \eqn{d} \code{eta1} conformably arranged
    in a matrix, if \code{wrt.param = 1},
    as a function of \eqn{\theta_i}{\thetai}, \eqn{i = 1, 2}.
-   When \code{wrt.param = 2} only
-   \eqn{d} \code{theta1} / \eqn{d} \code{eta2} is returned,
-   since \eqn{d} \code{theta2} / \eqn{d} \code{eta2} is 
-   conviniently computed via the second link function.
-   See \code{\link[VGAMextra:gammaRMeanlink]{gammaRMeanlink}} for
-   further details.
-   should return \eqn{d} \code{theta} / \eqn{d} \code{eta2} which 
-   is zero since 
-   has no effect on the function since 
+   Also, when \code{wrt.param = 2}, a matrix with columns
+   \eqn{d}\code{theta1} / \eqn{d} \code{eta2} and 
+   \eqn{d}\code{theta2} / \eqn{d} \code{eta2}
+   is returned.
+  % See \code{\link[VGAMextra:gammaRMlink]{gammaRMlink}} for
+  % further details.
+  % should return \eqn{d} \code{theta} / \eqn{d} \code{eta2} which 
+  % is zero since 
+  % has no effect on the function since 
    %returns \eqn{d} \code{theta} / \eqn{d} \code{eta2},
    %as a function of \code{theta} for both cases.
    
@@ -112,10 +117,10 @@
    Similarly, when \code{deriv = 2}, the second derivatives in
    terms of \code{theta} are returned.
    
-  By default, the linear predictors in
-  \code{\link[VGAMextra:gammaRMeanlink]{gammaRMeanlink}} are
-  \eqn{\eta_1 = \log \frac{\alpha}{\beta}}{\eta1 = log (\alpha / \beta)},
-  and \eqn{\eta_2 = \log \beta}{\eta2 = log \beta}
+ % By default, the linear predictors in
+%  \code{\link[VGAMextra:gammaRMlink]{gammaRMlink}} are
+%  \eqn{\eta_1 = \log \frac{\alpha}{\beta}}{\eta1 = log (\alpha / \beta)},
+ % and \eqn{\eta_2 = \log \beta}{\eta2 = log \alpha}.
 }
 \section{Note}{
   
@@ -134,34 +139,45 @@
 
 }
 \seealso{
-    \code{\link[VGAMextra:gammaRMean]{gammaRMean}},
+    \code{\link[VGAMextra:gammaRff]{gammaRff}},
     \code{\link[VGAM:gammaR]{gammaR}},
     \code{\link[VGAM:Links]{Links}}.
      
 }
 \examples{
  
-    alpha <- 0.1 + 1:8  # theta1
-    rate  <- exp(1)     # theta2
+    eta <- seq(-3, 3, by = 0.1) # this is eta = log(mu(b, a)).
+    shape  <- exp(0.8)    # 'shape' argument.
  
- ## E1. gammaRMeanlink() and its inverse ##
-    eta1  <- gammaRMeanlink(theta = alpha, rate = rate, inverse = FALSE)
-    my.diff <- alpha - gammaRMeanlink(theta = eta1, rate = rate, inverse = TRUE)
-    
+ ## E1. Get 'rate' values.
+   theta <- gammaRMlink(theta = eta, shape = shape, inverse = TRUE)  # rate
+   
+ \dontrun{
+ ## E2. Plot theta vs. eta, 'shape' fixed.
+   plot(theta, eta, type = "l", las = 1, ylab = "", 
+   main = "gammaRMlink(theta; shape)")
+ }
+ 
+ ## E3. gammaRMlink() and its inverse ##
+    etabis  <- gammaRMlink(theta = theta, shape = shape, inverse = FALSE)
+    my.diff <- eta - etabis
     summary(my.diff)     # Zero
     
-  ## E2. Special values arranged in a matrix ##
-    rate <- matrix(rate, ncol = 3, nrow = 3)  #Ensure equal dimensions. 
+  ## E4. Special values arranged in a matrix ##
+    bbeta <- matrix(eta, ncol = 3, nrow = 3)  #Ensure equal dimensions. 
     alpha <- matrix(c(Inf, -Inf, NA, NaN, -1 , 1, 0, -2, 2), ncol = 3, nrow = 3)
-    gammaRMeanlink(theta = alpha, rate = rate)   # NaNs produced.
+    # The gammaRMlink transformation (log(a/b))
+    gammaRMlink(theta = bbeta, shape = alpha, inv = FALSE)   # NaNs produced.
+    # Same as
+    log(alpha/bbeta)
     
-     
-  ## E3. Special values arranged in a array ##
-    dim(rate) <- NULL
-    rate <- array(rate, dim = c(2, 2, 2))  #Ensure equal dimensions. 
-    alpha <- array(0.1 + 1:8, dim = c(2, 2, 2))
-    gammaRMeanlink(theta = alpha, rate = rate)
-  
 }
+% ## E3. Special values arranged in a array ##
+%    rate <- beta; dim(rate) <- NULL
+%    rate <- array(rate, dim = c(2, 2, 2))  #Ensure equal dimensions. 
+%    alpha <- array(0.1 + 1:8, dim = c(2, 2, 2))
+%    gammaRMeanlink(theta = rate, shape = shape)
+  
+
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
