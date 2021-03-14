@@ -209,7 +209,7 @@ s.shapes <- ppoints(100)
 %
 \donttest{
 par(lwd = 2)
-plot(s.shapes, logit(s.shapes), xlim = c(-0.1, 1.1), type = "l", col = "limegreen", 
+plot(s.shapes, logitlink(s.shapes), xlim = c(-0.1, 1.1), type = "l", col = "limegreen", 
      ylab = "transformation", las = 1, main = "Some probability link functions")
 lines(s.shapes, logffMlink(s.shapes), col = "blue")
 lines(s.shapes, probitlink(s.shapes), col = "purple")

@@ -73,7 +73,7 @@ geometricffMlink <- function(theta, bvalue = NULL,
   if (is.character(theta)) {
     string <- if (short)
       paste("geometricfflink(",  theta, ")", sep = "") else
-        paste("-logit(", as.char.expression(theta),")", sep = "")
+        paste("-logitlink(", as.char.expression(theta),")", sep = "")
     if (tag)
       string <- paste("geometric mean link:",
                       string, sep = "")

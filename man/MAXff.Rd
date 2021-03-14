@@ -140,7 +140,7 @@ log \sigma[e]^2 | \Phi[t - 1].
 } Also, it handles
 \emph{multiple responses} so that a matrix can be used as the response.
 For further details on VGLM/VGAM--link functions,
-such as \code{\link[VGAM:logit]{logit}}, refer to 
+such as \code{\link[VGAM:logitlink]{logitlink}}, refer to 
 \code{\link[VGAM:Links]{Links}}.
 
 }

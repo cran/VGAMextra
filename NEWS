@@ -1,27 +1,47 @@
 ###########################################
 #                                         #
-#          Series 0.0-2                   #
+#          Series 0.0-4                   #
 #                                         #
 ###########################################
 
 
                 CHANGES in VGAMextra 
 
-NEW FEATURES
+                  VERSION 0.0-4 (March 2021)
+
+  o URL https://www.stat.nus.edu.sq/~staxyc/ (no longer available
+    replaced with https://blog.nus.edu.sg/homepage/research/
+
+                  VERSION 0.0-3 (March 2021)
+NEW FEATURES 
+  
+  o New functions:
+       * Two-parameter links: weibullQlink() and uninormalQlink()
+         for quantile regression.
+       * One-parameter links for the mean of several one--parameter 
+         distributions.
+
+  o New family functions: uninormalff() and weibullRff(). See manual
+    for details.
+
+  o Tested okay on R 4.0.3. This package requires R 3.5.0 or higher.
+
 
                    VERSION 0.0-2 (April/May 2020)
 
-  o   Tested okay for R 4.0.0 (This package requires R version 3.4.0 or higher)
+NEW FEATURES
 
-  o   Several functions have been adapted to handle the renamed link functions
-      from VGAM-1.1.0.
+ o   Several functions have been adapted to handle the renamed 
+     link functions from VGAM-1.1.0, e.g., logit() to logitlink().
+ 
+ o   Tested okay on R 4.0.0. Requires R 3.5.0 or higher. 
 
 
                     VERSION 0.0-1 (July 2018)
 
 IMPORTANT FEATURES
 
-  o   Tested okay for R V-3.4.3 (This package requires R V-3.4.0 or higher)
+  o   Tested okay on R 3.4.3 (This package requires R V-3.4.0 or higher)
   
   o   VGAM/VGLM time series family functions for each sub-class
       of vector generalized linear time series models (VGLTSMs).
@@ -37,20 +57,20 @@ IMPORTANT FEATURES
       *  Order(u, v, r, s) VGLM-ARMAX-GARCH:
          Family function ARMAX.GARCHff(),
          which allows an order(u, v)-ARMA structure
-         on the conditional mean equation, plus an order(r, s)-GARCH
+         on the conditional mean equation, and an order(r, s)-GARCH
          model on the conditional variance. Normal errors
          handled at present.
         
       *  Order(u, v) VGLM-INGARCH (for time series of counts):
          Family function VGLM.INGARCH(), to fit an INGARCH model
          with interventions including interaction between "events",
-         Distributions handled: Poisson, negative binomial, logarithmic,
-         and Yule-Simon.
+         Distributions handled: Poisson, negative binomial, Yule-
+         Simon and logarithmic.
 
 
-  o    Additional VGAM/VGLM family functions (not included in VGAM)
-      *  trinormal(), to estimate the 3-dimensional Normal distribution,
-         aka Trinormal.
+  o    Other  VGAM/VGLM family functions (not included in VGAM)
+      *  trinormal(), to estimate the 3-dimensional Normal 
+         distribution, aka Trinormal.
       *  invweibull2mr(), invgamma2mr(), to estimate the 
          2-parameter Inverse Weibull and 2-parameter Inverse 
          Gamma distributions.
@@ -60,8 +80,8 @@ IMPORTANT FEATURES
          Beta distribution of the Second Kind.
  
  
-  o    All family functions, except by VGLM.INGARCHff(), handle multiple
-       responses.
+  o    All family functions, except by VGLM.INGARCHff(), handle
+       multiple responses.
        
        
   o    New link functions for the mean-function of 1-parameter 

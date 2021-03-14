@@ -49,7 +49,8 @@ cardiovascular causes, 1 January 1994 and 31 December 1997.
 %}
 \source{
 Data set retrieved from 
-\url{https://www.stat.nus.edu.sg/~staxyc/}
+%\url{https://www.stat.nus.edu.sg/~staxyc/}
+\url{https://blog.nus.edu.sg/homepage/research/}
 
 }
 \references{

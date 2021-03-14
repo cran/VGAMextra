@@ -209,11 +209,13 @@ head(tsdata)
 
     ###    An ARIMA(2, 0, 0) model, that is an AR(2) model    ###
     
-fit1 <- vglm(TS1 ~ 1, 
-             ARIMAXff(order = c(2, 0, 0), type.likelihood = "exact",
-                     var.arg = FALSE, type.EIM = "exact"), 
-             data = tsdata,  crit = "log", trace = TRUE)
+#fit1 <- vglm(TS1 ~ 1, 
+#             ARIMAXff(order = c(2, 0, 0), var.arg = FALSE, type.EIM = "exact"), 
+#             data = tsdata,  crit = "log", trace = TRUE)
 
+fit1 <- vglm(TS1 ~ 1, 
+             ARXff(order = 2, var.arg = FALSE, type.EIM = "exact"), 
+             data = tsdata,  crit = "log", trace = TRUE)
 m.coe <- Coef(fit1)
 
 ## Using arima to compare to summary(vgtsff)
@@ -228,19 +230,18 @@ m.coe[1] / (1 - sum(m.coe[-(1:2)]))  # THIS IS SIMILAR TO THE INTERCEPT
     ###   The errors standard deviation is a function of 'x2'  ###
 
 ### NOTICE: ARIMA and ARMA use the "identitylink" for coefficients ###
-fit2 <- vglm(TS2 ~ x2, 
-             ARIMAXff(order = c(2, 0, 1), type.likelihood = "exact",
-                     var.arg = FALSE, type.EIM = "exact",
-                     zero = NULL), 
-            constraints = list('x2' = rbind(0, 1, 0, 0, 0)),
-             data = tsdata,  crit = "loglikelihood", trace = TRUE)
+#fit2 <- vglm(TS2 ~ x2, 
+#             ARMAXff(order = c(2, 1), var.arg = FALSE, type.EIM = "exact",
+#                     zero = NULL), 
+#            # constraints = list('x2' = rbind(0, 1, 0, 0, 0)),
+#             data = tsdata,  crit = "loglikelihood", trace = TRUE)
 
-m.coe <- coef(fit2)
-coef(fit2, matrix = TRUE)
+#m.coe <- coef(fit2)
+#coef(fit2, matrix = TRUE)
 
 ## Compare summary(vglm) to arima().
-summary(fit2)
-arima(tsdata$TS2, order = c(2, 0, 1))
+#summary(fit2)
+#arima(tsdata$TS2, order = c(2, 0, 1))
 
 }
 

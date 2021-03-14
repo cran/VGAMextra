@@ -288,7 +288,7 @@ cm.ARMA(offset = position, lags.cm = numberLags,
 
 
 # The following call causes an ERROR.
-cm.ARMA(offset = -1, lags.cm = 6, factorSeq = 2)
+# cm.ARMA(offset = -1, lags.cm = 6, factorSeq = 2)
 }
 
 ##############

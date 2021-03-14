@@ -160,9 +160,9 @@ the different versions.
 
 }
 \author{
-Victor Miranda, \email{v.miranda@auckland.ac.nz}.
+Victor Miranda, \email{victor.miranda@aut.ac.nz}.
 
-Maintainer: Victor Miranda, \email{v.miranda@auckland.ac.nz}.
+Maintainer: Victor Miranda, \email{victor.miranda@aut.ac.nz}.
 
 Contributor: Thomas Yee, \email{t.yee@auckland.ac.nz}.
 
@@ -173,7 +173,7 @@ Contributor: Thomas Yee, \email{t.yee@auckland.ac.nz}.
   \code{\link[VGAM:rrvglm]{rrvglm}},
   \code{\link[VGAM:Links]{Links}},
   \code{\link[VGAM:CommonVGAMffArguments]{CommonVGAMffArguments}},
-  \url{https://www.stat.auckland.ac.nz/~vmir178}.
+  \url{https://www.stat.auckland.ac.nz/~vmir178/}.
 
 }
 \examples{

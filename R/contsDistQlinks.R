@@ -30,7 +30,7 @@ toppleQlink <- function(theta,
       if (short) paste("toppleQlink(", 
                        as.char.expression(theta), "; ", p,
                        ")", sep = "") else
-        paste("logit[1 - sqrt( 1 - ", p, "^(1/", 
+        paste("logitlink[1 - sqrt( 1 - ", p, "^(1/", 
               as.char.expression(theta), 
               "))]", sep = "")
     

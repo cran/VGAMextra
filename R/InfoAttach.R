@@ -6,7 +6,7 @@
 
 
 .onAttach <- function(libname = NULL, pkgname = "VGAMextra") {
-  packageStartupMessage("\n     =====    VGAMextra 0.0-3    ===== \n\n",
+  packageStartupMessage("\n     =====    VGAMextra 0.0-4    ===== \n\n",
                         "Additions and extensions of the package VGAM.",
                         "\n",
                         "For more on VGAMextra, visit" , "\n",
