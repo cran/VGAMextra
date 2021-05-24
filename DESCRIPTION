@@ -1,6 +1,6 @@
 Package: VGAMextra
-Version: 0.0-4
-Date: 2021-03-09
+Version: 0.0-5
+Date: 2021-05-24
 Title: Additions and Extensions of the 'VGAM' Package
 Authors@R: c(person("Victor", "Miranda", role = c("aut", "cre", 
            "cph"),
@@ -34,6 +34,6 @@ Description: Extending the functionalities of the 'VGAM' package with
 License: GPL-2
 NeedsCompilation: yes
 BuildVignettes: yes
-Packaged: 2021-03-10 02:38:54 UTC; vico
+Packaged: 2021-05-23 22:46:04 UTC; vico
 Repository: CRAN
-Date/Publication: 2021-03-14 15:50:40 UTC
+Date/Publication: 2021-05-24 04:10:07 UTC

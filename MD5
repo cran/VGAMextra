@@ -1,6 +1,6 @@
-208815ba41a7b67c926e8f7d1ef50fcb *DESCRIPTION
+d892b20c6249a89b963018e855ce0062 *DESCRIPTION
 f26de96a32fd3364876d0a7c6447a91a *NAMESPACE
-845c03bc3c0138e578a81a90d45a1865 *NEWS
+406aae1dfdd4ce87e15ca5ce548b9355 *NEWS
 c2266a1b08c4dea83cc055f515b40b52 *R/1ParamMeanlinksCont.R
 b1b6e9880ac4ecbc4edbbfb2c0e53bc1 *R/1ParamMeanlinksDiscrete.R
 6d7e8b1eee9e7f02979e516952464db2 *R/2ParamMeanlinks.R
@@ -59,8 +59,8 @@ f5cb6c954453f6940d3219d85262ec99 *R/summaryS4VGAMextra.R
 b10c4b5c5295d62414eeda2dab49cfda *R/uninormalff.R
 d9deabafaebe2aa00d72e73aa39befd2 *R/weibullQlink.R
 83553170f009f18476684eaca891cf3f *R/weibullRff.R
-a973ca3a81aaf156bb94611c9833b191 *data/HKdata.rda
-150c647c2b5113c598e8f2ca4b9a67c5 *data/ap.mx.rda
+a2e5217a91eaade7facd5b730faefad6 *data/HKdata.rda
+b4dd954e4c0b55736c711669a717ba7a *data/ap.mx.rda
 ffc51cb3dd126763b5ca5ba460d24c9b *inst/doc/sceneVGAMextra.txt
 231ccfd1ff2022bbc6875c8212b6cd31 *man/ARIMAX.errors.ff.Rd
 7609e5f98b98118cdfbae9bfeaed4995 *man/ARIMAXff.Rd
@@ -86,7 +86,7 @@ db63bab61264701a48996e621858c1d9 *man/dMVNcov.Rd
 ff19f2519c1746e318a30011dba426dd *man/expMeanlink.Rd
 624a25467e3270efc80ddf5d307a1a55 *man/expQlink.Rd
 01cfe35370708087395989d63e3b02b5 *man/gamma1Qlink.Rd
-215f28906c964b65247ca0b41d047406 *man/gammaRMeanlink.Rd
+08d401a6ebf1a538645c3ec711be7e94 *man/gammaRMeanlink.Rd
 4544f9c17f72694dbf8044c6a4467209 *man/gammaRff.Rd
 f40d53bedd7f07dd265e20f7c18f0a8f *man/gen.betaIImr.Rd
 b4a9c88bdab3759c768512950acae3b6 *man/genbetaIIUC.Rd

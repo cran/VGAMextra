@@ -1,11 +1,15 @@
 ###########################################
 #                                         #
-#          Series 0.0-4                   #
+#          Series 0.0-5                   #
 #                                         #
 ###########################################
 
 
                 CHANGES in VGAMextra 
+
+                  VERRION 0.0-5 (May 2021)
+
+  o 'warning' from function gammaRMlink() fixed.
 
                   VERSION 0.0-4 (March 2021)
 

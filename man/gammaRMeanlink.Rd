@@ -147,7 +147,7 @@
 \examples{
  
     eta <- seq(-3, 3, by = 0.1) # this is eta = log(mu(b, a)).
-    shape  <- exp(0.8)    # 'shape' argument.
+    shape  <- rep(exp(0.8), length(eta))    # 'shape' argument.
  
  ## E1. Get 'rate' values.
    theta <- gammaRMlink(theta = eta, shape = shape, inverse = TRUE)  # rate
@@ -164,7 +164,7 @@
     summary(my.diff)     # Zero
     
   ## E4. Special values arranged in a matrix ##
-    bbeta <- matrix(eta, ncol = 3, nrow = 3)  #Ensure equal dimensions. 
+    bbeta <- matrix(eta[1:9], ncol = 3, nrow = 3)  #Ensure equal dimensions. 
     alpha <- matrix(c(Inf, -Inf, NA, NaN, -1 , 1, 0, -2, 2), ncol = 3, nrow = 3)
     # The gammaRMlink transformation (log(a/b))
     gammaRMlink(theta = bbeta, shape = alpha, inv = FALSE)   # NaNs produced.
