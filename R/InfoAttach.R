@@ -20,5 +20,5 @@
 
 vgamextraNEWS <- function() {
   file.show(system.file("doc",
-                        "sceneVGAMextra.txt", package = "VGAMextra"))
+                        "sceneVGAMextra.txt", package="VGAMextra"))
 }

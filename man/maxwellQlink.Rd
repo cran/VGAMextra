@@ -61,15 +61,15 @@
 }
 \value{
   For \code{deriv = 0}, the \code{maxwellQlink} transformation of
-  \code{theta}, when {inverse = FALSE}. If \code{inverse = TRUE}, then
-  the inverse given by \code{2*qgamma(p, 1.5) / theta^2 } is returned.
+  \code{theta}, when \code{inverse = FALSE}. If \code{inverse = TRUE}, 
+  then the inverse given by \code{2*qgamma(p, 1.5) / theta^2 } is returned.
   
   For \code{deriv = 1}, this function returns the derivative 
   \eqn{d} \code{eta} / \eqn{d} \code{theta}, 
   if \code{inverse = FALSE}. Else, the reciprocal 
   \eqn{d} \code{theta} / \eqn{d} \code{eta} as a function of \code{theta}.
   
-  If {deriv = 2}, then the second order derivatives in terms of
+  If \code{deriv = 2}, then the second order derivatives in terms of
   \code{theta} are accordingly returned. 
  
   

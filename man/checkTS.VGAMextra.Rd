@@ -120,7 +120,7 @@ In general, an autoregressive process of order-\eqn{p} is
 }
 lie \emph{outside} the unit circle, i.e. \eqn{|z| > 1}.
 
-Similarly, a moving-average process of order-{q} can be formulated 
+Similarly, a moving-average process of order-\code{q} can be formulated 
 (without loss of generality \eqn{\mu = 0}{ \mu = 0}) 
 
 \deqn{ Y_{t} = \psi(B) \varepsilon_{t}, }{ Y[t] =  \psi(B) e[t], }
@@ -148,7 +148,7 @@ is \emph{invertible} if all the roots of
 lie \emph{outside} the unit circle., i.e.m \eqn{|z| > 1}.
 
 Parallel arguments can be stated for autoregressive moving
-aberage processes (ARMA). See Box & Jenkins (1970) for 
+aberage processes (ARMA). See Box and Jenkins (1970) for 
 further details.
 
 
@@ -173,7 +173,7 @@ Holden-Day, San Francisco, USA.
 
 Madsen, H (2007)
 \emph{Time Series Analysis}.
-Chapman \& Hall/CRC, Boca Raton, Florida, USA.
+Chapman and Hall/CRC, Boca Raton, Florida, USA.
 
 
 }

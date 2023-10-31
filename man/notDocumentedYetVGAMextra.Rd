@@ -36,7 +36,15 @@
 \alias{con.est.s2l}
 \alias{pVal.KPSS.test}
 
-%
+%\alias{dtruncnormal}
+%\alias{ptruncnormal}
+%\alias{qtruncnormal}
+%\alias{rtruncnormal}
+
+% TRUNCATED Dist.
+\alias{B11}
+\alias{B21}
+\alias{B22}
 % TIME SERIES ff
 %\alias{ARXff}
 %\alias{MAXff}
@@ -71,6 +79,7 @@
 \alias{ECM.EngleGran.control}
 \alias{VGLM.INGARCHff.control}
 \alias{trinormalCovff.control}
+\alias{trunclognormal.control}
 \alias{logarithmicTSff.control}
 \alias{ARIMAX.errors.ff.control}
 \alias{ARMA.studentt.ff.control}

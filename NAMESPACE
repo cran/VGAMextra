@@ -23,7 +23,8 @@ importFrom("stats", "lsfit", "cov", "toeplitz",
            "qbeta", "qgamma", "qweibull", 
            "rbeta", "rgamma", "rweibull", 
            "dchisq", "pchisq", "qchisq",
-           "rchisq") 
+           "rchisq", "qnorm", "pnorm") 
+importFrom("stats", "dlnorm", "plnorm", "qlnorm")
 importFrom("VGAM", show.vanova, AR1.gammas)
 importFrom("VGAM", is.Numeric, link2list, logoff, namesof)
 importFrom("VGAM", Coef, vglm, eta2theta)
@@ -37,7 +38,7 @@ importFrom("VGAM", logitlink, clogloglink, bisection.basic)
 importFrom("VGAM", as.char.expression, erf)
 importFrom("stats", ppois, pnbinom, punif)
 importFrom("stats", dist, ppoints)
-importFrom("stats", rnorm, runif, ts)
+importFrom("stats", rnorm, runif, ts, pnorm)
 importFrom("VGAM", arwz2wz, depvar, iam, weights)
 importFrom("VGAM", Deviance.categorical.data.vgam)
 importFrom("VGAM", fitted, fitted.values)
@@ -56,7 +57,12 @@ importFrom("VGAM", cauchitlink, probitlink, clogloglink)
 #exportMethods(responseVGAMex)
 
 
-
+## Truncated lognormal
+export(trunclognormal)
+export(trunclognormal.control)
+export(truncnormal, B11, B21, B22)
+export(dtruncnorm, ptruncnorm, qtruncnorm, rtruncnorm)
+export(dtrunclnorm, ptrunclnorm, qtrunclnorm, rtrunclnorm)
 ###
 ### Link functions (Still need to organize this) ###
 ###

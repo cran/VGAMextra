@@ -54,7 +54,7 @@
 }
 \value{
   For \code{deriv = 0}, the \code{rayleighQlink} transformation of
-  \code{theta}, when {inverse = FALSE}. If \code{inverse = TRUE}, then
+  \code{theta}, when \code{inverse = FALSE}. If \code{inverse = TRUE}, then
   this function returns \code{theta / sqrt(-2 log(1 - p))}.
 
   For \code{deriv = 1}, then the function returns
@@ -62,7 +62,7 @@
   if \code{inverse = FALSE}. If \code{inverse = TRUE}, then
   \eqn{d} \code{theta} / \eqn{d} \code{eta} as a function of \code{theta}.
   
-  If {deriv = 2}, then the second order derivatives in terms of
+  If \code{deriv = 2}, then the second order derivatives in terms of
   \code{theta}. 
  
   

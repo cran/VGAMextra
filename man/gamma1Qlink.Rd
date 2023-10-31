@@ -67,17 +67,19 @@
 }
 \value{
   For \code{deriv = 0}, the \code{gamma1Qlink} transformation of
-  \code{theta}, when {inverse = FALSE}. If \code{inverse = TRUE}, then
+  \code{theta}, when \code{inverse = FALSE}. 
+  If \code{inverse = TRUE}, then
   \code{theta} becomes \eqn{\eta}, and therefore,
   the approximate inverse image of \eqn{\eta} is returned.
   
   For \code{deriv = 1}, the partial derivative 
   \eqn{d} \code{eta} / \eqn{d} \code{theta} is returned, 
-  if \code{inverse = FALSE}. If \code{inverse = TRUE}, then the reciprocal 
+  if \code{inverse = FALSE}. If \code{inverse = TRUE}, 
+  then the reciprocal 
   \eqn{d} \code{theta} / \eqn{d} \code{eta} as a function of \code{theta}.
   
-  If {deriv = 2}, then the second order derivatives as a function of
-  \code{theta}. 
+  If \code{deriv = 2}, then the second order derivatives as a function
+  of \code{theta}. 
  
   
 }

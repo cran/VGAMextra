@@ -5,8 +5,7 @@
 # All rights reserved.
 
 
-logarithmicTSff <- function(Order = c(1, 1),
-                            link = "logitlink",
+logarithmicTSff <- function(link = "logitlink",
                             lagged.fixed.obs = NULL,
                             lagged.fixed.means = NULL,
                             interventions = list(),
@@ -15,6 +14,8 @@ logarithmicTSff <- function(Order = c(1, 1),
                             transform.lambda = FALSE,
                             gshape = ppoints(8)) {
   
+  Order <- c(0, 0)
+  Order <- order; rm(order)
   lshape <- link; rm(link)
   #lshape <- match.arg(lshape, c("logit"))[1]
   lshape <- as.list(substitute(lshape))
@@ -123,11 +124,12 @@ logarithmicTSff <- function(Order = c(1, 1),
         
         
         iniOrd <- if (length( .init.p )) .init.p else
-          max(25, .ord1 + .ord2 + 1) # Dec 2017, Old is init.p = 10
+          min(5, .ord1 + .ord2 + 1) # Dec 2017, Old is init.p = 10
         nn <- NROW(y)
         
         temp.pd <- data.frame(y = y, WN.lags(y = cbind(y), 
                                              lags = iniOrd ))
+        print(head(temp.pd))
         colnames(temp.pd) <- c("y", paste("x", 2:( iniOrd + 1), 
                                           sep = ""))
         
@@ -166,21 +168,42 @@ logarithmicTSff <- function(Order = c(1, 1),
                            drop = FALSE]
           
           if (length( .fy )) {
+            
             fy <- .fy
-            x1.mat <- if (identical(fy, log)) log1p(x1.mat) else fy(x1.mat)
-            colnames(x1.mat) <- 
-                if (identical(fy, log) || identical(fy, log1p))
-                   paste("Log(Ylag + 1)", 1:( .ord1 ), sep = "")  else
-                     paste("f(Ylag)", 1:( .ord1 ), sep = "")
+            
+            x1.mat <- fy(x1.mat)
+            mynames <- colnames(x1.mat)
+            if (identical(fy(x), log(x))) {
+              mynames <- paste("Log(", mynames, ")", sep = "")
+            } else {
+              if (identical(fy(x), log1p(x))) {
+                mynames <- paste("Log(", mynames, "+ 1)", sep = "")
+              } else {
+                mynames <- paste("f(", mynames, ")", sep = "")
+              }
+            }
+            colnames(x1.mat) <- mynames
+            #fy <- .fy
+          #x1.mat <- if (identical(fy, log)) log1p(x1.mat) else fy(x1.mat)
+           # colnames(x1.mat) <- 
+            #    if (identical(fy, log) || identical(fy, log1p))
+             #      paste("Log(Ylag + 1)", 1:( .ord1 ), sep = "")  else
+              #       paste("f(Ylag)", 1:( .ord1 ), sep = "")
           }
           counts <- length(if (!my.ord[1]) .fixed.obs else 
              unique( c(1:(my.ord[1]) , .fixed.obs ))) + counts
         }
         
-
-
+        
         
         if ( .ord2 ) {
+          
+          
+          if ( .flam ) {
+            a.help <- theta2eta(a.help, .link , .earg )
+          }
+          
+          
           x2.mat <- WN.lags(y = cbind(a.help), lags = .ord2 ,
                           to.complete =rep(round(0 * mean(a.help)), .ord2 ))
           colnames(x2.mat) <- paste("lambLag", 1:( .ord2 ), sep = "")
@@ -349,7 +372,7 @@ logarithmicTSff <- function(Order = c(1, 1),
         }, list( .lshape = lshape, .eshape = eshape ))),
       
       
-      vfamily = c("logarithmicTSff", "vgltsmff", "VGLMINGARCH"),
+      vfamily = c("logarithmicTSff", "vgltsmff", "VGLM.INGARCHff"),
       
       validparams = eval(substitute(function(eta, y, extra = NULL) {
         okay0 <- if ( .lshape == "logfflink") all(0 < eta) else TRUE

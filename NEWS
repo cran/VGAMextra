@@ -1,13 +1,20 @@
 ###########################################
 #                                         #
-#          Series 0.0-5                   #
+#          Series 0.0-6                   #
 #                                         #
 ###########################################
 
 
                 CHANGES in VGAMextra 
 
-                  VERRION 0.0-5 (May 2021)
+                 VERSION 0.0-6 (October 2023)
+  o  New dpqr-type functions for the truncated normal and lognormal
+     distributions.
+  o  New family functions: truncnormalff() and trunclognormalff().
+     See manual for details. 
+
+
+                  VERSION 0.0-5 (May 2021)
 
   o 'warning' from function gammaRMlink() fixed.
 

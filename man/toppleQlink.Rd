@@ -62,7 +62,7 @@
 }
 \value{
   For \code{deriv = 0}, the \code{toppleQlink} transformation of
-  \code{theta}, when {inverse = FALSE}. If \code{inverse = TRUE}, then
+  \code{theta}, when \code{inverse = FALSE}. If \code{inverse = TRUE}, then
   the inverse transformation 
   \code{ log(p)/log(1 - (1 - theta * }\eqn{m.max}\code{)^2)} 
   is returned.
@@ -72,7 +72,7 @@
   if \code{inverse = FALSE}. If \code{inverse = TRUE}, then the reciprocal 
   \eqn{d} \code{theta} / \eqn{d} \code{eta} as a function of \code{theta}.
   
-  If {deriv = 2}, then the second order derivatives as a function of
+  If \code{deriv = 2}, then the second order derivatives as a function of
   \code{theta}. 
  
   

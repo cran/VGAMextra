@@ -35,7 +35,7 @@
 This family function is similar to
 \code{\link[VGAM:trinormal]{trinormal}}. The only difference is
 that the variances and covariances, instead of the 
-standard deviations and correlation coefficients ,
+standard deviations and correlation coefficients,
 are directly modelled and estimated.
 Similarly, \code{\link[VGAMextra:trinormalCovff]{trinormalCovff}}
 also fits linear models to the means of a trivariate normal distribution.
@@ -45,7 +45,7 @@ The fitted means are returned as the fitted values in the form of a
 three--column matrix. By default, the variances and covariances 
 are modelled as intercept--only, where a
 \code{\link[VGAM:loglink]{loglink}} link is applied to the variances
-and a \code{\link[VGAM:identitylink]{identitylink}} over
+and an \code{\link[VGAM:identitylink]{identitylink}} over
 the covariances.
 
 }
@@ -62,7 +62,7 @@ used by VGLM/VGAM modelling functions, e.g.,
 
 \author{
 
- Victor Miranda.
+ Victor Miranda and Thomas Yee.
  
 }
 %% ~Make other sections like Warning with \section{Warning }{....} ~
@@ -105,7 +105,7 @@ vcov(fit.trinormVGAM)
 
                          
 #### Compare the estimated coefficients. Note that 
-#### trinormal() estimaes the sd's and correlation coeffs.
+#### trinormal() estimates the sd's and correlation coeffs.
 coef(fit.trinormCovff, matrix = TRUE)
 coef(fit.trinormVGAM, matrix = TRUE)
 

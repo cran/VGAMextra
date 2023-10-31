@@ -59,7 +59,7 @@
 }
 \value{
   For \code{deriv = 0}, the \code{benini1Qlink} transformation of
-  \code{theta}, when {inverse = FALSE}. If \code{inverse = TRUE}, then
+  \code{theta}, when \code{inverse = FALSE}. If \code{inverse = TRUE}, then
   the inverse transformation given by 
   \code{-log(1 - p) / (theta - log y0)^2} is returned.
   
@@ -68,7 +68,7 @@
   if \code{inverse = FALSE}. Else, the reciprocal 
   \eqn{d} \code{theta} / \eqn{d} \code{eta} as a function of \code{theta}.
   
-  If {deriv = 2}, then the second order derivatives in terms of
+  If \code{deriv = 2}, then the second order derivatives in terms of
   \code{theta} are accordingly returned. 
  
   
