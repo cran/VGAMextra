@@ -1,6 +1,6 @@
-##########################################################################
+#####################################################################
 # These functions are
-# Copyright (C) 2014-2020 V. Miranda & T. Yee
+# Copyright (C) 2014-2024 V. Miranda & T. Yee
 # Auckland University of Technology & University of Auckland
 # All rights reserved.
 #
@@ -10,7 +10,7 @@
 
 ARMA.EIM.G2 <- function(y, arCoe, maCoe,  estRes, sdError,
                          var.arg = TRUE, order = c(1, 1),
-                         nodrift = FALSE, addRidge = 0.001) {
+                         nodrift = FALSE, addRidge = 0.0001) {
   
   if (length(order) !=2 )
     stop("Currently, this function only handles ARMA (p, q) models.")
@@ -39,7 +39,6 @@ ARMA.EIM.G2 <- function(y, arCoe, maCoe,  estRes, sdError,
                         to.complete = 1/(1 - maCoe[1, ] + 0.01)^2))
   
   
-  ##
   M <- 2 + arOrd + maOrd # ARMA model
   try.comb <- iam(NA, NA, M = M - nodrift, both = TRUE)
   try.comb <- cbind(try.comb$row.index, try.comb$col.index)
@@ -87,10 +86,10 @@ ARMAXff <-
            lvar      = "loglink",
            lARcoeff  = "identitylink",
            lMAcoeff  = "identitylink",
-           idrift    = NULL,             # Must be a vector of length NOS
-           isd       = NULL,             # Must be a vector of length NOS
-           ivar      = NULL,             # Must be a vector of length NOS
-           iARcoeff  = NULL,             # Must be a vectors
+           idrift    = NULL,      # Must be a vector of length NOS
+           isd       = NULL,      # Must be a vector of length NOS
+           ivar      = NULL,      # Must be a vector of length NOS
+           iARcoeff  = NULL,      # Must be a vectors
            iMAcoeff  = NULL) {
     
     
@@ -150,11 +149,11 @@ ARMAXff <-
     
     for (jj in 1:ARord)  
       blurb.vec <-  c( blurb.vec, namesof(pre.blurb1[jj],
-                                      link = lARcoeff, earg = eARcoeff))
+                                link = lARcoeff, earg = eARcoeff))
     
     for (kk in 1:MAord)  # tag = FALSE by default.. not needed
       blurb.vec <-  c( blurb.vec, namesof(pre.blurb2[kk],
-                                      link = lMAcoeff, earg = eMAcoeff))
+                               link = lMAcoeff, earg = eMAcoeff))
     
     blurb.vec2 <- character(0)
     for (kk in 1:realM1) {
@@ -169,7 +168,7 @@ ARMAXff <-
     preMA <- if (MAord == 1) "(MAcoeff1) * e[t - 1]  "
     
     alo <- 
-      new("vgltsmff",
+      new( "vgltsmff",
           blurb = c("VGLTMs: ", nOrder + 1 + !nodrift,
                     "-parameter ARMAX model of order",
                     "(", ARord, ",", MAord, ").",
@@ -180,10 +179,10 @@ ARMAXff <-
                     if (nodrift) NULL else "drift + ",
                     " B^T * X_t + ",
                     if (ARord == 1) preAR else
-                      c("(ARcoeff1) * Y[t - 1] +... + (ARcoeff", ARord,")",
+               c("(ARcoeff1) * Y[t - 1] +... + (ARcoeff", ARord,")",
                         " * Y[t -", ARord,"] + "),
                     if (MAord == 1) preMA else
-                      c(" (MAcoeff1) * e[t - 1] + ... + (MAcoeff", MAord,")",
+               c(" (MAcoeff1) * e[t - 1] + ... + (MAcoeff", MAord,")",
                         " * e[t - ", MAord,"]") , "+ e[t].", "\n"),
                    #"E[Yt] = drift / (1 - ARcoeff1 - ... - ARcoeff",
                    #ARord, ")"),
@@ -207,7 +206,8 @@ ARMAXff <-
    
    first = eval(substitute(expression({
      
-     if ((NCOL(x) == 1) && (colnames(x) == "(Intercept)") && ( .xLag > 0))
+     if ((NCOL(x) == 1) && 
+              (colnames(x) == "(Intercept)") && ( .xLag > 0))
        stop("Set  xLag = 0. No covariates entered.")
      
      if ( .xLag ) {
@@ -291,9 +291,9 @@ ARMAXff <-
       myIvar   <- rep( .ivar   , NOS)[1:NOS]
       myIsd    <- rep( .isd    , NOS)[1:NOS]
       iniar    <- if (!length( .iARcoeff )) NULL else
-                        matrix( .iARcoeff , NOS, .ARord , byrow = TRUE)
+                     matrix( .iARcoeff , NOS, .ARord , byrow = TRUE)
       inima    <- if (!length( .iMAcoeff )) NULL else 
-                        matrix( .iMAcoeff , NOS, .MAord , byrow = TRUE)
+                     matrix( .iMAcoeff , NOS, .MAord , byrow = TRUE)
       
       drift.n <- if (NOS == 1) "drift.mean" else 
                                 paste("drift.mean", 1:NOS, sep = "")
@@ -303,25 +303,26 @@ ARMAXff <-
                             paste("noiseSD", 1:NOS, sep = "")
       
       ar.n <- ma.n <- character(0)
-      for (jj in 1:( .ARord ))
-        ar.n <- if (NOS == 1) c(ar.n, paste("ARcoeff", jj, sep = "")) else
-            c(ar.n, paste(paste("ARcoeff", jj, sep = ""), 1:NOS, sep = ""))
+  for (jj in 1:( .ARord ))
+    ar.n <- if (NOS == 1) c(ar.n, paste("ARcoeff", jj, sep = "")) else
+     c(ar.n, paste(paste("ARcoeff", jj, sep = ""), 1:NOS, sep = ""))
       
-      for (jj in 1:( .MAord )) 
-        ma.n <- if (NOS == 1) c(ma.n, paste("MAcoeff", jj, sep = "")) else 
-            c(ma.n, paste(paste("MAcoeff", jj, sep = ""), 1:NOS, sep = ""))
+  for (jj in 1:( .MAord )) 
+    ma.n <- if (NOS == 1) c(ma.n, paste("MAcoeff", jj, sep = "")) else 
+     c(ma.n, paste(paste("MAcoeff", jj, sep = ""), 1:NOS, sep = ""))
       
       parameters.names <- c(if ( .nodrift ) NULL else drift.n,
                             varsd.n, ar.n, ma.n)
    
       predictors.names <-  c( if( .nodrift ) NULL else 
-          namesof(drift.n, link = .ldrift , earg = .edrift, tag = FALSE),
-          namesof(varsd.n, link = if ( .var.arg ) .lvar  else .lsd ,
+      namesof(drift.n, link = .ldrift , earg = .edrift, tag = FALSE),
+      namesof(varsd.n, link = if ( .var.arg ) .lvar  else .lsd ,
                            earg = if ( .var.arg ) .evar  else .esd ),
-          namesof(ar.n, link = .lARcoeff , earg = .eARcoeff , tag = FALSE),
-          namesof(ma.n, link = .lMAcoeff , earg = .eMAcoeff , tag = FALSE))
+     namesof(ar.n, link = .lARcoeff , earg = .eARcoeff , tag = FALSE),
+     namesof(ma.n, link = .lMAcoeff , earg = .eMAcoeff , tag = FALSE))
       
-     predictors.names <- predictors.names[interleave.VGAM(M1*NOS, M1 = M1)]
+     predictors.names <- 
+               predictors.names[interleave.VGAM(M1*NOS, M1 = M1)]
      
       if (!length(etastart)) {
         init.dr  <- matrix(0.0, nrow = n, ncol = NOS)
@@ -336,8 +337,8 @@ ARMAXff <-
         
         for (rsp in 1:NOS) {
           to.fit <- cbind(y.sc[, rsp, drop = FALSE],
-                          WN.lags(y = cbind(y.sc[, rsp, drop = FALSE]),
-                          lags = .ARord + .MAord + 5))
+                         WN.lags(y = cbind(y.sc[, rsp, drop = FALSE]),
+                         lags = .ARord + .MAord + 4))
           
           to.fit <- lsfit(x = to.fit[, -1, drop = FALSE],
                           y = to.fit[,  1, drop = FALSE],
@@ -350,9 +351,9 @@ ARMAXff <-
           # Initial values.
           if (TRUE) {
           to.fit <- cbind(y.sc[, rsp, drop = FALSE],
-                          WN.lags(y = cbind(y.sc[, rsp, drop = FALSE]),
+                        WN.lags(y = cbind(y.sc[, rsp, drop = FALSE]),
                           lags = .ARord ),
-                          WN.lags(y = res2.mat[, rsp, drop = FALSE],
+                        WN.lags(y = res2.mat[, rsp, drop = FALSE],
                                   lags = .MAord ))
           to.fit <- lsfit(x = to.fit[, -1, drop = FALSE],
                           y = to.fit[,  1, drop = FALSE],
@@ -361,23 +362,23 @@ ARMAXff <-
           
           initCoe <- coef(to.fit)
           
-          extra$res <- res2.mat[, rsp] <- residuals(to.fit)
-          just.hlp <-matrix(if (length( .iARcoeff )) iniar[ rsp, ] else
-                       initCoe[1:( .ARord )], n, .ARord , byrow = TRUE)
-          init.AR[, rsp, ] <- just.hlp
+      extra$res <- res2.mat[, rsp] <- residuals(to.fit)
+      just.hlp <-matrix(if (length( .iARcoeff )) iniar[ rsp, ] else
+                     initCoe[1:( .ARord )], n, .ARord , byrow = TRUE)
+      init.AR[, rsp, ] <- just.hlp
           
-          just.hlp <-matrix(if (length( .iMAcoeff )) inima[ rsp, ] else
-                      initCoe[-c(1:( .ARord ))], n, .MAord , byrow = TRUE)
-          init.MA[, rsp, ] <- just.hlp
+      just.hlp <-matrix(if (length( .iMAcoeff )) inima[ rsp, ] else
+                initCoe[-c(1:( .ARord ))], n, .MAord , byrow = TRUE)
+      init.MA[, rsp, ] <- just.hlp
           
-          init.dr[, rsp] <- if (length( .idrift )) myIdrift[rsp] else
-                       mean(y[, rsp]) * (1 - sum(initCoe[1:( .ARord )]))
+      init.dr[, rsp] <- if (length( .idrift )) myIdrift[rsp] else
+                   mean(y[, rsp]) * (1 - sum(initCoe[1:( .ARord )]))
           
-          init.sig[, rsp] <- if( .var.arg ) var(res2.mat[, rsp]) else
-                                                sd(res2.mat[, rsp])
+      init.sig[, rsp] <- if( .var.arg ) var(res2.mat[, rsp]) else
+                                              sd(res2.mat[, rsp])
         }
         
-        #res2.mat[c(1: max( .ARord, .MAord )), 1] <- median(res2.mat[, 1])
+  #res2.mat[c(1: max( .ARord, .MAord )), 1] <- median(res2.mat[, 1])
         extra$res <- res2.mat
         
         etastart  <- cbind(if ( .nodrift ) NULL else init.dr ,
@@ -386,9 +387,9 @@ ARMAXff <-
                            matrix(init.MA, n, NOS * ( .MAord )))
         
         etastart <- cbind(if ( .nodrift ) NULL else
-                    theta2eta(init.dr, .ldrift , .edrift ),
-                    theta2eta(init.sig, if ( .var.arg ) .lvar else .lsd ,
-                              if ( .var.arg ) .evar else .esd ),
+                theta2eta(init.dr, .ldrift , .edrift ),
+                theta2eta(init.sig, if ( .var.arg ) .lvar else .lsd ,
+                            if ( .var.arg ) .evar else .esd ),
                     theta2eta(matrix(init.AR, n, NOS * ( .ARord )),
                              .lARcoeff , .eARcoeff ), 
                     theta2eta(matrix(init.MA, n, NOS * ( .MAord ) ),
@@ -449,7 +450,7 @@ ARMAXff <-
         y.est[c(1:NNro), ii] <- (NNro + 0.10) *
                                y.est[c(2:(NNro + 1)), ii]
       }  
-
+      
       y.est
       
     }, list( .ldrift = ldrift , .lvar = lvar , .lsd = lsd ,
@@ -508,13 +509,13 @@ ARMAXff <-
       
       for (jj in 1:NOS) {
         
-        if (!(.nodrift ))
-          misc$link[ M1 * jj - .nOrder - 1 ] <- .ldrift
-        misc$link[M1 * jj - .nOrder] <- if ( .var.arg ) .lvar else .lsd 
+  if (!(.nodrift ))
+    misc$link[ M1 * jj - .nOrder - 1 ] <- .ldrift
+    misc$link[M1 * jj - .nOrder] <- if ( .var.arg ) .lvar else .lsd 
         
-        if (!(.nodrift ))
-          misc$earg[[ M1 * jj - .nOrder - 1 ]] <- .edrift 
-        misc$earg[[M1 * jj - .nOrder]] <- if ( .var.arg ) .evar else .esd
+  if (!(.nodrift ))
+    misc$earg[[ M1 * jj - .nOrder - 1 ]] <- .edrift 
+    misc$earg[[M1 * jj - .nOrder]] <- if ( .var.arg ) .evar else .esd
         
         for (kk in 1:.ARord ) {
           misc$link[  M1 * jj - .nOrder + kk ]  <- .lARcoeff 
@@ -559,8 +560,8 @@ ARMAXff <-
             coefAr <- c(coefAr, myAux2)
             coefMa <- c(coefMa, myAux3)
           }
-          coefAr <- eta2theta(coefAr, link = .lARcoeff , earg = .eARcoeff)
-          coefMa <- eta2theta(coefMa, link = .lMAcoeff , earg = .eMAcoeff)
+     coefAr <- eta2theta(coefAr, link = .lARcoeff , earg = .eARcoeff)
+     coefMa <- eta2theta(coefMa, link = .lMAcoeff , earg = .eMAcoeff)
           
           # 2016/March/01. Roots printed out by 'summary(vglm)'. '.
           checkAR <- checkTS.ffs(thetaEst = coefAr,
@@ -575,18 +576,20 @@ ARMAXff <-
                                  chOrder  = .MAord ,
                                  pRoots   = FALSE,
                                  retmod   = TRUE)
-          flag1 <- (all(checkAR > 0) && any(checkAR < 1 + 5e-3))
-          flag1 <- ((all(checkMA > 0) && any(checkMA < 1 + 5e-3)) || flag1)
+    flag1 <- (all(checkAR > 0) && any(checkAR < 1 + 5e-3))
+    flag1 <- ((all(checkMA > 0) && any(checkMA < 1 + 5e-3)) || flag1)
+    
+    if (!flag1)
+      cat("\nChecks on stationarity / invertibility successfully",
+          "performed. \nNo roots liying inside the unit circle.",
+          "\nFurther details within the 'summary' output.\n") else
+            
+         cat("\nChecks on stationarity / invertibility successfully",
+              "performed. \nNOTE: Some roots lie inside the unit ",
+                "circle. \nFurther details within the 'summary' ", 
+                "output.\n")
           
-          if (!flag1)
-            cat("\nChecks on stationarity / invertibility successfully",
-                "performed. \nNo roots liying inside the unit circle.",
-                "\nFurther details within the 'summary' output.\n") else
-              
-              cat("\nChecks on stationarity / invertibility successfully",
-                  "performed. \nNOTE: Some roots lie inside the unit ",
-                  "circle. \nFurther details within the 'summary' ", 
-                  "output.\n")
+         
         } else {
           cat("\nApparently, some constraints have been set.",
               "\nDetails on stationarity / invertibility",
@@ -609,8 +612,8 @@ ARMAXff <-
    
    
     loglikelihood = 
-        eval(substitute(function(mu, y, w, residuals = FALSE,
-                                 eta, extra = NULL, summation = TRUE) {
+      eval(substitute(function(mu, y, w, residuals = FALSE,
+                               eta, extra = NULL, summation = TRUE) {
       
       #NOS <- extra$NOS
       y   <- extra$y
@@ -619,7 +622,7 @@ ARMAXff <-
       eim.ap <- ( .type.EIM == "approximate")
       
       drifts <- if ( .nodrift ) matrix(0.0, nrow = n, ncol = NOS) else 
-                   eta2theta(eta[, M1*(1:NOS) - .nOrder - 1, drop = FALSE],
+              eta2theta(eta[, M1*(1:NOS) - .nOrder - 1, drop = FALSE],
                              link =  .ldrift , earg = .edrift )
      
       if ( .var.arg ) {
@@ -640,15 +643,21 @@ ARMAXff <-
      
       for ( mi in 1:( .MAord ))
         mas[, , mi] <- eta2theta(eta[, M1 * (1:NOS) -
-                                       ( .MAord ) + mi , drop = FALSE],
-                                 link = .lMAcoeff , earg = .eMAcoeff )
+                                 ( .MAord ) + mi , drop = FALSE],
+                               link = .lMAcoeff , earg = .eMAcoeff )
      
       y.est <- matrix(NA_real_, n , NOS)
+      print(head(cbind(ars)))
+      print(head(cbind(mas)))
+      
+      
+      
       for (ii in 1:NOS) 
         y.est[, ii] <- drifts[, ii] + rowSums(cbind(ars[, ii, ] *
-                     WN.lags(y = cbind(extra$y[, ii]), lags = .ARord ),
+                    WN.lags(y = cbind(extra$y[, ii]), lags = .ARord ),
                   mas[, ii, ] * WN.lags(y = cbind(extra$res[, ii]),
-                              lags = .MAord ))) +  extra$res
+                              lags = .MAord ))) #+  extra$res
+      
       
        if (residuals) {
          stop("Loglikelihood not implemented yet to",
@@ -696,12 +705,12 @@ ARMAXff <-
      
      for (ai in 1:( .ARord )) 
        ars[, , ai] <- eta2theta(eta[, M1 * (1:NOS) -
-                                ( .ARord + .MAord ) + ai, drop = FALSE],
-                                link = .lARcoeff , earg = .eARcoeff )
+                         ( .ARord + .MAord ) + ai, drop = FALSE],
+                            link = .lARcoeff , earg = .eARcoeff )
      
      for ( mi in 1:( .MAord )) 
        mas[, , mi] <- eta2theta(eta[, M1 * (1:NOS) -
-                                      ( .MAord ) + mi , drop = FALSE],
+                                  ( .MAord ) + mi , drop = FALSE],
                                 link = .lMAcoeff , earg = .eMAcoeff )
      
      okay1 <- (all(is.finite(sigWN)) && all(0 < sigWN) &&
@@ -758,9 +767,9 @@ ARMAXff <-
       y.est <- matrix(NA_real_, n , NOS)
       for (ii in 1:NOS) 
         y.est[, ii] <- drifts[, ii] + rowSums(cbind(ars[, ii, ] *
-                      WN.lags(y = cbind(extra$y[, ii]), lags = .ARord ),
+                  WN.lags(y = cbind(extra$y[, ii]), lags = .ARord ),
                               mas[, ii, ] *
-                      WN.lags(y = cbind(extra$res[, ii]), lags = .MAord )))
+                WN.lags(y = cbind(extra$res[, ii]), lags = .MAord )))
       
       dl.drfmean <- (y - y.est) / sigWN^2
       if ( .var.arg ) {
@@ -772,28 +781,30 @@ ARMAXff <-
       dl.dThe <- array(NA_real_, dim = c(n, NOS, .ARord ))
       dl.dPhi <- array(NA_real_, dim = c(n, NOS, .MAord ))
       
-      for (ii in 1:NOS) 
-        dl.dThe[, ii, ] <- WN.lags(y = cbind(y[, ii]), lags = .ARord ) *
-              matrix((y[, ii]- y.est[, ii]), n , .ARord ) / sigWN[, ii]^2
+  for (ii in 1:NOS) 
+    dl.dThe[, ii, ] <- WN.lags(y = cbind(y[, ii]), lags = .ARord ) *
+          matrix((y[, ii]- y.est[, ii]), n , .ARord ) / sigWN[, ii]^2
       
-      for (ii in 1:NOS) 
-        dl.dPhi[, ii, ] <- WN.lags(y = cbind(extra$res[, ii]),
+  for (ii in 1:NOS) 
+    dl.dPhi[, ii, ] <- WN.lags(y = cbind(extra$res[, ii]),
                                    lags = .MAord ) *
-              matrix((y[, ii] - y.est[, ii]), n , .MAord ) / sigWN[, ii]^2
+        matrix((y[, ii] - y.est[, ii]), n , .MAord ) / sigWN[, ii]^2
       
       ddrif.deta <- dtheta.deta(drifts , .ldrift , .edrift)
-      dsewn.deta <- if (.var.arg) dtheta.deta(sigWN^2, .lvar , .evar) else
+      dsewn.deta <- 
+        if (.var.arg) dtheta.deta(sigWN^2, .lvar , .evar) else
                                       dtheta.deta(sigWN, .lsd , .esd)
       dThe.deta  <- dtheta.deta(ars , .lARcoeff , .eARcoeff)
       dPhi.deta  <- dtheta.deta(mas , .lMAcoeff , .eMAcoeff)
       
-      myderiv <- c(w) * cbind(if ( .nodrift ) NULL else
-                                         dl.drfmean * ddrif.deta,
-                            if ( .var.arg ) dl.dvar * dsewn.deta else
-                                               dl.dsd * dsewn.deta,
-                      matrix( dl.dThe * dThe.deta, n, NOS * ( .ARord )),
-                      matrix( dl.dPhi * dPhi.deta, n, NOS * ( .MAord )))
-      myderiv <- myderiv[, interleave.VGAM(( .realM1 )*NOS , M1 = .realM1)]
+      myderiv <- 
+       c(w) * cbind(if ( .nodrift ) NULL else dl.drfmean * ddrif.deta,
+        if ( .var.arg ) dl.dvar * dsewn.deta else dl.dsd * dsewn.deta,
+                matrix( dl.dThe * dThe.deta, n, NOS * ( .ARord )),
+                  matrix( dl.dPhi * dPhi.deta, n, NOS * ( .MAord )))
+      
+      myderiv <- 
+         myderiv[, interleave.VGAM(( .realM1 )*NOS , M1 = .realM1)]
       
       myderiv
       
@@ -833,26 +844,29 @@ ARMAXff <-
             a.bind[, x[1]] * a.bind[, x[2]]
           })
           
-          final.eim <- cbind(final.eim, c(w[, ii]) * exact.eim * dthdeta)
-        }
+      final.eim <- cbind(final.eim, c(w[, ii]) * exact.eim * dthdeta)
+    }
+    
         
-        final.eim <-
-          final.eim[, interleave.VGAM( NOS * M1 * (M1 + 1) / 2, M1 = NOS)]
-        final.eim <- array(c(final.eim), dim = c(n, NOS, M1 * (M1 + 1)/ 2))
+    final.eim <-
+      final.eim[, interleave.VGAM( NOS * M1 * (M1 + 1) / 2, M1 = NOS)]
+               final.eim <- array(c(final.eim), 
+                                    dim = c(n, NOS, M1 * (M1 + 1)/ 2))
         
         wz <- arwz2wz(final.eim, M = M1 * NOS, M1 = M1)
         
       } else {
         
         ned2l.dsmn   <- 1 / sigWN^2
-        ned2l.dvarSD <- if ( .var.arg ) 1 / (2 * sigWN^4) else 2 / sigWN^2
+        ned2l.dvarSD <- if ( .var.arg ) 1 / (2 * sigWN^4) else 
+                                                        2 / sigWN^2
         
         gammas.y <- apply(y, 2, function(x) {
           cross.gammas(x = x, lags = 0)
         })
         
-        ned2l.dthe <- matrix(gammas.y, n, NOS * ( .ARord ), byrow = TRUE) /
-                            matrix(sigWN^2, n, NOS * ( .ARord ))
+        ned2l.dthe <- matrix(gammas.y, n, NOS * ( .ARord ), 
+                  byrow = TRUE) / matrix(sigWN^2, n, NOS * ( .ARord ))
         
         dThe.deta <- matrix(dThe.deta, n, NOS * ( .ARord ))
         
@@ -869,7 +883,7 @@ ARMAXff <-
       
       
        wz[which(wz[, 1:(NOS * M1)] < .Machine$double.eps)] <-
-                                             .Machine$double.base^(0.75)
+                                          .Machine$double.base^(0.75)
        
        wz
       
@@ -882,9 +896,9 @@ ARMAXff <-
               .type.EIM = type.EIM )))
     ) # End of alo
   
-   alo
+  alo
   
-  } # End of ARMAXff
+} # End of ARMAXff
   
 
 
@@ -944,3 +958,5 @@ quick.check.coeffs <- function(arc, mac, NOS, arOrd, maOrd) {
   
   invisible(NULL)
 }
+
+

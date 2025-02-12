@@ -73,9 +73,11 @@ are returned as the fitted values.
 
 }
 \value{
-  An object of class \code{"vglmff"} (see \code{\link{vglmff-class}}).
-  The object is used by modelling functions such as \code{\link{vglm}},
-  and \code{\link{vgam}}.
+  An object of class \code{"vglmff"} 
+  (see \code{\link[VGAM:vglmff-class]{vglmff-class}}).
+  The object is used by modelling functions such as 
+  \code{\link[VGAM:vglm]{vglm}},
+  and \code{\link[VGAM:vgam]{vgam}}.
 }
 
 \references{

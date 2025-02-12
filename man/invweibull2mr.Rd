@@ -65,7 +65,8 @@
   %If given, their absolutes values must be either 
   %1 or 2. By default, the shape parameter (after \code{lshape} is applied) 
   %is modelled (\code{zero = -2}) as the single unknown number that is estimated. 
-  Details at \code{\link{CommonVGAMffArguments}}
+  Details: 
+  \code{\link[VGAM:CommonVGAMffArguments]{CommonVGAMffArguments}}.
   
   
   }

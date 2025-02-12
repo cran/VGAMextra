@@ -35,7 +35,7 @@
   shape parameter \code{p}, and
   shape parameter \code{q}.
   All four parameters are positive.
-  See \code{\link{Links}} for more choices.
+  See \code{\link[VGAM:Links]{Links}} for more choices.
   
   
   }
@@ -54,7 +54,8 @@
   }
   \item{gscale, gshape1.a, gshape2.p, gshape3.q}{
   Grid search initial values.
-  See \code{\link{CommonVGAMffArguments}} for further information.
+  See \code{\link[VGAM:CommonVGAMffArguments]{CommonVGAMffArguments}}
+  for further information.
   
   
   }
@@ -69,7 +70,8 @@
   
   }
   \item{lss, probs.y}{
-  See \code{\link{CommonVGAMffArguments}} for important information.
+  See \code{\link[VGAM:CommonVGAMffArguments]{CommonVGAMffArguments}} 
+  for fuller details.
   
   
   } 
@@ -121,9 +123,11 @@ recommended.
 }
 \value{
 
-  An object of class \code{"vglmff"} (see \code{\link{vglmff-class}}).
-  The object is used by modelling functions such as \code{\link{vglm}},
-  and \code{\link{vgam}}.
+  An object of class \code{"vglmff"} 
+  (see \code{\link[VGAM:vglmff-class]{vglmff-class}}).
+  The object is used by modelling functions such as 
+  \code{\link[VGAM:vglm]{vglm}},
+  and \code{\link[VGAM:vgam]{vgam}}.
 
 
 }
@@ -190,17 +194,17 @@ position of location (b) and shape1.a (a), only.
 }
 \seealso{
 
-    \code{\link{betaff}},
-    \code{\link{betaII}},
-    \code{\link{dagum}},
-    \code{\link{sinmad}},
-    \code{\link{fisk}},
-    \code{\link{lomax}},
-    \code{\link{inv.lomax}},
-    \code{\link{paralogistic}},
-    \code{\link{inv.paralogistic}},
+    \code{\link[VGAM:betaff]{betaff}},
+    \code{\link[VGAM:betaII]{betaII}},
+    \code{\link[VGAM:dagum]{dagum}},
+    \code{\link[VGAM:sinmad]{sinmad}},
+    \code{\link[VGAM:fisk]{fisk}},
+    \code{\link[VGAM:lomax]{lomax}},
+    \code{\link[VGAM:inv.lomax]{inv.lomax}},
+    \code{\link[VGAM:paralogistic]{paralogistic}},
+    \code{\link[VGAM:inv.paralogistic]{inv.paralogistic}},
     %\code{\link{lino}},
-    \code{\link{genbetaIIDist}}.
+    \code{\link[VGAM:genbetaII]{genbetaII}}.
     
 }
 \examples{

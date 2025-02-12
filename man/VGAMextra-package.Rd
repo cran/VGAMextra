@@ -305,7 +305,8 @@ mydof <- 4
 
 ### Using B-splines with 'mydof'-degrees of freedom on the predictors
 fit.QM <- vglm(Q.reg(y, pvector = mytau) ~ bs(x2, df = mydof),
-                 family = maxwell(link = maxwellQlink(p = mytau), zero = NULL),
+                 family = maxwell(link = "maxwellQlink(p = mytau)", 
+                 zero = NULL),
                  data = maxdata, trace = TRUE)
             
 summary(fit.QM, lscore0 = TRUE)

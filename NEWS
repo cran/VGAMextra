@@ -1,11 +1,20 @@
 ###########################################
 #                                         #
-#          Series 0.0-6                   #
+#          Series 0.0-7                   #
 #                                         #
 ###########################################
 
 
                 CHANGES in VGAMextra 
+                
+                 VERSION 0.0-7 (February 2025)
+  o  Examples from documentation files involving VGAM link functions
+     are now amenable to VGAM (version >= 1.1-12). 
+     For further details on the way link functions must be entered
+     into family functions, see
+     https://www.stat.auckland.ac.nz/~yee/VGAM/prerelease/
+  o Tested okay on R 4.4.2. 
+
 
                  VERSION 0.0-6 (October 2023)
   o  New dpqr-type functions for the truncated normal and lognormal

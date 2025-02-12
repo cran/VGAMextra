@@ -24,13 +24,16 @@
   Link functions applied to the (positives) \emph{mu} and \emph{shape}
   parameters (called \eqn{\mu}{mu} and \eqn{a}{shape} respectively), 
   according to \code{\link[VGAM:gamma2]{gamma2}}.
-  See \code{\link{CommonVGAMffArguments}} for further information.
+  See 
+  \code{\link[VGAM:CommonVGAMffArguments]{CommonVGAMffArguments}} 
+  for further information.
 
 
   }
   \item{parallel}{
   Same as \code{\link[VGAM:gamma2]{gamma2}}.
-  Details at \code{\link{CommonVGAMffArguments}}.  
+  Details at 
+  \code{\link[VGAM:CommonVGAMffArguments]{CommonVGAMffArguments}}.  
   %If \code{parallel = TRUE} then the constraint is not applied 
   %to the intercept.
 
@@ -122,9 +125,11 @@
 }
 \value{
 
-  An object of class \code{"vglmff"} (see \code{\link{vglmff-class}}).
-  The object is used by modelling functions such as \code{\link{vglm}}
-  and \code{\link{vgam}}.
+  An object of class \code{"vglmff"} 
+  (see \code{\link[VGAM:vglmff-class]{vglmff-class}}).
+  The object is used by modelling functions
+  such as \code{\link[VGAM:vglm]{vglm}}
+  and \code{\link[VGAM:vgam]{vgam}}.
 
 }
 \references{

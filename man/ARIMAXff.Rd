@@ -8,7 +8,7 @@ The Order--\eqn{(p, d, q)} Autoregressive Integrated Moving
 Average Model (ARIMA(p, d, q)) with covariates}
 \description{
 
-  Maximum likelihood estimation of the drift,
+  Maximum likelihood estimation of the drift, 
   standard deviation or variance of the random noise,
   and coefficients of an autoregressive integrated
   moving average process of order-\eqn{(p, d, q)}

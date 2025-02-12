@@ -86,7 +86,8 @@
 
 }
 \examples{
-   
+
+
   ###  Quantile regression with data distributed as Maxwell(s)  ###
    set.seed(12073)
    x2 <- seq(0, 100,length.out = 100)       # independent variable
@@ -103,15 +104,17 @@
    # Quantiles 25\%, 50\%, 75\% are of interest #
    my.p <- c(0.25, 0.50, 0.75)
    
+
    fit <- vglm(Q.reg(y, pvector = my.p) ~ x2 + x3, 
    
   # OPTIONALLY Q.reg(y, length = length(my.p)) ~ x2 + x3
    
-              maxwell(link = maxwellQlink(p = my.p)), 
+              maxwell(link = "maxwellQlink(p = my.p)"), 
               data = mdata,  trace = TRUE, crit = "coef")
 
    coef(fit, matrix = TRUE) 
    summary(fit)
    head(predict(fit))
    constraints(fit)
+   
 }

@@ -1,6 +1,6 @@
 Package: VGAMextra
-Version: 0.0-6
-Date: 2023-10-31
+Version: 0.0-7
+Date: 2025-02-12
 Title: Additions and Extensions of the 'VGAM' Package
 Authors@R: c(person("Victor", "Miranda", role = c("aut", "cre", 
            "cph"),
@@ -11,7 +11,7 @@ Authors@R: c(person("Victor", "Miranda", role = c("aut", "cre",
 Author: Victor Miranda [aut, cre, cph],
   Thomas Yee [ctb, ths, cph]
 Maintainer: Victor Miranda <victor.miranda@aut.ac.nz>
-Depends: R (>= 4.2.0), methods, stats, stats4, VGAM(>= 1.0.0)
+Depends: R (>= 4.2.0), methods, stats, stats4, VGAM(>= 1.1-1)
 Suggests: VGAMdata
 Description: Extending the functionalities of the 'VGAM' package with
          additional functions and datasets. At present, 'VGAMextra'
@@ -34,6 +34,6 @@ Description: Extending the functionalities of the 'VGAM' package with
 License: GPL-2
 NeedsCompilation: yes
 BuildVignettes: yes
-Packaged: 2023-10-31 03:19:14 UTC; vico
+Packaged: 2025-02-12 02:25:52 UTC; vico
 Repository: CRAN
-Date/Publication: 2023-10-31 03:40:03 UTC
+Date/Publication: 2025-02-12 11:40:13 UTC
