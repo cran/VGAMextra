@@ -1,6 +1,6 @@
 ##########################################################################
 # These functions are
-# Copyright (C) 2014-2020 V. Miranda & T. Yee
+# Copyright (C) 2014-2025 V. Miranda & T. Yee
 # Auckland University of Technology & University of Auckland
 # All rights reserved.
 #
@@ -425,17 +425,8 @@ ARIMAXff <-
         
       }
        
-       print(head(init.AR))
-       print(head(init.MA))
        
-       #stop("")
-       
-       #print( .ARord2 )     
-       #print(  .ARord )
-       
-       #print( .MAord2 )     
-       #print(  .MAord )
-          
+
       #if ( .MAord2 != 0 ) {
         
       #  just.hlp <-matrix(if (length( .iMAcoeff )) inima[ rsp, ] else
@@ -736,7 +727,6 @@ ARIMAXff <-
       y.est <- drifts + log(1) * ifelse(M1 > 1, 0.15, 0.15) * extra$res
       ars <- mas <- 0
       
-      print(head(drifts))
       
       if ( .var.arg ) {
         sigWN <- sqrt(eta2theta(eta[, M1*(1:NOS) - .nOrder,

@@ -1,11 +1,12 @@
 ##########################################################################
 # These functions are
-# Copyright (C) 2014-2023 V. Miranda & T. Yee
+# Copyright (C) 2014-2020 V. Miranda & T. Yee
 # Auckland University of Technology & University of Auckland
 # All rights reserved.
 
 
-NegBinomTSff <- function(link = "identitylink",
+NegBinomTSff <- function(Order = c(1, 1),
+                         link = "identitylink",
                          lagged.fixed.obs   = NULL,
                          lagged.fixed.means = NULL,
                          interventions = list(),
@@ -13,9 +14,6 @@ NegBinomTSff <- function(link = "identitylink",
                          f.transform.Y = NULL,
                          transform.lambda = FALSE,
                          imethod = 1) {
-  
-  order <- c(0, 0)
-  Order <- order; rm(order)
   
   init.p    <- init.p.ARMA; rm(init.p.ARMA)
   if (length(init.p) && !Is.Numeric(init.p, isInteger = TRUE, 
@@ -54,33 +52,9 @@ NegBinomTSff <- function(link = "identitylink",
   
   ord1 <- max(fixed.obs, Order[1])
   ord2 <- max(fixed.mean, Order[2])
-  #print(ord1)
-  #print(ord2)
-  
-  if ((ord1 == 0) && (ord2 == 0))
-    stop("Refer to poissonff() to fit an ordinary Poisson dist. ")
-  
-  if (!length(fixed.obs))
-    stop("Wrong input for argument 'lagged.fixed.obs'")
-  
-  if (!length(fixed.mean))
-    stop("Wrong input for argument 'lagged.fixed.mean'")
   
   if (length(fixed.mean) && !is.vector(fixed.mean))
     stop("Wrong input for argument 'lagged.fixed.means'.")
-  
-  if (length(fixed.obs) && !is.vector(fixed.obs))
-    stop("Wrong input for argument 'lagged.fixed.obs'.")
-  
-  if (length(fixed.obs) && 
-      !Is.Numeric(fixed.obs, Nnegative = TRUE, isInteger = TRUE))
-    stop("Enter only admissible values for 'lageed.fixed.obs'.")
-  
-  
-  if (length(fixed.mean) &&
-      !Is.Numeric(fixed.mean, Nnegative = TRUE, isInteger = TRUE))
-    stop("Enter only admissible values for 'lageed.fixed.means'.")
-  
   
   # Defaults, 17-07
   zero <- "size"
@@ -176,16 +150,13 @@ NegBinomTSff <- function(link = "identitylink",
         stop("Currently, only univariate time series handled.")
       
       iniOrd <- if (length( .init.p )) .init.p else
-        max(10, .ord1 + .ord2 + 1)  # Dec 2017, Old is init.p = 10
+        max(8, .ord1 + .ord2 + 1)  # Dec 2017, Old is init.p = 10
       nn <- NROW(y)
       
-      #print( .ord2 )
-      #print( .ord1 )
       temp.pd <- data.frame(y = y, WN.lags(y = cbind(y), 
                                            lags = iniOrd ))
       colnames(temp.pd) <- c("y", paste("x", 2:( iniOrd + 1), 
                                         sep = ""))
-      #print(head(temp.pd))
       
       myform <- character(0)
       for (ii in 2:(iniOrd + 1)) {
@@ -195,21 +166,11 @@ NegBinomTSff <- function(link = "identitylink",
       }
       
       myform <- paste("y ~ 1 +", myform, sep = " ")
-      #print(myform)
-      #print(head(temp.pd))
-      #print("hola")
-     # stop()
       vglm.temp <- vglm(as.formula(myform),
                         negbinomial(lmu = .lmu ),
                         trace = FALSE, data = temp.pd, smart = FALSE)
       a.help  <- fitted.values(vglm.temp) # Lambda hat
       
-      #a.help <- rep(mean(y + 1), length(y))
-      
-      #print(head(a.help))
-      
-      
-      #print(head(a.help))
       if (FALSE) {
         a.help <- lsfit(x = WN.lags(y = cbind(y), lags = iniOrd),
                         y = y, intercept = TRUE)
@@ -232,26 +193,11 @@ NegBinomTSff <- function(link = "identitylink",
         
         if (length( .fy )) {
           fy <- .fy
-          print(head(x1.mat))
-          
-          #x1.mat <- fy(x1.mat)
-          
-          mynames <- colnames(x1.mat)
-          if (identical(fy, log)) {
-            mynames <- paste("Log(", mynames, ")", sep = "")
-          } else {
-            if (identical(fy, log1p)) {
-              mynames <- paste("Log(", mynames, "+ 1)", sep = "")
-            } else {
-              mynames <- paste("f(", mynames, ")", sep = "")
-            }
-          }
-          colnames(x1.mat) <- mynames
-        #x1.mat <- if (identical(fy, log)) log1p(x1.mat) else fy(x1.mat)
-        #  colnames(x1.mat) <- 
-        #    if (identical(fy, log) || identical(fy, log1p))
-        #         paste("Log(Ylag + 1)", 1:( .ord1 ), sep = "")  else 
-        #           paste("f(Ylag)", 1:( .ord1 ), sep = "")
+          x1.mat <- if (identical(fy, log)) log1p(x1.mat) else fy(x1.mat)
+          colnames(x1.mat) <- 
+            if (identical(fy, log) || identical(fy, log1p))
+                 paste("Log(Ylag + 1)", 1:( .ord1 ), sep = "")  else 
+                   paste("f(Ylag)", 1:( .ord1 ), sep = "")
         }
         counts <- length(if (!my.ord[1]) .fixed.obs else 
              unique( c(1:(my.ord[1]) , .fixed.obs ))) + counts
@@ -270,8 +216,8 @@ NegBinomTSff <- function(link = "identitylink",
 
         if ( .flam ) {
           x2.mat <- if (identical( .link, "loglink")) 
-                theta2eta(x2.mat + 1, .link , .earg ) else
-                     theta2eta(x2.mat, .link , .earg )
+                theta2eta(x2.mat + 1, .link , .earg) else
+                     theta2eta(x2.mat, .link , .earg)
           if (!identical( .link, "identitylink")) 
             colnames(x2.mat) <- paste(attributes( .earg )$function.name,
                               paste("lambLag", 1:NCOL(x2.mat), sep = ""))
@@ -297,8 +243,8 @@ NegBinomTSff <- function(link = "identitylink",
         if (!noI) {
           here.first <- which(del > 0 & del < 1)
           if (!length(here.first))
-            stop("Only interactions with exponential intervention ",
-                 "effects handled.")
+            stop("Only exponential intervention effects handled ",
+                 "currently.")
           
           if (length(here.first) == 1) {
             warning("No interactions terms needed. Only a single ",
@@ -334,12 +280,6 @@ NegBinomTSff <- function(link = "identitylink",
       attr(x.matrix, "assign") <- list.names
       x <- x.matrix
       
-      print(head(x, 30))
-     # print(tail(x))
-    #  stop()
-      #print(tail(x, 70))
-      
-  
     }), list( .ord1 = ord1 , .ord2 = ord2 , .Order = Order ,
               .fixed.mean = fixed.mean , .fixed.obs = fixed.obs ,
               .link = lmu , .interv = interv , .init.p = init.p ,
@@ -577,18 +517,6 @@ NegBinomTSff <- function(link = "identitylink",
                            param.names("size", NOS))
       misc$link <- temp0303[interleave.VGAM(M, M1 = M1)] # Already named
       
-      misc$ord1 <- .ord1
-      misc$ord2 <- .ord2
-      misc$Order <- .Order
-      misc$fixed.mean <- .fixed.mean
-      misc$fixed.obs  <- .fixed.obs
-      misc$lmu <- .lmu
-      misc$interv <- .interv
-      misc$init.p <- .init.p
-      #misc$earg <- .emunb
-      misc$fy <- .fy
-      misc$flam <- .flam
-    
       misc$earg <- vector("list", M)
       names(misc$earg) <- names(misc$link)
       for (ii in 1:NOS) {
@@ -599,11 +527,7 @@ NegBinomTSff <- function(link = "identitylink",
       misc$additional.coe <- kmat # fit$coefficients[2]
       
     }), list( .lmunb = lmunb, .lsize = lsize,
-              .emunb = emunb, .esize = esize,
-              .ord1 = ord1 , .ord2 = ord2 , .Order = Order ,
-              .fixed.mean = fixed.mean , .fixed.obs = fixed.obs ,
-              .link = lmu , .interv = interv , .init.p = init.p ,
-              .earg = emunb , .fy = fy , .flam = flam , .lmu = lmu ))),
+              .emunb = emunb, .esize = esize ))),
     
     
         
@@ -676,7 +600,7 @@ NegBinomTSff <- function(link = "identitylink",
         
         
         
-    vfamily = c("NegBinomTSff", "vgltsmff", "VGLM.INGARCHff"),
+    vfamily = c("NegBinomTSff", "vgltsmff", "VGLMINGARCH"),
         
         
         

@@ -1,12 +1,16 @@
 ###########################################
 #                                         #
-#          Series 0.0-7                   #
+#          Series 0.0-8                   #
 #                                         #
 ###########################################
 
 
-                CHANGES in VGAMextra 
+                    CHANGES in VGAMextra 
                 
+                 VERSION 0.0-8 (August 2025)
+  o Examples from documentation files involving ARMAX models run
+    now okay. 
+
                  VERSION 0.0-7 (February 2025)
   o  Examples from documentation files involving VGAM link functions
      are now amenable to VGAM (version >= 1.1-12). 

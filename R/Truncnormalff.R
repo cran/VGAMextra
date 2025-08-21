@@ -152,7 +152,7 @@ truncnormal <-
             sd.y.est <- sqrt( sum(c(w) * mylm$resid^2)
                                  / mylm$df.residual )
             
-            #print(head(mean(y)))
+           
             #loglike <- function(x, theta) {
             #  sum(-dtruncnormal(x = x, A = 7.4, B = 12.8, 
             #                    mean = 10.09, sd = theta, 
@@ -370,7 +370,7 @@ truncnormal <-
           ##################################################################
           testtt <- c(w) * cbind(dl.dmu * dmu.deta,
                         dl.dsd * dsd.deta)
-          #print(colSums(testtt))
+     
           
           extra$colmeans <- c(extra$colmeans, colMeans(testtt))
           

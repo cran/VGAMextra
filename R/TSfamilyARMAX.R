@@ -647,8 +647,6 @@ ARMAXff <-
                                link = .lMAcoeff , earg = .eMAcoeff )
      
       y.est <- matrix(NA_real_, n , NOS)
-      print(head(cbind(ars)))
-      print(head(cbind(mas)))
       
       
       

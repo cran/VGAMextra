@@ -179,7 +179,7 @@ AR.studentt.ff <- function(order = 1,
         Loc <-  eta2theta(eta[, M1*(1:NOS)-2], .lloc , earg = .eloc )
         Dof <-  eta2theta(eta[, M1*(1:NOS)-0], .ldof , earg = .edof )
         Loc[Dof <= 1] <- NA
-        #print(head(cbind(extra$y.int, Loc)))
+        
         Loc  + y.int
         
       }, list( .lloc = lloc, .eloc = eloc,

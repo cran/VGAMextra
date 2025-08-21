@@ -351,6 +351,7 @@ tsdata <- data.frame(TS1 = mu[1] + arima.sim(model = list(ar = theta, ma = phi,
 
 ### EXAMPLE 1. Fitting a simple ARIMA(2, 1, 2) using vglm(). 
 # Note that no covariates involved. 
+\dontrun{
 fit.ARIMA1 <-  vglm(TS1 ~ 1, ARIMAXff(order = c(2, 1, 2), var.arg = FALSE,
                        # OPTIONAL INITIAL VALUES
                        # idrift = c(1.5)*(1 - sum(theta)), 
@@ -398,6 +399,7 @@ fit.ARIMA3 <- vglm(TS3 ~ x2,  ARIMAXff(order = c(1, 1, 2), var.arg = TRUE,
 coef(fit.ARIMA3, matrix = TRUE)
 summary(fit.ARIMA3)
 constraints(fit.ARIMA3)
+}
 
 }
 %\keyword{ ~kwd1 }

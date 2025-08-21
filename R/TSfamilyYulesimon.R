@@ -5,7 +5,8 @@
 # All rights reserved.
 
 
-yulesimonTSff <- function(link = "loglink",
+yulesimonTSff <- function(Order = c(1, 1),
+                          link = "loglink",
                           lagged.fixed.obs   = NULL,
                           lagged.fixed.means = NULL,
                           interventions = list(),
@@ -15,8 +16,6 @@ yulesimonTSff <- function(link = "loglink",
                           nsimEIM = 200) {
   
   init.p <- init.p.ARMA; rm(init.p.ARMA)
-  Order <- c(0, 0)
-  Order <- order; rm(order)
   
   if (length(init.p) && !Is.Numeric(init.p, isInteger = TRUE, 
                                     length.arg = 1))
@@ -113,19 +112,19 @@ yulesimonTSff <- function(link = "loglink",
         #       "intercept-only models.")
         
         if (any(y < 1) || any(!is.Numeric(y, integer.valued = TRUE)))
-          stop("Some y values are smaller than 1.")
+          stop("The response 'y' has values out of range, i.e., < 1.")
         
         if (NCOL(y) > 1)
           stop("Currently, only univariate time series handled.")
         
         # Differs from other VGLTSM for count data.
         iniOrd <- if (length( .init.p )) .init.p else
-              min(3, .Order[1] + .Order[2] + 1) # Dec 2017. Didn't change
+              min(5, .Order[1] + .Order[2] + 1) # Dec 2017. Didn't change
         
         nn <- NROW(y)
         
         temp.pd <- data.frame(y = y, WN.lags(y = cbind(y),
-                              to.complete = rep(1, iniOrd),
+                              to.complete = rep(mean(y), iniOrd),
                                              lags = iniOrd))
         colnames(temp.pd) <- c("y", paste("x", 2:( iniOrd + 1), 
                                           sep = ""))
@@ -143,9 +142,9 @@ yulesimonTSff <- function(link = "loglink",
                           yulesimon(lshape = .link , zero = NULL),
                           trace = FALSE, data = temp.pd, smart = FALSE)
         
-        
         a.help  <- fitted.values(vglm.temp) # Lambda hat
-                x1.mat <- x2.mat <- x3.mat <- tau <- NULL
+        
+        x1.mat <- x2.mat <- x3.mat <- tau <- NULL
         
         
         if ( .ord1 ) {
@@ -157,45 +156,22 @@ yulesimonTSff <- function(link = "loglink",
             x1.mat <- x1.mat[, if (!my.ord[1]) .fixed.obs else 
                                  unique( c(1:(my.ord[1]) , .fixed.obs )) ,
                             drop = FALSE]
-
           
           if (length( .fy )) {
             fy <- .fy
-            
-            x1.mat <- fy(x1.mat)
-            mynames <- colnames(x1.mat)
-            if (identical(fy(x), log(x))) {
-              mynames <- paste("Log(", mynames, ")", sep = "")
-            } else {
-              if (identical(fy(x), log1p(x))) {
-                mynames <- paste("Log(", mynames, "+ 1)", sep = "")
-              } else {
-                mynames <- paste("f(", mynames, ")", sep = "")
-              }
-            }
-            colnames(x1.mat) <- mynames
-            
-        #x1.mat <- if (identical(fy, log)) log1p(x1.mat) else fy(x1.mat)
-        #                colnames(x1.mat) <- 
-         #     if (identical(fy, log) || identical(fy, log1p))
-        #        paste("Log(Ylag + 1)", 1:( .ord1 ), sep = "")  else 
-        #          paste("f(Ylag)", 1:( .ord1 ), sep = "")
+            x1.mat <- if (identical(fy, log)) log1p(x1.mat) else fy(x1.mat)
+            colnames(x1.mat) <- 
+              if (identical(fy, log) || identical(fy, log1p))
+                paste("Log(Ylag + 1)", 1:( .ord1 ), sep = "")  else 
+                  paste("f(Ylag)", 1:( .ord1 ), sep = "")
           }
-          print(counts)
-          
           counts <- length(if (!my.ord[1]) .fixed.obs else 
              unique( c(1:(my.ord[1]) , .fixed.obs ))) + counts
         }
         
         
         
-        
-                
         if ( .ord2 ) {
-          
-          if ( .flam ) {
-            a.help <- theta2eta(a.help, .link , .earg )
-          }
           x2.mat <- WN.lags(y = cbind(a.help), lags = .ord2 ,
                      to.complete =rep(round(0 * mean(a.help)), .ord2 ))
           colnames(x2.mat) <- paste("lambLag", 1:( .ord2 ), sep = "")
@@ -204,11 +180,10 @@ yulesimonTSff <- function(link = "loglink",
             x2.mat <- x2.mat[, if (!my.ord[2])  .fixed.mean else
                                  unique(c(1:(my.ord[2]), .fixed.mean )) ,
                            drop = FALSE]          
-          
           if ( .flam ) {
-          #  x2.mat <- if (identical( .link, "loglink")) 
-          #        theta2eta(x2.mat + 1, .link , .earg) else
-          #              theta2eta(x2.mat, .link , .earg)
+            x2.mat <- if (identical( .link, "loglink")) 
+                  theta2eta(x2.mat + 1, .link , .earg) else
+                        theta2eta(x2.mat, .link , .earg)
             if (!identical( .link, "identitylink")) 
               colnames(x2.mat) <- paste(attributes( .earg )$function.name,
                                paste("lambLag", 1:NCOL(x2.mat), sep = ""))
@@ -269,11 +244,6 @@ yulesimonTSff <- function(link = "loglink",
           list.names[[ii]] <- ii
         attr(x.matrix, "assign") <- list.names
         x <- x.matrix
-        
-        
-        print(head(x))
-        print(tail(x))
-        stop()
         
       }), list( .ord1 = ord1 , .ord2 = ord2 , .Order = Order ,
                 .fixed.mean = fixed.mean , .fixed.obs = fixed.obs ,
@@ -382,7 +352,7 @@ yulesimonTSff <- function(link = "loglink",
         }, list( .lshape = lshape, .eshape = eshape ))),
       
       
-      vfamily = c("yulesimon","vgltsmff", "VGLM.INGARCHff"),
+      vfamily = c("yulesimon","vgltsmff", "VGLMINGARCH"),
       
       
       validparams = eval(substitute(function(eta, y, extra = NULL) {

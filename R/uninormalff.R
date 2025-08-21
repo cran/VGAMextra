@@ -96,6 +96,7 @@ uninormalff <- function(link1 = "identitylink",
     constraints <- cm.zero.VGAM(constraints, x = x, .zero , M = M,
                                 predictors.names = predictors.names,
                                 M1 = 2)
+    # Test..
     if (FALSE) {
     cons1 <- matrix(c(1, 0, 0, 0, 
                       0, 1, 0, 0,

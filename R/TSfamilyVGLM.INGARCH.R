@@ -1,6 +1,6 @@
 ##########################################################################
 # These functions are
-# Copyright (C) 2014-2023 V. Miranda & T. Yee
+# Copyright (C) 2014-2020 V. Miranda & T. Yee
 # Auckland University of Technology & University of Auckland
 # All rights reserved.
 
@@ -9,22 +9,24 @@
 
 
 
-VGLM.INGARCHff <- function(dist.type = c("poisson", "negbinomial",
+VGLM.INGARCHff <-  function(Order = c(1, 1),
+                            dist.type = c("poisson", "negbinomial",
                                         "logarithmic", "yulesimon")[1],
-                          link = c("loglink", "identitylink", "negloglink",
+                      link = c("loglink", "identitylink", "negloglink",
                                "reciprocallink", "logitlink")[1],
                           interventions = list(),
-                          lagged.fixed.obs   = NULL,
                           lagged.fixed.means = NULL,
+                          lagged.fixed.obs   = NULL,
                           f.transform.Y = NULL,
                           transform.lambda = FALSE,
                           init.p.ARMA = NULL, ...) {
   
-  order <- c(0, 0)
   init.p    <- init.p.ARMA; rm(init.p.ARMA)
   fixed.mean <- lagged.fixed.means; rm(lagged.fixed.means)
   fixed.obs  <- lagged.fixed.obs; rm(lagged.fixed.obs)
-  Order <- order; rm(order)
+  
+  #link <- match.arg(link, c("loge", "identitylink", "negloge",
+  #                          "reciprocal", "logit"))[1]
   
   dist.type <- match.arg(dist.type, c("poisson", "negbinomial",
                                       "logarithmic", "yulesimon"))[1]
@@ -76,14 +78,6 @@ VGLM.INGARCHff <- function(dist.type = c("poisson", "negbinomial",
       stop("Bad input for 'delta' in argument 'interventions'.")
   }
   
- 
-  if (!length(fixed.mean) || !is.numeric(fixed.mean) ) #!fixed.mean)
-    stop(" Wrong input for 'lagged.fixed.mean'.")
-        # " Set lagged.fixed.mean = NULL in this case.")
-  
-  if (!length(fixed.obs) || !is.numeric(fixed.obs) ) # !fixed.obs)
-    stop(" Wrong input for 'lagged.fixed.obs'.")
-         #" Set lagged.fixed.obs = NULL in this case.")
   
   if (length(fixed.mean) && !is.vector(fixed.mean))
     stop("Wrong input for argument 'lagged.fixed.means'.")
@@ -104,7 +98,7 @@ VGLM.INGARCHff <- function(dist.type = c("poisson", "negbinomial",
   ts.family <- grep(dist.type, TSfflist)
   ts.family <- get(TSfflist[ts.family], envir = .GlobalEnv )
   
-  answer <- ts.family(#order = Order,
+  answer <- ts.family(Order = Order,
                       link = link ,
                       f.transform.Y = f.transform.Y,
                       transform.lambda = transform.lambda,

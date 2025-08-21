@@ -1,6 +1,5 @@
 ##########################################################################
 # These functions are
-# Copyright (C) 2014-2023 V. Miranda & T. Yee
 # Auckland University of Technology & University of Auckland
 # All rights reserved.
 #
@@ -22,18 +21,18 @@ poissonTSff.control <- function(criterion = "loglikelihood",
 
 
 
-poissonTSff <- function(link = "loglink",
-                        interventions = list(),
+poissonTSff <- function(Order = c(1, 1),
+                        link = "loglink",
                         lagged.fixed.obs   = NULL,
                         lagged.fixed.means = NULL,
+                        interventions = list(),
+                        init.p.ARMA = NULL,
                         f.transform.Y = NULL,
                         transform.lambda = FALSE,
-                        init.p.ARMA = NULL,
                         imethod = 1,
                         dispersion = 1) {
   
   ### Default from poissonff, April-2017
-  Order <- c(0, 0)
   earg.link   <- FALSE
   type.fitted <- c("mean", "quantiles")[1]
   percentiles <- c(25, 50, 75)
@@ -46,8 +45,8 @@ poissonTSff <- function(link = "loglink",
   zero <- NULL
   link <- match.arg(link, c("identitylink", "negloglink",
                             "reciprocallink", "loglink"))[1]
-
-    if (length(f.transform.Y) && !is.function(f.transform.Y))
+  
+  if (length(f.transform.Y) && !is.function(f.transform.Y))
     stop("Wrong input for argument 'f.transform.Y'. Must be a function.",
          " Enter NULL for the identity function.")
   
@@ -87,15 +86,6 @@ poissonTSff <- function(link = "loglink",
   ord1 <- max(fixed.obs, Order[1])
   ord2 <- max(fixed.mean, Order[2])
   
-  if ((ord1 == 0) && (ord2 == 0))
-    stop("Refer to poissonff() to fit an ordinary Poisson dist. ")
-  
-  if (!length(fixed.obs))
-    stop("Wrong input for argument 'lagged.fixed.obs'")
-
-  if (!length(fixed.mean))
-    stop("Wrong input for argument 'lagged.fixed.mean'")
-  
   if (length(fixed.obs) && !is.vector(fixed.obs))
     stop("Wrong input for argument 'lagged.fixed.obs'.")
   
@@ -104,13 +94,11 @@ poissonTSff <- function(link = "loglink",
   
   if (length(fixed.obs) && 
        !Is.Numeric(fixed.obs, Nnegative = TRUE, isInteger = TRUE))
-    stop("Enter only admissible values for 'lageed.fixed.obs'.")
-    
+    stop("Wrong input for argument 'lagged.fixed.obs'")
   
   if (length(fixed.mean) &&
       !Is.Numeric(fixed.mean, Nnegative = TRUE, isInteger = TRUE))
-    stop("Enter only admissible values for 'lageed.fixed.means'.")
-    
+    stop("Wrong input for argument 'lagged.fixed.mean'")
   
   if (earg.link) {
     earg <- link
@@ -153,7 +141,7 @@ poissonTSff <- function(link = "loglink",
         stop("Currently, only univariate time series handled.")
       
       iniOrd <- if (length( .init.p )) .init.p else
-        max(10, .ord1 + .ord2 + 1)  # Dec 2017, Old is init.p = 10
+        max(25, .ord1 + .ord2 + 1)  # Dec 2017, Old is init.p = 10
       nn <- NROW(y)
       
       temp.pd <- data.frame(y = y, WN.lags(y = cbind(y), 
@@ -284,7 +272,8 @@ poissonTSff <- function(link = "loglink",
         list.names[[ii]] <- ii
       attr(x.matrix, "assign") <- list.names
       x <- x.matrix
-
+      
+      
     }), list( .ord1 = ord1 , .ord2 = ord2 , .Order = Order , 
               .fixed.mean = fixed.mean , .fixed.obs = fixed.obs ,
               .link = link , .earg = earg , .interv = interv ,
@@ -323,7 +312,7 @@ poissonTSff <- function(link = "loglink",
                .bred = bred ))),
       
       
-  #   deviance = eval(substitute(
+   #   deviance = eval(substitute(
   #      function(mu, y, w, residuals = FALSE, eta, extra = NULL,
   #               summation = TRUE) {
   #        mupo <- eta2theta(eta, link = .link , earg = .earg )
